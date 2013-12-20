@@ -1,0 +1,4 @@
+gtk.sublime-workspace
+build
+*~
+*.py[co]
