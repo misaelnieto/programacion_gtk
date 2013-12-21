@@ -34,7 +34,5 @@ también incluiré ejemplos nuevos para demostrar el uso de diferentes *widgets*
 Puse el código fuente de éste texto en GitHub para que cualquier persona
 interesada pueda opinar, o aún mejor, enviar parches o *pull requests*.
 
-Colaboradores
--------------
 
-Noe Nieto
+-- Noe Nieto
