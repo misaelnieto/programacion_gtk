@@ -1,20 +1,16 @@
-.. Programación de Interfaces Gráficas de Usuario con GTK+ 3 documentation master file, created by
-   sphinx-quickstart on Fri Dec 27 14:58:49 2013.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+Programación de Interfaces Gráficas de Usuario con GTK+ 3
+=========================================================
 
-Welcome to Programación de Interfaces Gráficas de Usuario con GTK+ 3's documentation!
-=====================================================================================
-
-Contents:
+Contenido:
 
 .. toctree::
    :maxdepth: 2
+   000-pref
+   001-intro
 
 
-
-Indices and tables
-==================
+Índices y Tablas
+================
 
 * :ref:`genindex`
 * :ref:`modindex`
