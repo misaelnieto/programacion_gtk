@@ -320,7 +320,6 @@ estándar de C ``malloc()``:
     void *malloc(size_t n);
 
 
-
 La función ``malloc()`` toma como único parámetro el número de bytes de
 memoria a reservar. Si tal petición no pudo completarse regresará entonces el
 puntero ``NULL``.
@@ -346,475 +345,531 @@ puntero a la memoria reservada que nos entrega ``calloc()``.
 Cerrando el ciclo de vida de una región de memoria creada dinámicamente, se encuentra ``free()``,
 el cual libera la memoria asignada a un puntero en especial.
 
-``Glib`` ofrece ``g_malloc()`` y ``g_free();`` ambas funciones operan de igual manera que sus
-homólogas en la librería estándar de C, sólo que trabajan con el tipo ``gpointer``. Además de las dos
-funciones anteriores, existe un abanico de posibilidades que ahorran gran cantidad de trabajo al crear
-una región de memoria.
+``Glib`` ofrece ``g_malloc()`` y ``g_free();`` ambas funciones operan de igual
+manera que sus homólogas en la librería estándar de C, sólo que trabajan con
+el tipo ``gpointer``. Además de las dos funciones anteriores, existe un
+abanico de posibilidades que ahorran gran cantidad de trabajo al crear una
+región de memoria.
 
 Para reservar memoria para una colección de estructuras, ``GLib`` tienen las
 macros ``g_new()`` y `g_new0()``. Estas macros  reservan memoria para un
 numero de estructuras determinado por ``n_structs``. El tipo de esas
 estructuras esta determinado por el parametro: ``struct_type``.
 
-La diferencia entre las dos macros es que ``g_new0()`` inicializará a cero la región de memoria.
+La diferencia entre las dos macros es que ``g_new0()`` inicializará a cero la
+región de memoria.
 
-Ambas macros regresan un puntero a la memoria reservada, este puntero ya estará moldeado a ``struct_type``. Si ocurriera un error al reservar reservar el número indicado de estructuras en memoria el programa se abortara con un mensaje de error.
+Ambas macros regresan un puntero a la memoria reservada, este puntero ya
+estará moldeado a ``struct_type``. Si ocurriera un error al reservar reservar
+el número indicado de estructuras en memoria el programa se abortara con un
+mensaje de error.
 
-La versión más segura de las macros anteriores se encuentran en ``g_try_new()`` y ``g_try_new0()``
-las cuales regresarán un puntero ``NULL`` moldeado a ``struct_type``, en lugar de abortar el programa.
-
-
-El ciclo de memoria dinámica incluye cambiar el tamaño de ésta, para ello tendremos dos macros:
-#define g_renew(struct_type, mem, n_structs)
-#define g_try_renew(struct_type, mem, n_structs)
-Ambas cambian el tamaño de una región de memoria a la que apunta mem. La nueva región de
-memoria contendrá n_structs de tipo struct_type.
-g_renew() aborta el programa en cualquier error mientras que g_try_renew() regresa un
-puntero NULL moldeado a struct_type, Ambas regresan un puntero moldeado a struct_type
-que apunta a la nueva memoria reservada.
-Existen otras macros como g_memove() o g_newa(), empero su discusión escapa ya el
-alcance de este manual
-
-2.2.6
-Macros de conversión de tipos.
-Las aplicaciones escritas en ``GTK+`` usualmente necesitan pasar datos entre las diferentes partes del
-programa.
-``Glib`` define seis macros básicas de conversión de tipos, sin embargo, conforme avancemos
-veremos que habrá macros de conversión de tipo para casi cualquier objeto o widget que usemos.
-Como veremos más tarde, será común convertir un tipo de dato en otro. Generalmente referido
-como casting o moldeado en C, esta técnica permite que ``GTK+`` se comporte como una librería
-orientada a Objetos. La manera de pasar datos de una parte de la aplicación a otra generalmente se hace
-utilizando gpointer, el cual es lo suficientemente general como para pasar cualquier estructura de
-datos, sin embargo existe una limitante al querer pasar números en lugar de estructuras de datos. Si, por
-16ejemplo, deseáramos pasar un número entero en lugar de una estructura de datos, deberíamos de hacer
-algo como esto:
-gint *ip = g_new (int, 1);
-*ip = 42;
-Ahora tenemos un puntero a una constante de tipo gint. La desventaja de esto es que ahora
-nosotros tendremos que hacernos cargo de liberar la memoria del número entero. Los punteros siempre
-tienen un tamaño de al menos 32 bits (en las plataformas que ``Glib`` está portada). en base a esto
-podríamos tratar de asignar el valor que queremos pasar a un puntero:
-gpointer p;
-int i;
-p = (void*) (long) 42;
-i = (int) (long) p;
-Pero esto es incorrecto en ciertas plataformas y en tal caso habría que hacer lo que sigue:
-gpointer p;
-int i;
-p = (void*) (long) 42;
-i = (int) (long) p;
-Esto se vuelve demasiado complicado como para llevarlo a la práctica, por eso los desarrolladores
-de
-``Glib``
-han
-creado
-las
-macros
-GINT_TO_POINTER(),
-GUINT_TO_POINTER()
-y
-GSIZE_TO_POINTER() para empacar un gint, guint o gsize en un puntero de 32 bits.
-Análogamente
-GPOINTER_TO_GINT(),
-G_POINTER_TO_GUINT()
-y
-GPOINTER_TO_GSIZE() sirven para obtener el número que se ha empacado en el puntero de 32
-bits.
-El ejemplo anterior se cambia a:
-#include <glib.h>
-gpointer p;
-17gint i;
-p = GINT_TO_GPOINTER(42);
-i = GPOINTER_TO_GINT(p);
-No es buena idea tratar de empacar en un puntero otro tipo de dato que no sea gint o guint, la
-razón de esto es que estas macros solo preservan los 32 bits del entero, cualquier valor fuera de estos
-límites será truncado.
-Así mismo es incorrecto guardar punteros en un entero, por las mismas razones expuestas arriba,
-el puntero será truncado y conducirá a gran cantidad de fallos en el programa.
-2.3 Tratamiento de mensajes.
-``Glib`` contiene funciones para mostrar información tales como mensajes del programa o mensajes de
-error. Normalmente podríamos llamar a printf() y desplegar toda aquella información que
-deseemos pero el valor agregado que nos ofrece ``Glib`` es un sistema de tratamiento de mensajes mucho
-más sofisticado (aunque no difícil de usar).
-Existen tres niveles de despliegue de mensajes
-1. Despliegue de información variada . Este tipo de mensajes se considera inocuos o de carácter
-meramente informativo, como por ejemplo el estado de un proceso.
-2. Registro de mensajes y advertencias . Mensajes que contienen información crucial para el
-funcionamiento interno del programa; los eventos que generan estos mensajes no son fatales y
-el programa puede continuar su ejecución.
-3. Registro y despliegue de errores . Los mensajes de error se consideran fatales y solo deben ser
-utilizados cuando el evento que se esta reportando ha sido de tal impacto que el programa no
-debe continuar. Como ejemplo tenemos problemas de direccionamiento y asignación de
-18memoria, fallas en el hardware y problemas de seguridad. El resultado de desplegar un mensaje
-de error es la terminación definitiva del programa.
+La versión más segura de las macros anteriores se encuentran en
+``g_try_new()`` y ``g_try_new0()`` las cuales regresarán un puntero ``NULL``
+moldeado a ``struct_type``, en lugar de abortar el programa.
 
 
-Despliegue de información variada.
-void
-g_print
-(const gchar *format,
-...);
-Descripción: g_print() funciona exactamente igual que printf() de la librería estándar de
-C.
-Parámetros:
-➢ format: El formato del mensaje, consulte la documentación de printf().
-➢ ...: Los parámetros que se insertarán en el mensaje.
-A diferencia de printf(), que manda cualquier mensaje directamente a la salida estándar de C
-(stdout), g_print() lo hace a través de un manejador. Este manejador, que usualmente es
-printf(), puede ser cambiado a conveniencia. Este manejador puede, en lugar de sacar mensajes a
-stdout, hacerlo a un archivo o a una terminal en un puerto serial. El explicar como registrar el
-manejador de g_print() allanará el camino para el siguiente capítulo. Un manejador (handler, en el
+El ciclo de memoria dinámica incluye cambiar el tamaño de ésta, para ello
+tendremos dos macros:
+
+.. code-block: c
+
+    #define g_renew(struct_type, mem, n_structs)
+    #define g_try_renew(struct_type, mem, n_structs)
+
+Ambas cambian el tamaño de una región de memoria a la que apunta ``mem``. La nueva región de
+memoria contendrá ``n_structs`` de tipo ``struct_type``.
+
+La función ``g_try_renew()`` regresa un puntero ``NULL`` moldeado a
+``struct_type`` en caso de error, mientras que ``g_renew()`` abortaría el
+programa. En ambos casos, cuando la memoria ha podido ser reservada, se
+regresa un puntero a la nueva región de memoria.
+
+Existen otras macros como ``g_memove()`` o ``g_newa()``.
+
+
+Macros de conversión de tipos
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Las aplicaciones escritas en ``GTK+`` usualmente necesitan pasar datos entre
+las diferentes partes del programa.
+
+Conforme avancemos
+veremos que será muy común convertir un tipo de dato en otro; es por eso que ``Glib`` define seis macros básicas de conversión de tipos casi cualquier objeto o
+widget que usemos; son simples casting o moldeado en C, esta técnica
+permite que ``GTK+`` se comporte como una librería orientada a Objetos.
+
+La manera de pasar datos de una parte de la aplicación a otra generalmente se
+hace utilizando ``gpointer``, el cual es lo equivalente a un puntero ``void``.
+
+Pero existe una limitante al querer pasar números en lugar de estructuras de
+datos. Si, por ejemplo, deseáramos pasar un número entero en lugar de una
+estructura de datos deberíamos de hacer algo lo siguiente:
+
+.. code-block:: c
+
+    gint *ip = g_new (int, 1);
+    *ip = 42;
+
+Los punteros tienen un tamaño de al menos 32 bits en las plataformas que
+``Glib`` está disponible. Si vemos con detalle, el puntero``ip`` es puntero a
+una constante de tipo ``gint``. Es decir, hay un puntero que apunta a una
+región de memoria de 32 bits, al menos. Nosotros tendremos que hacernos cargo
+de liberar la memoria del número entero, en base a esto podríamos tratar de
+asignar el valor que queremos pasar a un puntero:
+
+.. code-block::
+
+    gpointer p;
+    int i;
+    p = (void*) (long) 42;
+    i = (int) (long) p;
+
+Pero esto es incorrecto en ciertas plataformas y en tal caso habría que hacer
+lo que sigue:
+
+..code-block::
+
+    gpointer p;
+    int i;
+    p = (void*) (long) 42;
+    i = (int) (long) p;
+
+Esto se vuelve demasiado complicado como para llevarlo a la práctica, por eso
+los desarrolladores de ``Glib`` han creado las macros ``GINT_TO_POINTER()``,
+``GUINT_TO_POINTER()`` y ``GSIZE_TO_POINTER()`` para empacar un ``gint``,
+``guint`` o ``gsize`` en un puntero de 32 bits.
+
+Análogamente ``GPOINTER_TO_GINT()``, ``G_POINTER_TO_GUINT()`` y
+``GPOINTER_TO_GSIZE()`` sirven para obtener el número que se ha empacado en el
+puntero de 32 bits. El ejemplo anterior se cambia a:
+
+.. code-block::
+
+    #include <glib.h>
+    gpointer p;
+    17gint i;
+    p = GINT_TO_GPOINTER(42);
+    i = GPOINTER_TO_GINT(p);
+
+No es buena idea tratar de empacar en un puntero otro tipo de dato que no sea
+``gint`` o ``guint``; la razón de esto es que estas macros solo preservan los
+32 bits del entero, cualquier valor fuera de estos límites será truncado.
+
+De igual manera es incorrecto guardar punteros en un entero, por las mismas
+razones expuestas arriba, el puntero será truncado y conducirá a gran cantidad
+de fallos en el programa.
+
+Tratamiento de mensajes
+~~~~~~~~~~~~~~~~~~~~~~~
+
+
+``Glib`` contiene funciones para mostrar información tales como mensajes del
+programa o mensajes de error. Normalmente podríamos llamar a ``printf()`` y
+desplegar toda aquella información que deseemos ``Glib`` tiene un sistema de
+tratamiento de mensajes mucho más sofisticado, pero a la vez sencillo de usar.
+
+Para comenzar, debes saber que existen tres niveles de despliegue de mensajes:
+
+  1. Despliegue de información variada . Este tipo de mensajes se considera
+    inocuos o de carácter meramente informativo, como por ejemplo el estado de un
+    proceso.
+
+  2. Registro de mensajes y advertencias . Mensajes que contienen información
+    crucial para el funcionamiento interno del programa; los eventos que generan
+    estos mensajes no son fatales y el programa puede continuar su ejecución.
+
+  3. Registro y despliegue de errores . Los mensajes de error se consideran
+    fatales y solo deben ser utilizados cuando el evento que se esta reportando ha
+    sido de tal impacto que el programa no debe continuar. Como ejemplo tenemos
+    problemas de direccionamiento y asignación de 18memoria, fallas en el hardware
+    y problemas de seguridad. El resultado de desplegar un mensaje de error es la
+    terminación definitiva del programa.
+
+
+Despliegue de información variada
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Comenzamos con `g_print() <https://developer.gnome.org/glib/unstable/glib-
+Warnings-and-Assertions.html#g-print>`_. ``g_print()`` funciona de manera
+idéntica a ``printf()`` de C.
+
+Pero a diferencia de ``printf()``, que manda cualquier mensaje directamente a la salida estándar de C
+(stdout), ``g_print()`` lo hace a través de un manejador. Este manejador, que usualmente es
+``printf()``, puede ser cambiado a conveniencia. Este manejador puede, en lugar de sacar mensajes a
+``stdout``, hacerlo a un archivo o a una terminal en un puerto serial. El explicar como registrar el
+manejador de ``g_print()`` allanará el camino para el siguiente capítulo. Un manejador (handler, en el
 idioma anglosajón), es el puntero a una función escrita por el programador. El prototipo de la función
-que servirá como manejador de g_print() es el siguiente:
-void
-mi_manejador
-(const gchar *string);
+que servirá como manejador de ``g_print()`` es el siguiente:
+
+.. code-block:: c
+
+    void mi_manejador (const gchar *string);
+
 El puntero de esta función es simplemente su nombre. Este puntero se provee como parámetro de
-otra función que lo registra como manejador de g_print().
-20GPrintFunc
-g_set_print_handler
-(GPrintFunc func);
-Descripción: Establece el manejador de la función g_print(). Cuando se llame a
-g_print() la cadena resultante se pasará como parámetro a func.
-Parámetros:
-➢
-func: Un puntero al nuevo manejador de g_print()
-Valor de retorno: El manejador anterior.
-2.3.1.1
-Ejemplo
-En el siguiente ejemplo mostraremos la facilidad de uso y versatilidad de g_print() usando un
-manejador simple.
+otra función que lo registra como manejador de ``g_print()``: `g_set_print_handler() <https://developer.gnome.org/glib/unstable/glib-Warnings-and-Assertions.html#g-print>`_
+
+En el siguiente ejemplo mostraremos la facilidad de uso y versatilidad de
+``g_print()`` usando un manejador simple.
+
 Listado de Programa 2.3.1
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-gprint.c
-* Descripcion:
-Uso del manejador de g_print()
-* Comentarios:
-Demuestra el funcionamiento de g_print() y
-*
-allana el camino para ``GTK+`` introduciendo los
-*
-punteros a funciones.
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-/*Para usar g_printf()*/
-#include <glib/gprintf.h>
-/* mi_gprint
-Funcion manejadora de g_print
-*/
-void mi_manejador (const gchar *string){
-g_fprintf(stdout,"mi_manejador:");
-g_fprintf(stdout,string);
-}
-/*
-Programa principal
-*/
-int main (int argc, char **argv){
-21GPrintFunc viejo;
-g_print("Usando g_print() sin manejador\n");
-g_print("Estableciendo el nuevo manejador de g_print() ..\n\n");
-viejo = g_set_print_handler(&mi_manejador);
-g_print ("Impresion Normal\n");
-g_print ("Impresion de numeros: %i, %f, 0x%x\n",1,1.01,0xa1);
-g_print("Restableciendo el antiguo manejador de g_print() ..\n\n");
-viejo = g_set_print_handler(viejo);
-}
-g_print("Fin\n");
-return (0);
-El programa listado imprime un par de mensajes usando el manejador por defecto de
-g_print(), lo cual no presenta demasiada dificultad. La parte más importante viene a continuación.
-Usando la variable viejo guardamos el puntero al manejador por defecto de g_print() e
-inmediatamente
-establecemos
-el
-nuevo
-manejador,
-el
-cual
-es
-nuestra
-propia
-función:
-mi_manejador().
-Inmediatamente se pone a prueba nuestro nuevo manejador imprimiendo algunos mensajes de
-texto y números. Tomemos en cuenta que el manejador solo recibe una cadena y no tiene que estar
-lidiando con parámetros variables y quien se encarga de esto es ``Glib``.
-Posteriormente se restablece el manejador original de g_print() y todo vuelve a la normalidad.
-La comprensión de este sencillo ejemplo es vital para todo el curso, pues no estamos trabajando
-con instrucciones comunes y corrientes en el lenguaje C, si no con punteros a funciones y estructuras
-complejas de datos. Este tipo de tópicos por lo general es evitado en los cursos universitarios del
-lenguaje C debido a que implica un conocimiento claro del lenguaje C.
+
+.. code-block:: c
+
+    /***************************************************************************
+    *
+    Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo: glib-gprint.c
+    * Descripcion: Uso del manejador de g_print()
+    * Comentarios: Demuestra el funcionamiento de g_print() y g_print_handler()
+    *
+    *
+    ****************************************************************************/
+    #include <glib.h>
+    /*Para usar g_printf()*/
+    #include <glib/gprintf.h>
+    
+    /* Funcion manejadora de g_print */
+    void mi_manejador (const gchar *string){
+        g_fprintf(stdout,"mi_manejador:");
+        g_fprintf(stdout,string);
+    }
+    /* Programa principal */
+    int main (int argc, char **argv){
+    
+        GPrintFunc viejo;
+        g_print("Usando g_print() sin manejador\n");
+        g_print("Estableciendo el nuevo manejador de g_print() ..\n\n");
+        viejo = g_set_print_handler(&mi_manejador);
+        g_print ("Impresion Normal\n");
+        g_print ("Impresion de numeros: %i, %f, 0x%x\n",1,1.01,0xa1);
+        g_print("Restableciendo el antiguo manejador de g_print() ..\n\n");
+        viejo = g_set_print_handler(viejo);
+    }
+    g_print("Fin\n");
+    return (0);
+
+El programa listado imprime un par de mensajes usando el manejador por defecto
+de ``g_print()``, lo cual no presenta demasiada dificultad. La parte más
+importante viene a continuación. Usando la variable ``viejo`` guardamos el
+puntero al manejador por defecto de ``g_print()`` e inmediatamente
+establecemos el nuevo manejador, el cual es nuestra propia función:
+``mi_manejador()``. Inmediatamente se pone a prueba nuestro nuevo manejador
+imprimiendo algunos mensajes de texto y números. Tomemos en cuenta que el
+manejador solo recibe una cadena y no tiene que estar lidiando con parámetros
+variables y quien se encarga de esto es ``Glib``. Posteriormente se restablece
+el manejador original de ``g_print()`` y todo vuelve a la normalidad. La
+comprensión de este sencillo ejemplo es vital para todo el curso, pues no
+estamos trabajando con instrucciones comunes y corrientes en el lenguaje C, si
+no con punteros a funciones y estructuras complejas de datos. Este tipo de
+tópicos por lo general es evitado en los cursos universitarios del lenguaje C.
+
 El siguiente ejemplo es un método interactivo para seleccionar el comportamiento de
-g_print().
-22Listado de Programa 2.3.2
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-gprint2.c
-* Descripcion:
-Uso del manejador de g_print()
-* Comentarios:
-Ejemplo alternativo para el uso del manejador
-*
-de g_print()
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-/*Para usar g_printf()*/
-#include <glib/gprintf.h>
-/* mi_gprint
-Funcion manejadora de g_print
-*/
-void mi_manejador (const gchar *string){
-g_fprintf(stdout,"mi_manejador: ");
-g_fprintf(stdout,string);
-}
-void muestra_ayuda( void )
-{
-printf("\nError, no ha indicado ningun parametro, o es invalido.\n");
-printf("uso:\n\t--normal g_print normal\n\t--manejador g_print con
-manejador\n");
-}
-/*
-Programa principal
-*/
-int main (int argc, char **argv)
-{
-GPrintFunc viejo;
-if (argc <= 1){
-muestra_ayuda();
-return 0;
-}
-if (g_str_equal(argv[1],"--normal")){
-printf("--== Usando tratamiento normal de mensajes ==--\n");
-}
-else if (g_str_equal(argv[1],"--manejador")) {
-printf("--== Usando tratamiento con manejador ==--\n");
-viejo = g_set_print_handler(&mi_manejador);
-}
-23else {
-muestra_ayuda();
-return 0;
-}
-/*Imprime algunos mensajes*/
-g_print ("Hola mundo!\n");
-if (g_str_equal(argv[1],"--manejador")) g_set_print_handler(viejo);
-return 0;
-}
-El manejador de g_print() es el mismo que en el listado de programa 2.3.1. Este ejemplo es
-un programa pensado para la línea de comandos. Si se ejecuta este programa sin ningún parámetro se
-ejecutará la función muestra_ayuda(). Ocurre lo mismo si no se especifican los parámetros
-correctos.
-Solo se aceptan dos parámetros que permiten elegir entre usar o no el manejador de g_print().
+``g_print()``.
+
+Listado de Programa 2.3.2
+
+.. code-block:: c
+
+    /***************************************************************************
+    *
+    Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo: glib-gprint2.c
+    * Descripcion: Uso del manejador de g_print()
+    * Comentarios: Ejemplo alternativo para el uso del manejador
+    * de g_print()
+    *
+    ****************************************************************************/
+    #include <glib.h>
+    /*Para usar g_printf()*/
+    #include <glib/gprintf.h>
+
+    /* Funcion manejadora de g_print */
+    void mi_manejador (const gchar *string){
+        g_fprintf(stdout,"mi_manejador: ");
+        g_fprintf(stdout,string);
+    }
+
+    void muestra_ayuda( void ) {
+        printf("\nError, no ha indicado ningun parametro, o es invalido.\n");
+        printf("uso:\n\t--normal g_print normal\n\t--manejador g_print con manejador\n");
+    }
+
+    /* Programa principal */
+    int main (int argc, char **argv) {
+        GPrintFunc viejo;
+
+        if (argc <= 1){
+            muestra_ayuda();
+            return 0;
+        }
+
+        if (g_str_equal(argv[1],"--normal")){
+            printf("--== Usando tratamiento normal de mensajes ==--\n");
+        } else if (g_str_equal(argv[1],"--manejador")) {
+            printf("--== Usando tratamiento con manejador ==--\n");
+            viejo = g_set_print_handler(&mi_manejador);
+        } else {
+            muestra_ayuda();
+            return 0;
+        }
+
+        /*Imprime algunos mensajes*/
+        g_print ("Hola mundo!\n");
+        if (g_str_equal(argv[1],"--manejador")) {
+            g_set_print_handler(viejo);
+        }
+
+        return 0;
+    }
+
+El manejador de ``g_print()`` es el mismo que en el listado de programa 2.3.1.
+Este ejemplo es un programa pensado para la línea de comandos. Si se ejecuta
+este programa sin ningún parámetro se ejecutará la función
+``muestra_ayuda()``. Ocurre lo mismo si no se especifican los parámetros
+correctos. Solo se aceptan dos parámetros que permiten elegir entre usar o no
+el manejador de ``g_print()``.
 
 
 Registro de mensajes y advertencias
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Es muy buena práctica el clasificar nuestros mensajes debido a su severidad. Para esta tarea ``GTK+``
 nos ofrece tres herramientas:
-●
-g_message() es una macro que registra e imprime un mensaje en la salida estándar. Este
-mensaje se considera informativo e inocuo.
-●
-g_debug() es una macro que registra e imprime un mensaje en la salida de error estándar. Este
-mensaje es útil para propósito de depurado de la aplicación.
-●
-g_warning() se utiliza normalmente para avisar acerca de algún evento que ha ocurrido el
-cual no es lo suficientemente fatal como para que el programa no pueda continuar.
-2.3.2.1
-Ejemplo
-Es realmente sencillo usar estas macros, vea el siguiente listado de código.
-24Listado de Programa 2.3.3
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-logging.c
-*
-Descripcion:
-Uso de macros de registro de mensajes de ``Glib``
-* Comentarios:
-*
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-int main (int
-{
-argc, char **argv)
-g_message("Abriendo dispositivo de adquisicion de datos");
-g_debug ("La direccion del dispositivo es 0x378");
-g_warning ("No fue posible abrir el dispositivo de adquisicion de datos");
-}
-return 0;
+
+* ``g_message()`` es una macro que registra e imprime un mensaje en la salida
+  estándar. Este   mensaje se considera informativo e inocuo.
+
+* ``g_debug()`` es una macro que registra e imprime un mensaje en la salida de
+  error estándar. Este   mensaje es útil para propósito de depurado de la
+  aplicación.
+
+* ``g_warning()`` se utiliza normalmente para avisar acerca de algún evento
+  que ha ocurrido el   cual no es lo suficientemente fatal como para que el
+  programa no pueda continuar.
+
+Veamos el siguiente ejemplo:
+
+
+.. code-block:: c
+
+    /***************************************************************************
+    *
+    Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo: glib-logging.c
+    * Descripcion: Uso de macros de registro de mensajes de ``Glib``
+    *
+    ****************************************************************************/
+    #include <glib.h>
+    int main (int argc, char **argv) {
+        g_message("Abriendo dispositivo de adquisicion de datos");
+        g_debug ("La direccion del dispositivo es 0x378");
+        g_warning ("No fue posible abrir el dispositivo de adquisicion de datos");
+        return 0;
+    }
+
 Si ejecutamos este programa obtendremos la siguiente salida:
-Figura 2.3.1: La salida generada por las diferentes macros de registro de mensajes
-252.3.3
+
+** Poner screenshot aca**
+
 Registro y despliegue de errores
-g_critical() avisa de algún error crítico en la aplicación. Un error crítico se define dependiendo
-de cada aplicación, para algunos un error critico es recuperable y para otros no. Este error se dirige a la
-salida de error estándar.
-g_error() avisa de un error grave en un programa. Sólo se debe utilizar g_error() para
-avisar para comunicar errores que de todas formas harían que la aplicación terminara. El uso de esta
-macro ocasionará que la aplicación termine.
-Listado de Programa 2.3.4
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-error.c
-*
-Descripcion:
-Uso de macros de registro de mensajes de ``Glib``
-* Comentarios:
-Estos mensajes son de indole grave o fatal.
-*
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-int main (int
-{
-argc, char **argv)
-g_critical("La frecuencia de muestreo es demasiado alta.");
-g_error("Se ocasiono un sobreflujo de datos. \nImposible continuar ");
-}
-return 0;
-Figura 2.3.2: Macros de ``Glib`` para el registro de errores
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Estas son macros de ``Glib`` para el registro de errores:
+
+* ``g_critical()`` avisa de algún error crítico en la aplicación. Un error
+  crítico se define dependiendo de cada aplicación, para algunos un error
+  critico es recuperable y para otros no. Este error se dirige a la salida de
+  error estándar.
+
+* ``g_error()`` avisa de un error grave en un programa. Sólo se debe utilizar
+  g_error() para avisar para comunicar errores que de todas formas harían que la
+  aplicación terminara. El uso de esta macro ocasionará que la aplicación
+  termine.
+
+.. code-block:: c
+
+    /***************************************************************************
+    *
+    Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo: glib-error.c
+    * Descripcion: Uso de macros de registro de mensajes de ``Glib``
+    * Comentarios: Estos mensajes son de indole grave o fatal.
+    *
+    *
+    ****************************************************************************/
+
+    #include <glib.h>
+
+    int main (intargc, char **argv)
+    {
+        g_critical("La frecuencia de muestreo es demasiado alta.");
+        g_error("Se ocasiono un sobreflujo de datos. \nImposible continuar ");
+        return 0;
+    }
+
 
 
 Tratamiento de cadenas
-Según Kernighan & Ritchie[5], una cadena es arreglo o vector de caracteres terminados con el carácter
-nulo '\0' para que los programas puedan encontrar el final de la cadena.
-El uso de cadenas comienza a volverse peligroso cuando se subestima su poder. Una cadena puede
-ser un vector o un puntero. La diferencia sutil entre estas dos características puede resultar fatal.
-Por ejemplo, una mala práctica de programación, que es usual entre programadores no
-experimentados, es utilizar regiones de memoria estáticas para almacenar cadenas de texto: si por
-alguna razón escribimos datos más allá de los límites de la cadena seguramente estaremos escribiendo
-en el espacio de otra variable o incluso en parte del código del programa. Esto conduce a errores muy
-difíciles de depurar. Además de lo anterior, las regiones de memoria estáticas representan un riesgo de
-seguridad, pues su debilidad inherente es ampliamente usada para instrumentar ataques informáticos
-llamados Buffer Overflow. En este procedimiento el atacante , previo conocimiento de la vulnerabilidad
-del sistema, sobreescribe a voluntad otras celdas de memorias que contienen datos o código del
-programa, haciendo que éste falle o se comporte de forma determinada.
-Por otro lado, el tratamiento clásico de cadenas goza de gran popularidad. El tratamiento de
-cadenas es un tópico importante para cualquier programa. ``Glib`` toma el problema desde dos
-perspectivas diferentes:
-●
-Perspectiva procedimental: ``Glib`` ofrecer una vasta colección de rutinas de manejo de cadenas
-similares a las encontradas en la librería string.h de la librería estándar de C. Algunas
-adiciones buscan facilitar las tareas del programador.
-●
-Perspectiva orientada a objetos: ``Glib`` pone a disposición de nosotros GString, un objeto
-cuyo funcionamiento esta basado en las cadenas del estándar de C, pero tratando de mejorar los
-problemas que encontremos al manejar cadenas de la manera tradicional.
-27A continuación dispondremos a observar ambas perspectivas con mas detalle.
-2.4.1
-Perspectiva procedimental
-Existe una gran variedad de funciones de tratamiento de cadenas en ``Glib``. Resultaría ineficaz el tratar
-todas en este documento. A continuación haremos reseña de un pequeño conjunto de funciones útiles
-en el tratamiento de cadenas.
-gchar*
-g_strdup
-(const gchar *str);
-Descripción: Duplica una cadena.
-Parámetros:
-➢
-str: un puntero a la cadena a duplicar.
-Valor de retorno: La cadena duplicada en otra región de memoria. Si NULL se ha
-especificado como parámetro de entrada, el valor de retorno también será NULL. El programador es
-responsable de liberar la memoria de la nueva cadena.
-gchar*
-g_strrstr
-(const gchar *haystack,
-const gchar *needle);
-Descripción: Busca una aguja(needle) dentro de un pajar (haystack). Las cadenas de entrada
-debe estar terminadas con el carácter nulo.
-Parámetros:
-➢ haystack: La cadena donde se busca (pajar).
-➢ needle: El texto que se busca (aguja).
-Valor de retorno: Se regresa un puntero a donde se encontró la primera ocurrencia de la
-aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
-gchar*
-g_strstr_len
-(const gchar *haystack,
-gssize haystack_len,
-28const gchar *needle);
-Descripción: Esta es una versión de la función g_strstr(). Esta versión limitará su búsqueda
-en el pajar a un número de caracteres igual a haystack_len.
-Parámetros:
-➢ haystack: La cadena donde se busca (pajar).
-➢ haystack_len: Número máximo de caracteres que se examinarán del pajar.
-➢ needle: El texto que se busca (aguja).
-Valor de retorno: Se regresa un puntero a donde se encontró la primera ocurrencia de la
-aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
-gboolean
-g_str_has_prefix
-(const gchar *str,
-const gchar *prefix);
-Descripción: Nos dice si la cadena str tiene el prefijo especificado.
-Parámetros:
-➢ str: La cadena de quien se desea determinar el prefijo.
-➢ prefix: El prefijo.
-Valor de retorno: Regresa TRUE si la cadena comienza con prefix. FALSE en caso
-contrario.
-gboolean
-g_str_has_suffix
-(const gchar *str,
-const gchar *suffix);
-Descripción: Nos dice si la cadena str tiene el sufijo especificado.
-Parámetros:
-➢ str: La cadena de quien se desea determinar el sufijo.
-➢ suffix: El sufijo.
-Valor de retorno: Regresa TRUE si la cadena termina con suffix. FALSE en caso
-contrario.
-29gboolean
-g_str_equal
-(gconstpointer v1,
-gconstpointer v2);
-Descripción: Esta función verifica que las dos cadenas sean iguales.
-Parámetros:
-➢ v1: Una cadena.
-➢ v2: Otra cadena que se comparará contra v1..
-Valor de retorno: Regresa TRUE si ambas cadenas son idénticas. Esta función esta
-preparada para ser usada en estructuras de datos que necesiten comparación, como listas enlazadas,
-tablas de claves o arboles binarios 5 .
+~~~~~~~~~~~~~~~~~~~~~~
 
-Perspectiva Orientada a Objetos: Gstring
+Según ``Kernighan & Ritchie
+<http://es.wikipedia.org/wiki/El_lenguaje_de_programaci%C3%B3n_C>`_, una
+cadena es arreglo o vector de caracteres terminados con el carácter nulo
+``'\0'`` para que los programas puedan encontrar el final de la cadena.
+
+El uso de cadenas comienza a volverse peligroso cuando se subestima su poder.
+Una cadena puede ser un vector o un puntero. La diferencia sutil entre estas
+dos características puede determinar si el programa gotea memoria o que
+reviente.
+
+Por ejemplo, una mala práctica de programación, que es usual entre
+programadores no experimentados, es utilizar regiones de memoria estáticas
+para almacenar cadenas de texto: si por alguna razón escribimos datos más allá
+de los límites de la cadena seguramente estaremos escribiendo en el espacio de
+otra variable o incluso en parte del código del programa. Esto conduce a
+errores muy difíciles de depurar. Además de lo anterior, las regiones de
+memoria estáticas representan un riesgo de seguridad, pues su debilidad
+inherente es ampliamente usada para instrumentar ataques informáticos llamados
+Buffer Overflow. En este procedimiento el atacante , previo conocimiento de la
+vulnerabilidad del sistema, sobreescribe a voluntad otras celdas de memorias
+que contienen datos o código del programa, haciendo que éste falle o se
+comporte de forma determinada.
+
+Por otro lado, el tratamiento clásico de cadenas goza de gran popularidad. El
+tratamiento de cadenas es un tópico importante para cualquier programa.
+``Glib`` aborda el problema desde dos perspectivas diferentes:
+
+* Perspectiva procedimental: ``Glib`` ofrecer una vasta colección de rutinas
+  de manejo de cadenas similares a las encontradas en la librería string.h de la
+  librería estándar de C. Algunas adiciones buscan facilitar las tareas del
+  programador.
+
+* Perspectiva orientada a objetos: ``Glib`` pone a disposición de nosotros
+  GString, un objeto cuyo funcionamiento esta basado en las cadenas del estándar
+  de C, pero tratando de mejorar los problemas que encontremos al manejar
+  cadenas de la manera tradicional.
+
+
+Perspectiva procedimental
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Existe una gran variedad de funciones de tratamiento de cadenas en ``Glib``.
+Resultaría ineficaz el tratar todas en este documento. A continuación haremos
+reseña de un pequeño conjunto de funciones útiles en el tratamiento de
+cadenas demostrando el uso de
+`g_strdup() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-strdup>`_,
+`g_strrstr() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-strrstr>`_,
+`g_strstr_len() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-strstr-len>`_,
+`g_str_has_prefix() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-str-has-prefix>`_,
+`g_str_has_suffix() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-str-has-suffix>`_,
+`g_str_equal() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-str-equal>`_,
+
+
+Ejemplo de ``g_strdup``.
+
+.. code-block:: c
+
+    gchar*
+    g_strdup
+    (const gchar *str);
+    Descripción: Duplica una cadena.
+    Parámetros:
+    ➢
+    str: un puntero a la cadena a duplicar.
+    Valor de retorno: La cadena duplicada en otra región de memoria. Si NULL se ha
+    especificado como parámetro de entrada, el valor de retorno también será NULL. El programador es
+    responsable de liberar la memoria de la nueva cadena.
+
+Ejemplo de ``g_strrstr``.
+
+.. code-block:: c
+
+    gchar*
+    g_strrstr
+    (const gchar *haystack,
+    const gchar *needle);
+    Descripción: Busca una aguja(needle) dentro de un pajar (haystack). Las cadenas de entrada
+    debe estar terminadas con el carácter nulo.
+    Parámetros:
+    ➢ haystack: La cadena donde se busca (pajar).
+    ➢ needle: El texto que se busca (aguja).
+    Valor de retorno: Se regresa un puntero a donde se encontró la primera ocurrencia de la
+    aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
+
+Ejemplo de ``g_strstr_len``.
+
+.. code-block:: c
+
+    gchar*
+    g_strstr_len
+    (const gchar *haystack,
+    gssize haystack_len,
+    28const gchar *needle);
+    Descripción: Esta es una versión de la función g_strstr(). Esta versión limitará su búsqueda
+    en el pajar a un número de caracteres igual a haystack_len.
+    Parámetros:
+    ➢ haystack: La cadena donde se busca (pajar).
+    ➢ haystack_len: Número máximo de caracteres que se examinarán del pajar.
+    ➢ needle: El texto que se busca (aguja).
+    Valor de retorno: Se regresa un puntero a donde se encontró la primera ocurrencia de la
+    aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
+
+
+Ejemplo de ``g_str_has_prefix``.
+
+.. code-block:: c
+
+    gboolean
+    g_str_has_prefix
+    (const gchar *str,
+    const gchar *prefix);
+    Descripción: Nos dice si la cadena str tiene el prefijo especificado.
+    Parámetros:
+    ➢ str: La cadena de quien se desea determinar el prefijo.
+    ➢ prefix: El prefijo.
+    Valor de retorno: Regresa TRUE si la cadena comienza con prefix. FALSE en caso
+    contrario.
+
+
+Ejemplo de ``g_str_has_suffix``.
+
+.. code-block:: c
+
+    gboolean
+    g_str_has_suffix
+    (const gchar *str,
+    const gchar *suffix);
+    Descripción: Nos dice si la cadena str tiene el sufijo especificado.
+    Parámetros:
+    ➢ str: La cadena de quien se desea determinar el sufijo.
+    ➢ suffix: El sufijo.
+    Valor de retorno: Regresa TRUE si la cadena termina con suffix. FALSE en caso
+    contrario.
+
+Ejemplo de ``g_str_equal``.
+
+.. code-block:: c
+
+    gboolean
+    g_str_equal
+    (gconstpointer v1,
+    gconstpointer v2);
+    Descripción: Esta función verifica que las dos cadenas sean iguales.
+    Parámetros:
+    ➢ v1: Una cadena.
+    ➢ v2: Otra cadena que se comparará contra v1..
+    Valor de retorno: Regresa TRUE si ambas cadenas son idénticas. Esta función esta
+    preparada para ser usada en estructuras de datos que necesiten comparación, como listas enlazadas,
+    tablas de claves o arboles binarios 5 .
+
+
+Perspectiva Orientada a Objetos: ``Gstring``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Gstring se comporta de igual manera como una cadena de texto de C, pero con la ventaja de
 que una instancia de Gstring crecerá automáticamente si el espacio es necesario: GString gestiona
 automáticamente el espacio de memoria. Todas las operaciones son invisibles al usuario.
