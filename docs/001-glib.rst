@@ -418,7 +418,7 @@ región de memoria de 32 bits, al menos. Nosotros tendremos que hacernos cargo
 de liberar la memoria del número entero, en base a esto podríamos tratar de
 asignar el valor que queremos pasar a un puntero:
 
-.. code-block::
+.. code-block:: c
 
     gpointer p;
     int i;
@@ -428,7 +428,7 @@ asignar el valor que queremos pasar a un puntero:
 Pero esto es incorrecto en ciertas plataformas y en tal caso habría que hacer
 lo que sigue:
 
-..code-block::
+..code-block:: c
 
     gpointer p;
     int i;
@@ -444,7 +444,7 @@ Análogamente ``GPOINTER_TO_GINT()``, ``G_POINTER_TO_GUINT()`` y
 ``GPOINTER_TO_GSIZE()`` sirven para obtener el número que se ha empacado en el
 puntero de 32 bits. El ejemplo anterior se cambia a:
 
-.. code-block::
+.. code-block:: c
 
     #include <glib.h>
     gpointer p;
