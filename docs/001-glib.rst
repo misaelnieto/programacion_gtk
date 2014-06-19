@@ -330,20 +330,22 @@ Por otro lado se encuentra ``calloc()``, cuyo prototipo es:
 
     void *calloc(size_t n, size_t size);
 
-La funcion calloc() reservará memoria para un arreglo de ``n`` estructuras de tamaño ``size``.
-Como ``malloc()`` y ``calloc()`` regresan punteros de tipo ``void``, se hace necesario hacer un
-*casting* o moldeado al tipo deseado. Consideremos el siguiente ejemplo.
+La funcion ``calloc()`` reservará memoria para un arreglo de ``n`` estructuras
+de tamaño ``size``. Como ``malloc()`` y ``calloc()`` regresan punteros de tipo
+``void``, se hace necesario hacer un *casting* o moldeado al tipo deseado.
+Ve el siguiente ejemplo.
 
 .. code-block:: c
 
     int *ip;
     ip = (int *) calloc(n, sizeof(int));
 
-Con el objetivo de no recibir quejas del compilador de C, debemos moldear correctamente el
-puntero a la memoria reservada que nos entrega ``calloc()``.
+Con el objetivo de no recibir quejas del compilador de C, debemos moldear
+correctamente el puntero a la memoria reservada que nos entrega ``calloc()``.
 
-Cerrando el ciclo de vida de una región de memoria creada dinámicamente, se encuentra ``free()``,
-el cual libera la memoria asignada a un puntero en especial.
+Cerrando el ciclo de vida de una región de memoria creada dinámicamente, se
+encuentra ``free()``, el cual libera la memoria asignada a un puntero en
+especial.
 
 ``Glib`` ofrece ``g_malloc()`` y ``g_free();`` ambas funciones operan de igual
 manera que sus homólogas en la librería estándar de C, sólo que trabajan con
@@ -494,20 +496,23 @@ Comenzamos con `g_print() <https://developer.gnome.org/glib/unstable/glib-
 Warnings-and-Assertions.html#g-print>`_. ``g_print()`` funciona de manera
 idéntica a ``printf()`` de C.
 
-Pero a diferencia de ``printf()``, que manda cualquier mensaje directamente a la salida estándar de C
-(stdout), ``g_print()`` lo hace a través de un manejador. Este manejador, que usualmente es
-``printf()``, puede ser cambiado a conveniencia. Este manejador puede, en lugar de sacar mensajes a
-``stdout``, hacerlo a un archivo o a una terminal en un puerto serial. El explicar como registrar el
-manejador de ``g_print()`` allanará el camino para el siguiente capítulo. Un manejador (handler, en el
-idioma anglosajón), es el puntero a una función escrita por el programador. El prototipo de la función
-que servirá como manejador de ``g_print()`` es el siguiente:
+Pero a diferencia de ``printf()``, que manda cualquier mensaje directamente a
+la salida estándar de C (stdout), ``g_print()`` lo hace a través de un
+manejador. Este manejador, que usualmente es ``printf()``, puede ser cambiado
+a conveniencia. Este manejador puede, en lugar de sacar mensajes a ``stdout``,
+hacerlo a un archivo o a una terminal en un puerto serial. El explicar como
+registrar el manejador de ``g_print()`` allanará el camino para el siguiente
+capítulo. Un manejador (handler, en el idioma anglosajón), es el puntero a una
+función escrita por el programador. El prototipo de la función que servirá
+como manejador de ``g_print()`` es el siguiente:
 
 .. code-block:: c
 
     void mi_manejador (const gchar *string);
 
-El puntero de esta función es simplemente su nombre. Este puntero se provee como parámetro de
-otra función que lo registra como manejador de ``g_print()``: `g_set_print_handler() <https://developer.gnome.org/glib/unstable/glib-Warnings-and-Assertions.html#g-print>`_
+El puntero de esta función es simplemente su nombre. Este puntero se provee
+como parámetro de otra función que lo registra como manejador de
+``g_print()``: `g_set_print_handler() <https://developer.gnome.org/glib/unstable/glib-Warnings-and-Assertions.html#g-print>`_
 
 En el siguiente ejemplo mostraremos la facilidad de uso y versatilidad de
 ``g_print()`` usando un manejador simple.
@@ -565,8 +570,8 @@ estamos trabajando con instrucciones comunes y corrientes en el lenguaje C, si
 no con punteros a funciones y estructuras complejas de datos. Este tipo de
 tópicos por lo general es evitado en los cursos universitarios del lenguaje C.
 
-El siguiente ejemplo es un método interactivo para seleccionar el comportamiento de
-``g_print()``.
+El siguiente ejemplo es un método interactivo para seleccionar el
+comportamiento de ``g_print()``.
 
 Listado de Programa 2.3.2
 
@@ -717,7 +722,7 @@ Estas son macros de ``Glib`` para el registro de errores:
 Tratamiento de cadenas
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Según ``Kernighan & Ritchie
+Según ``Kernighan & Ritchie 
 <http://es.wikipedia.org/wiki/El_lenguaje_de_programaci%C3%B3n_C>`_, una
 cadena es arreglo o vector de caracteres terminados con el carácter nulo
 ``'\0'`` para que los programas puedan encontrar el final de la cadena.
@@ -868,234 +873,195 @@ Ejemplo de ``g_str_equal``.
     tablas de claves o arboles binarios 5 .
 
 
-Perspectiva Orientada a Objetos: ``Gstring``
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Gstring se comporta de igual manera como una cadena de texto de C, pero con la ventaja de
-que una instancia de Gstring crecerá automáticamente si el espacio es necesario: GString gestiona
-automáticamente el espacio de memoria. Todas las operaciones son invisibles al usuario.
-2.4.2.1
-Propiedades
-GString define tres miembros públicos a los que se puede acceder directamente.
-typedef struct {
-gchar
-*str;
-gsize len;
-gsize allocated_len;
-} GString;
-5 Este documento no tratará las tablas de claves ni arboles binarios.
-30La propiedad str contendrá el texto de la instancia, mientras que la propiedad len contendrá la
-longitud de la cadena, sin contar los caracteres de terminación de cadena.
-2.4.2.2
-Constructor de clase de GString
-El constructor de clase para GString es:
-GString*
-g_string_new
-(const gchar *init);
-Descripción: Crea una nueva instancia de Gstring.
-Parámetros:
-➢
-init: Valor inicial de la nueva instancia. Si deseamos instanciar una cadena vacía
-deberemos pasar la macro NULL como parámetro.
-Valor de retorno: la referencia a una nueva instancia de GString.
-GString*
-g_string_new_len
-(const gchar *init,
-gssize len);
-Descripción: Crea una nueva instancia de Gstring. La cadena contendrá al inicio una cantidad
-de bytes determinada por len.
-Parámetros:
-➢
-init: Valor inicial de la nueva instancia. Como la cadena se creará con un límite de
-almacenamiento entonces no es necesario que la cadena init deba estar delimitada con
-un carácter nulo y, en cambio, puede contener caracteres nulos embebidos. Si deseamos
-instanciar una cadena vacía deberemos pasar la macro NULL como parámetro.
-Valor de retorno: la referencia a una nueva instancia de GString.
-2.4.2.3
-Métodos de clase
-Una vez instanciado el objeto GString podemos manipular su contenido. El programador no tendrá
-nada que ver con reserva y liberación de memoria.
-31GString*
-g_string_assign (GString *string, const gchar *val);
-Descripción: Asigna una cadena a una instancia de Gstring.
-Parámetros:
-➢ string: Una instancia de GString.
-➢ val: La cadena que que será asignada a GString. Cualquier contenido previo se
-sobrescribirá.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
-GString*
-g_string_append (GString *string, const gchar *val);
-Descripción: Añade una cadena a una instancia de Gstring.
-Parámetros:
-➢ string: Una instancia de GString.
-➢ val: La cadena que será añadida al final de GString.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
-GString*
-g_string_append_c (GString *string, gchar c);
-Descripción: Añade un sólo carácter a una instancia de Gstring.
-Parámetros:
-➢ string: Una instancia de GString.
-➢ c: El carácter que será añadido al final de GString.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
-GString*
-g_string_prepend (GString *string, const gchar *val);
-Descripción: Añade una cadena a una instancia de Gstring.
-32Parámetros:
-➢ string: Una instancia de GString.
-➢ val: La cadena que será añadida al inicio de GString.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
-GString*
-g_string_prepend_c (GString *string, gchar c);
-Descripción: Añade un sólo carácter a una instancia de Gstring.
-Parámetros:
-➢ string: Una instancia de GString.
-➢ c: El carácter que será añadido al inicio de GString.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
-GString*
-g_string_ascii_up (GString *string);
-Descripción: Convierte todas las letras minúsculas a mayúsculas de una instancia de Gstring.
-Este método solo debe usarse cuando se manejan cadenas en formato ASCII. A diferencia de la función
-de la librería estándar de C: topupper(), este método de GString solo reconoce caracteres ASCII
-e ignora las conversiones entre idiomas y localidades
-Parámetros:
-➢ string: Una instancia de GString.
-➢ c: El carácter que será añadido al inicio de GString.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
-GString*
-g_string_ascii_down (GString *string);
-33Descripción: Convierte todas las letras mayúsculas a minúsculas de una instancia de Gstring.
-Este método solo debe usarse cuando se manejan cadenas en formato ASCII. A diferencia de la función
-de la librería estándar de C: topupper(), este método de GString solo reconoce caracteres ASCII
-e ignora las conversiones entre idiomas y localidades
-Parámetros:
-➢ string: Una instancia de GString.
-➢ c: El carácter que será añadido al inicio de GString.
-Valor de retorno: la referencia a la misma instancia de GString que se especificó en el primer
-parámetro.
+Perspectiva Orientada a Objetos: ``GString``
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Destructor de clase
-Cuando ya no es de utilidad el objeto GString, este debe desaparecer par dar espacio a otras
-estructuras de datos.
-gchar*
-g_string_free
-(GString *string,
-gboolean free_segment);
-Descripción: Libera toda la memoria ocupada por la estructura de GString. Entregará el
-contenido del objeto dependiendo de free_segment.
-Parámetros:
-➢ string: Una instancia de GString
-➢ free_segment: Especifique TRUE si desea destruir por completo al objeto y su
-contenido.
-Valor de retorno: Si se ha especificado FALSE en free_segment, el contenido de la instancia
-destruida se entrega por este medio. Si es FALSE se entrega NULL.
-342.4.2.5
-Ciclo de vida
-Revisemos el ciclo de vida de un objeto de tipo GString:
-●
-Primero debemos asignar espacio para una estructura del tipo GString con un valor inicial.
-#include <glib.h>
-/*....*/
-Gstring *cadena;
-cadena=gstring_new(“Hola”);
-Si deseamos inicializar un objeto GString vacío deberemos pasar la macro NULL como
-parámetro a gstring_new().
-●
-Una vez creado el objeto GString
-podemos manipular el contenido del objeto. El
-programador no tendrá nada que ver con reserva y liberación de memoria ya que ``Glib`` se
-encarga de eso. Podemos manipular el objeto...
-... definiendo un nuevo valor para la cadena,
-g_string_assign(cadena, “Nuevo valor”);
-...añadiendo caracteres al inicio y al final de la cadena almacenada en Gstring, ...
-g_string_append_c(cadena,'Z');
-g_string_prepend_c(cadena,'A');
-...añadir cadenas completas, ...
-g_string_append (cadena, “Añadiendo valor al final”);
-g_string_prepend(candena,”Añadiendo valor al Principio”);
-... truncar la cadena a alguna longitud, por ejemplo 0, que significa que la cadena se limpia...
-g_string_truncate(cadena,0);
-... o convertir la cadena en mayúsculas o minúsculas ...
-g_string_ascii_up(cadena);
-g_string_ascii_down(cadena);
-35●
-Cuando termina el ciclo de vida de GString sólo queda liberar la memoria.
-g_string_free(cadena, TRUE);
-Debemos tener cuidado con el segundo parámetro de g_string_free(). Éste parámetro
-define si junto con el valor de la cadena también se destruye el objeto. Si ya no planea utilizar
-más este objeto utilice TRUE, en cambio deberá usar FALSE si el estructura se está usando en
-algún otro lado.
-2.4.3
-Ejemplo
-Veamos un ejemplo que ilustra las características anteriormente descritas:
-Listado de Programa 2.4.1
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-gstring1.c
-* Descripcion:
-Ejemplo de tratamiento de cadenas en glib
-* Comentarios:
-Revision del ciclo de vida de ``Glib``
-*
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-int main ()
-{
-GString *cadena;
-/* Se crea una instancia de GString con un valor"*/
-cadena=g_string_new("Amor volat undique");
-g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-/*El contenido de la cadena ha sido reemplazado*/
-g_string_assign(cadena, "Captus est libidine.");
-/*Se inserta algun texto al principio de la cadena*/
-g_string_prepend(cadena,"Siqua sine Socio");
-g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-/*El valor de la cadena se trunca*/
-g_string_truncate(cadena,16);
-36g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-/*Se inserta algun texto al fin de la cadena*/
-g_string_append(cadena,", caret omni gaudio");
-g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-/*Se insertan caracteres al incio y al fin de la cadena*/
-g_string_append_c(cadena,'!');
-g_string_prepend_c(cadena,'.');
-g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-/*Se convierte la cadena a Mayusculas */
-g_string_ascii_up(cadena);
-g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-/*Se convierte la cadena a Mayusculas */
-g_string_ascii_down(cadena);
-g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-}
-g_print("\nFin del programa\n");
-g_string_free(cadena,TRUE);
-return 0;
+``GString`` es un objeto que se encarga de los detalles de la administración
+de memoria, de tal manera que el programador no tenga que ocuparse de liberar
+o reservar memoria.
 
-Figura 2.4.1: La salida producida por el ejemplo anterior.
+Recordemos que GLib nos provee de lo necesario para hacer programación
+orientada objetos, pero en un lenguaje procedural como C. Decimos que
+``GString`` es un objeto, pero en realidad esta implementado como una
+estructure. Visto desde ese aspecto, ``GString`` define tres miembros públicos
+a los que se puede acceder directamente.
 
-Estructuras de datos: Listas enlazadas simples
-Las estructuras de datos son imprescindibles en el desarrollo de cualquier programa. Nos permiten
-abordar de una manera razonada y metódica un problema en particular.
-Las listas enlazadas, al igual que los arreglos y vectores se utilizan para almacenar colecciones de
-datos. Un buen artículo de listas enlazadas está disponible en la librería de educación de la facultad de
-ciencias de la computación en la universidad de Stanford[6].
-La biblioteca ``Glib`` tiene una serie de funciones útiles para almacenar datos en listas enlazadas.
-Este tipo de datos se llama GSList y también puede tratársela como un objeto.
+.. code-block:: c
+
+    typedef struct {
+        gchar *str;
+        gsize len;
+        gsize allocated_len;
+    } GString;
+
+La propiedad ``str`` contendrá el texto de la instancia, mientras que ``len``
+contendrá la longitud de la cadena, sin contar los caracteres de terminación
+de cadena.
+
+El constructor de clase de ``GString`` es el siguiente:
+
+.. code-block:: c
+
+    GString* g_string_new(const gchar *init);
+
+Opcionalmente toma un parámetro: ``init`` que será la cadena con que se
+inicializará el objeto. Si quieres que la cadena este vacía puedes pasar la
+macro NULL como parámetro. Veamos un ejemplo:
+
+.. code-block:: c
+
+    #include <glib.h>
+    /*....*/
+    Gstring *cadena, cadena_vacia;
+    cadena = gstring_new(“Hola”);
+    cadena_vacia = gstring_new(NULL);
+
+
+Por conveniencia, ``GLib`` provee otros constructores: 
+`g_string_new_len() <https://developer.gnome.org/glib/2.41/glib-Strings.html#g-string-new-len>`_
+y
+g_string_sized_new() <https://developer.gnome.org/glib/2.41/glib-Strings.html#g-string-sized-new>`_
+
+Todos los constructores regresan el puntero a una nueva instancia de ``GString``.
+
+Una vez que tenemos una instancia del objeto ``GString`` podemos manipular su
+contenido mediante algunas de las funciones del API de GString, como por ejemplo 
+`g_string_assign() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-assign>` _,
+`g_string_append() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-append>`_,
+`g_string_append_c() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-append-c>`_,
+`g_string_prepend() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-prepend>`_,
+`g_string_prepend_c() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-prepend-c>`_,
+`g_string_ascii_up() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-string-ascii-up>`_ o
+`g_string_ascii_down() <https://developer.gnome.org/glib/unstable/glib-String-Utility-Functions.html#g-string-ascii-down>`.
+Veamos un ejemplo.
+
+.. code-block:: c
+
+    # Define un nuevo valor para la cadena,
+    g_string_assign(cadena, “Nuevo valor”);
+
+    # Añade caracteres al inicio y al final de la cadena almacenada en Gstring
+    g_string_append_c(cadena,'Z');
+    g_string_prepend_c(cadena,'A');
+    
+    #Añade otra cadena al final de GString
+    g_string_append (cadena, “Añadiendo valor al final”);
+    g_string_prepend(candena,”Añadiendo valor al Principio”);
+
+    # Tambien es posible truncar la longitud de la cadena, 
+    # por ejemplo 0 significa que la cadena se limpia...
+    g_string_truncate(cadena,0);
+
+    # Convertir la cadena a mayúsculas o minúsculas ...
+    g_string_ascii_up(cadena);
+    g_string_ascii_down(cadena);
+
+
+Finalmente, cuando llegue el momento de destruir la instancia de ``GString``
+deberemos usar `g_string_free() <https://developer.gnome.org/glib/unstable
+/glib-Strings.html#g-string-free>`_.
+
+.. code-block:: c
+
+    g_string_free(cadena, TRUE);
+
+
+
+.. note::
+    Debemos tener cuidado con el segundo parámetro de ``g_string_free()``. Éste
+    parámetro define si junto con el valor de la cadena también se destruye el la
+    instancia del objeto. Pasa el parámetro ``FALSE`` si la instancia se está
+    usando en algún otro lado del programa. Si ya no planeas utilizar más este
+    objeto pasa ``TRUE`` como parámetro.
+
+
+
+Finalmente, aca pongo el ejemplo completo de manipulacion de cadenas.
+
+.. code-block:: c
+
+    /***************************************************************************
+    * Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo: glib-gstring1.c
+    * Descripcion: Ejemplo de tratamiento de cadenas con GLib
+    * Comentarios: Revision del ciclo de vida de GString
+    *
+    ****************************************************************************/
+    #include <glib.h>
+    
+    int main () {
+        GString *cadena;
+
+        /* Se crea una instancia de GString con un valor"*/
+        cadena = g_string_new("Amor volat undique");
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+
+        /*Reemplazando el contenido de la cadena*/
+        g_string_assign(cadena, "Captus est libidine.");
+
+        /* Inserta algun texto al principio de la cadena*/
+        g_string_prepend(cadena,"Siqua sine Socio");
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+
+        /*El valor de la cadena se trunca*/
+        g_string_truncate(cadena,16);
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+
+        /*Se inserta algun texto al fin de la cadena*/
+        g_string_append(cadena,", caret omni gaudio");
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+        
+        /*Se insertan caracteres al incio y al fin de la cadena*/
+        g_string_append_c(cadena,'!');
+        g_string_prepend_c(cadena,'.');
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+        
+        /*Se convierte la cadena a Mayusculas */
+        g_string_ascii_up(cadena);
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+        
+        /*Se convierte la cadena a Mayusculas */
+        g_string_ascii_down(cadena);
+        g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
+        g_print("\nFin del programa\n");
+        g_string_free(cadena,TRUE);
+
+        return 0;
+    }
+
+Compila el ejemplo anterior con el siguiente comando:
+
+.. code-block::
+    
+    ** Ponercomando para compilar
+
+Finalmente, ejecuta el programa
+
+.. code-block:: bash
+
+    ** Poner salida del programa
+
+
+Estructuras de datos
+--------------------
+
+Las estructuras de datos son imprescindibles en el desarrollo de cualquier
+programa. Nos permiten abordar de una manera razonada y metódica un problema
+en particular.
+
+
+Listas enlazadas simples
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+Las listas enlazadas, al igual que los arreglos y vectores se utilizan para
+almacenar colecciones de datos. Un buen artículo de listas enlazadas está
+disponible en la librería de educación de la facultad de ciencias de la
+computación en la universidad de Stanford[6].
+
+La biblioteca ``Glib`` incluye una implementación de listas enlazadas en
+`GSList <>`_.
+
 2.5.1
 Propiedades
 La estructura GSList tiene un esquema similar al que se muestra en la Figura 2.5.1, mientras que
