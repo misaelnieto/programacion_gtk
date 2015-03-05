@@ -5,33 +5,32 @@ Tipos de datos
 --------------
 
 Dentro de ``Glib`` hallaremos tipos de datos útiles que nos harán más fácil la
-tarea de construir programas en ``GTK+``. ``Glib`` crea sus propios tipos de datos con
-el objetivo de hacer más sencillo transportar programas entre diferentes tipos
-de sistemas operativos donde los tipos estándar de C pudieran diferir en
-tamaño o alineación de bytes; ``Glib`` se encargará de esas diferencias.
+tarea de construir programas en ``GTK+``. ``Glib`` crea sus propios tipos de
+datos con el objetivo de hacer más sencillo transportar programas entre
+diferentes tipos de sistemas operativos donde los tipos estándar de C pudieran
+diferir en tamaño o alineación de bytes; ``Glib`` se encargará de esas
+diferencias.
 
-Los tipos que se usan en ``Glib`` no son muy diferentes de los que usamos en el
-estándar de C. Así que realmente no resultará nada complicado habituarse a
-ellos. La Tabla 1 muestra una comparación entre los tipos de datos de ``Glib`` y
-su equivalencia en ANSI C[5].
+Los tipos que se usan en ``Glib`` no son muy diferentes de los que usamos en
+el estándar de C. Así que realmente no resultará nada complicado habituarse a
+ellos. La Tabla 1 muestra una comparación entre los tipos de datos de ``Glib``
+y su equivalencia en ANSI C[5].
 
-+-----------------------+----------------------------------------+
-| Definidos en ``Glib`` | Equivalencia en el estándar ANSI de C  |
-+=======================+========================================+
-| gchar                 | typedef char gchar;                    |
-+-----------------------+----------------------------------------+
-| gshort                | typedef short gshort;                  |
-+-----------------------+----------------------------------------+
-| glong                 | typedef long glong;                    |
-+-----------------------+----------------------------------------+
-| gint                  | typedef int gint;                      |
-+-----------------------+----------------------------------------+
-| gchar                 | typedef char gchar;                    |
-+-----------------------+----------------------------------------+
-| gboolean              | typedef int gboolean;                  |
-+-----------------------+----------------------------------------+
-| gpointer              | typedef void* gpointer;                |
-+-----------------------+----------------------------------------+
++-----------------------+----------------------------------------+-----------------------+
+| Definidos en ``Glib`` | Equivalencia en el estándar ANSI de C  | Equivalencia en VALA  |
++=======================+========================================+=======================+
+| gchar                 | typedef char gchar;                    | public struct char    |
++-----------------------+----------------------------------------+-----------------------+
+| gshort                | typedef short gshort;                  | public struct short   |
++-----------------------+----------------------------------------+-----------------------+
+| glong                 | typedef long glong;                    | public struct long    |
++-----------------------+----------------------------------------+-----------------------+
+| gint                  | typedef int gint;                      | public struct int     |
++-----------------------+----------------------------------------+-----------------------+
+| gboolean              | typedef int gboolean;                  | public struct long    |
++-----------------------+----------------------------------------+-----------------------+
+| gpointer              | typedef void* gpointer;                | ??                    |
++-----------------------+----------------------------------------+-----------------------+
 
 
 Algunos tipos no tan conocidos como ``void *``, son realmente útiles para pasar
