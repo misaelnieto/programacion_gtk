@@ -13,7 +13,7 @@ para desarrollar el *Programa de manipulación de imágenes de GNU* (GNU Image
 Manipulation Program, GIMP)
 
 GTK+ se usa en gran cantidad de proyectos. Algunos de los más famosos son:
-GIMP, Inkscape, Pitivi, Pidgin, XChat, LibreOffice, VLC y Elementary OS.
+`GIMP <http://gimp.org>`_, Inkscape, Pitivi, Pidgin, XChat, LibreOffice, VLC y Elementary OS.
 
 GTK+ se ha construido en base a tres librerías: GDK (*GIMP Drawing Kit*) para
 interactuar con el sistema gráfico, gdk-pixbuf para manipular imágenes y Glib
@@ -109,3 +109,24 @@ La siguiente lista reúne las principales características de Glib:
   encarga de administrar alarmas (temporizadores para aplicaciones síncronas),
   momentos de inactividad de la aplicación, eventos de entrada y salida en
   tuberías, sockets, o descriptores de archivos, así como hilos.
+
+
+Vala
+----
+
+Extracto de la `Traducción al castellano del tutorial de Vala <https://wiki.gnome.org/Projects/Vala/Tutorial/es>`_
+
+  Vala es un nuevo lenguaje de programación que permite utilizar modernas
+  técnicas de programación para escribir aplicaciones que funcionan con las
+  bibliotecas de tiempo de ejecución de GNOME, particularmente GLib y GObject.
+  Esta plataforma ha proporcionado durante mucho tiempo un entorno de
+  programación muy completo, con características como un sistema de tipado
+  dinámico y gestión asistida de memoria. Antes de crear Vala, la única manera
+  de programar para la plataforma era con la API nativa de C, que expone muchos
+  detalles no deseados, con un lenguaje de alto nivel que tiene una máquina
+  virtual auxiliar, como Python o el lenguaje C# de Mono o, alternativamente,
+  con C++ a través de una biblioteca contenedora (wrapper)
+
+  Vala es diferente a todas estas otras técnicas, ya que genera código C que se
+  puede compilar para ejecutarse sin necesidad de bibliotecas externas aparte de
+  la plataforma GNOME

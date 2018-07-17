@@ -30,7 +30,7 @@ obscuro o críptico. Tomaré mucha información de la documentación de Gtk+, pe
 también incluiré ejemplos nuevos para demostrar el uso de diferentes *widgets*.
 
 Puse el código fuente de éste texto en GitHub para que cualquier persona
-interesada pueda opinar, o aún mejor, enviar parches o *pull requests*.
+interesada pueda opinar, o aún mejor, enviar parches y *pull requests*.
 
 
 -- Noe Nieto

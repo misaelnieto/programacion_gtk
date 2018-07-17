@@ -18,7 +18,7 @@ Pero perdí el archivo original de OpenOffice.
 
 Pero ahora el manual necesita de una buena actualización por que el ecosistema
 de desarrollo de aplicaciones con Gtk+ ha añadido tecnologías interesantes
-como [GObjectIntrospection](https://developer.gnome.org/gi/stable/).
+como [GObjectIntrospection](https://developer.gnome.org/gi/stable/) y [Vala](https://wiki.gnome.org/Projects/Vala)
 
 Es por eso que aprovecho la oportunidad de actualizar éste manual de
 desarrollo usando nuevas herramientas como Git, GitHub, ReadtheDocs,
