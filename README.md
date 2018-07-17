@@ -11,7 +11,7 @@ ejercicios realizados en el curso salió el primer borrador de éste manual, que
 ahora se ha perdido.
 
 Después de algunos años escribí de nuevo el manual en OpenOffice y
-generé un archivo PDF [que aún se encuentra disponible en línea.](http://www.developarts.com/programacion-de-interfaces-graficas-de-usuario-con-gtk/)
+generé un archivo PDF [que aún se encuentra disponible en línea.](docs/Manual_GTK_Comunidad.pdf)
 
 Pero ahora el manual necesita de una buena actualización por que el ecosistema
 de desarrollo de aplicaciones con Gtk+ ha añadido tecnologías interesantes
