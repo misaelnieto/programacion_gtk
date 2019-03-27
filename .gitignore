@@ -2,3 +2,5 @@ gtk.sublime-workspace
 build
 *~
 *.py[co]
+.vscode
+*.sublime-*
