@@ -448,3 +448,704 @@ GtkContainer.
 *Métodos de la clase GtkContainer*
 ==================================
 
+void gtk_container_add (GtkContainer *container,
+GtkWidget *widget); (69)
+
+Descripción: Inserta un *widget* dentro de un contenedor. No es posible añadir el mismo widget a múltiples contenedores.
+
+Parámetros:
+* container : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
+para moldear un puntero de diferente tipo.
+* widget: El widget que se quiere insertar en el contenedor.
+
+void gtk_container_remove (GtkContainer *container,
+GtkWidget *widget);  (69)
+
+Descripción: Remueve un *widget* que ya esta adentro de un contenedor.
+Parámetros:
+* container : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
+para moldear un puntero de diferente tipo.
+* widget: El widget que se quiere remover del contenedor.
+
+Nota: Cada widget creado contiene un contador de referencias. Esto evita que se destruya el widget cuando todavía
+esta en uso. Cuando el contador de referencias llega a cero el sistema de objetos de Glib/GTK+ asume que el widget ya no es de utilidad y se ordena su destrucción. Cuando se remueve un widget de su contenedor se
+decrementa el contador de referencias, el cual usualmente llega a cero. El efecto es la destrucción del widget. Para
+evitar esto es necesario referenciar explícitamente el widet usando g_object_ref().
+Por el contrario, si ya no desea usar el widget después de removerlo de un contenedor, la documentación de GTK+
+recomienda usar el destructor de GtkWidget directamente: gtk_widget_destroy(). Éste removerá el
+widget del contenedor y además resolverá cualquier otra referencia que se tenga al primero.
+
+(74-5)
+
+void gtk_container_set_border_width (GtkContainer *container,
+guint border_width); (75)
+
+Descripción: Establece el ancho de borde de un contenedor.
+Parámetros:
+* container : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
+para moldear un puntero de diferente tipo.
+* border_width: El espacio libre que se desea dejar alrededor del contenedor. Los
+valores válidos van de 0 a 65535.
+
+guint gtk_container_get_border_width (GtkContainer *container);  (75)
+
+Descripción: Obtiene el valor actual del ancho de borde del contenedor
+Parámetros:
+* container : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
+para moldear un puntero de diferente tipo.
+
+Valor de retorno: El ancho de borde del contenedor.
+
+Nota: El borde es la cantidad de espacio extra que se deja en la parte externa del contenedor. La excepción a la regla
+es GtkWindow, pues las ventanas no pueden dejar espacio en la parte externa. El espaciado de una ventana se
+añade hacia adentro de la ventana
+
+Hasta ahora hemos visto (al menos en teoría), que es posible insertar un *widget* dentro de otro, para ello usamos el método gtk_container_add(). Pero, ¿Qué pasa si se quiere usar mas de un *widget* dentro de una ventana?, ¿Cómo se puede controlar la posición de los *widgets*?
+
+
+Cajas
+-----
+
+Descripción
+===========
+
+Regresemos un poco a la realidad cotidiana: Si deseamos acomodar algún objeto como un anillo,
+conseguimos un recipiente adecuado que sólo aloje nuestra alhaja.
+Por otra parte, si nosotros fabricáramos teléfonos y tuviéramos que enviar varios de ellos a un
+cliente en otro país, la acción más común sería acomodar y empacar todos ellos en una caja y enviarlos a nuestro comprador.
+En el mundo de GTK+ se hace la misma analogía. Una caja es un *widget* que organiza un grupo de
+objetos en un área rectangular: Si deseamos colocar varios de ellos en una sola ventana usaremos una caja y esta se puede insertar, a su vez, en la ventana.
+La ventaja principal de usar cajas es el despreocuparnos del lugar donde deben dibujarse cada uno de nuestros objetos gráficos, GTK+ toma esa responsabilidad por nosotros.
+Existen dos tipos de cajas: GtkHBox y GtkVBox. Ambos descienden de la clase abstracta
+GtkBox (Figura 2.5.2) y son invisibles.
+
+(Figura 3.6.1: Clases derivadas de GtkBox)
+
+Cuando se empaquetan widgets en una caja horizontal (GtkHBox) se acomodan horizontalmente
+de izquierda a derecha o viceversa y todos tienen la misma altura.
+En una caja vertical (GtkVBox) se acomodan de arriba a abajo o viceversa y todos tienen el
+mismo ancho. También se puede usar una combinación de cajas dentro o al lado de otras cajas para crear el efecto deseado.
+GtkBox es una clase abstracta, y las clases derivadas (GtkHBox y GtkVBox) no contienen
+métodos de clase. Los constructores de clase son solamente para las cajas verticales u horizontales mientras que los métodos de clase son de GtkBox.
+
+Constructor de clase.
+=====================
+
+tkWidget* gtk_hbox_new (gboolean homogeneous,
+gint spacing);  (77)
+
+Descripción: Crea una nueva instancia de una caja horizontal.
+Parámetros:
+
+* homogeneous : Especifique TRUE si desea que todos los widgets (hijos) que se
+inserten en la caja les sea asignado un espacio por igual.
+* spacing : El número de *pixeles* que se insertarán entre los *widgets* hijos.
+
+Valor de retorno: una nueva instancia de GtkHBox.
+
+GtkWidget* gtk_vbox_new (gboolean homogeneous,
+gint spacing); (77)
+
+Descripción: Crea una nueva instancia de una caja vertical.
+Parámetros:
+
+* homogeneous : Especifique TRUE si desea que todos los *widgets* (hijos) que se
+inserten en la caja les sea asignado un espacio por igual.
+* spacing : El número de *pixeles* que se insertarán entre los *widgets* hijos.
+
+Valor de retorno: una nueva instancia de GtkVBox.
+
+*Métodos de clase básicos*
+==========================
+
+El siguiente par de métodos permiten acomodar widgets en cualquier tipo de caja.
+
+void gtk_box_pack_start_defaults (GtkBox *box,
+GtkWidget *widget); (78)
+
+Descripción: Acomoda un *widget* en una caja. Los *widgets* hijos se irán acomodando de arriba a abajo en una caja vertical, mientras que serán acomodados de izquierda a derecha en una caja
+horizontal.
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+* widget : El *widget* que será empacado.
+
+void gtk_box_pack_end_defaults (GtkBox *box,
+GtkWidget *widget); (78)
+
+Descripción: Acomoda un widget en una caja. Los widgets hijos se irán acomodando de abajo a
+arriba en una caja vertical, mientras que serán acomodados de derecha a izquierda en una caja
+horizontal
+
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+* widget : El *widget* que será empacado.
+
+Nota: Cuando se ha hablado de empacar widgets dentro de una caja siempre hablamos de acomodar en lugar de insertar. Acomodar implica que se van coleccionando los widgets uno tras otro en el orden en el que son empacados.
+
+*Métodos de clase avanzados*
+============================
+
+La siguiente colección de métodos exhibe toda la flexibilidad del sistema de empaquetado de GTK+.
+Las dos principales funciones gtk_box_pack_start() y gtk_box_pack_end() son
+complejas, es por eso que se les ha aislado de las demás para una discusión más detallada.
+Cinco son los parámetros que gobiernan el comportamiento de cada *widget* hijo que se acomoda
+en una caja:
+* homogeneus y spacing que se determinan en el constructor de clase.
+* expand, fill y padding que se determinan cada vez que se empaca un widget en un
+contenedor.
+El parámetro homogeneous controla la cantidad espacio individual asignado a cada uno de los
+*widgets* que se empacan en una caja. Si es TRUE entonces el espacio asignado será igual para todos los
+*widgets* hijos. Si es FALSE entonces cada widget hijo podrá tener un espacio asignado diferente.
+El parámetro spacing especifica el número de pixeles que se usarán para separar a los widgets
+hijos.
+El parámetro expand le permite al *widget* hijo usar espacio extra. El espacio extra de toda una
+tabla se divide equitativamente entre todos sus hijos.
+El parámetro fill permite al *widget*  hijo ocupar todo el espacio que le corresponde, permitiendo
+llenar por completo el espacio asignado. El widget no tiene permitido ocupar todo el espacio si el
+parámetro expand es FALSE. Los *widgets* hijos siempre están usando todo el espacio vertical cuando
+están acomodados en una caja horizontal. Asimismo usarán todo el espacio horizontal si están situados
+en una caja vertical.
+El parámetro padding permite establecer un espacio vacío entre el *widget* hijo y sus vecinos.
+Este espacio se añade al establecido por spacing.
+
+void gtk_box_pack_start (GtkBox *box,
+GtkWidget *child,
+gboolean expand,
+gboolean fill,
+guint padding);   (78)
+
+Descripción: Acomoda un *widget* en una caja. Los *widgets* hijos se irán acomodando de arriba a abajo en una caja vertical, mientras que serán acomodados de izquierda a derecha en una caja
+horizontal.
+
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+* child : El widget que será empacado.
+* expand : Si es TRUE al widget hijo podrá asignársele espacio extra.
+* fill : Si es TRUE el widget podrá ocupar el espacio extra que se le asigne.
+* padding : El perímetro de espacio vació del hijo, especificado en pixeles.
+
+void gtk_box_pack_end (GtkBox *box,
+GtkWidget *child,
+gboolean expand,
+gboolean fill,
+guint padding);     (78)
+
+Descripción: Acomoda un *widget* en una caja. Los *widgets* hijos se irán acomodando de abajo a
+arriba en una caja vertical, mientras que serán acomodados de derecha a izquierda en una caja
+horizontal.
+
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+* child : El widget que será empacado.
+* expand : Si es TRUE al widget hijo podrá asignársele espacio extra. 
+* fill : Si es TRUE el widget podrá ocupar el espacio extra que se le asigne.
+* padding : El perímetro de espacio vació del hijo, especificado en pixeles.
+
+void gtk_box_set_homogeneous (GtkBox *box,
+gboolean homogeneous);
+
+Descripción: Establece la propiedad "homogeneous" que define cuando los *widgets* hijos
+deben de tener el mismo tamaño.
+
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+* homogeneous : Especifique TRUE si desea que todos los *widgets* (hijos) que se
+inserten en la caja les sea asignado un espacio por igual.
+
+gboolean gtk_box_get_homogeneous (GtkBox *box);  (81)
+
+Descripción: Devuelve el valor al que esta puesto la propiedad "homogeneous".
+
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+
+Valor de retorno: El valor de la propiedad "homogeneous".
+
+void gtk_box_set_spacing (GtkBox *box,
+gint spacing);  (81)
+
+Descripción: Establece la propiedad "homogeneous" que define cuando los widgets hijos
+deben de tener el mismo tamaño.
+
+Parámetros:
+* box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+* homogeneous : Especifique TRUE si desea que todos los *widgets* (hijos) que se
+inserten en la caja les sea asignado un espacio por igual.
+
+gint gtk_box_get_spacing (GtkBox *box);(81)
+
+Descripción: Devuelve el valor al que esta puesto la propiedad "spacing".
+
+Parámetros:
+➢ box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
+referencias de cajas verticales y horizontales al tipo adecuado.
+
+Valor de retorno: El número de *pixeles* que hay entre los *widgets* hijos de la instancia de
+GtkBox.
+
+Tablas
+------
+
+*Descripción*
+===============
+
+Una tabla es una rejilla en donde se colocan widgets. Los *widgets* pueden ocupar los espacios que se
+especifiquen (1 o más celdas).
+
+(Figura 3.7.1: Diagra de herencia Gtktable)
+
+Como es común en GTK+, un contenedor no tiene una representación gráfica pero afecta la
+posición y tamaño de los elementos que contiene Cada *widget* se inserta en un rectángulo invisible
+dentro de la cuadrícula de la tabla.
+Según podemos ver en la Figura 3.7.2, un *widget* hijo puede ocupar el espacio de uno o más celdas
+de la siguiente línea o columna, o ambas. Las coordenadas de ese rectángulo definen de qué celda a qué
+celda ocupará un *widget*.
+
+(Figura 3.7.2: Espacio alineación y distribución de elementos de Gtktable. los cuadros grises son widgets insertados en la tabla.)
+
+El sistema de espaciados contiene diferentes variables que controlar y por tanto puede ocasionar
+confusión a más de uno. Para una mejor explicación debemos hacer distinción entre las propiedades de
+la tabla y las propiedades de los *widgets* hijos.
+Parámetros de comportamiento de GtkTable.
+
+* Espaciado entre columnas. Define el espacio (en *pixeles*) que habrá entre dos columnas
+consecutivas. Este valor se controla mediante la propiedad "column-spacing".
+
+* Espaciado entre filas. Define el espacio (en *pixeles*) que habrá entre dos filas consecutivas.
+Este valor se controla mediante la propiedad "row-spacing".
+
+* Numero de columnas. Define el número de columnas que contendrá la tabla. Un widget puede
+ocupar más de dos columnas consecutivas.
+
+ * Numero de filas. Define el número de filas que contendrá la tabla. Un widget puede ocupar
+más de dos columnas consecutivas.
+ 
+* Homogeneidad. Define si las todas las celdas de la tabla tienen el mismo ancho y alto.
+Parámetros de comportamiento de los widgets hijos de GtkTable.
+
+* Columna. La columna donde se encuentra un widget se numera de izquierda a derecha a partir
+del numero cero.
+
+* Fila. La fila donde se encuentra un widget se numera de arriba a abajo comenzando desde cero.
+
+* Comportamiento vertical y horizontal. Definen el comportamiento de una celda dentro de
+una tabla. Estos comportamientos pueden ser:
+
+○ Expandirse para ocupar todo el espacio extra que la tabla le pueda otorgar.
+○ Encogerse para ocupar el espacio mínimo necesario.
+○ Expandirse para ocupar el espacio exacto que la tabla le ha otorgado.
+
+* Relleno vertical y horizontal. Define el espacio en pixeles que habrá entre celdas adyacentes.
+
+* Coordenadas de la celda. Resulta común describir el inicio y el fin de una celda utilizando
+solamente la coordenada superior izquierda de la celda y la coordenada superior izquierda de la
+celda transpuesta.
+○ Coordenada superior izquierda. Estas coordenadas se forman tomando el numero de la
+columna que comienza a la izquierda y el numero de la fila que comienza por arriba.
+○ Coordenada inferior derecha. Estas coordenadas se forman tomando el numero de la
+columna que comienza a la derecha y el numero de la fila que comienza por abajo.
+
+*Constructor de clase*
+======================
+Sólo existe un constructor de clase para GtkTable.
+
+tkWidget* gtk_table_new (guint rows,
+guint columns,
+gboolean homogeneous);   (85)
+
+Descripción: Crea una nueva instancia de una tabla que acomodará widgets a manera de rejilla.
+Parámetros:
+
+* rows : El número de filas de la tabla.
+* columns : El número de columnas de la tabla.
+* homogeneous : Si este valor es TRUE, entonces las celdas de la tabla se ajustan al
+tamaño del *widget* más largo de la tabla. Si es FALSE, las celdas de la tabla se ajustan
+al tamaño del *widget* más alto de la fila y el más ancho de la columna.
+Valor de retorno: una nueva instancia de GtkTable.
+
+*Métodos de clase*
+==================
+
+ void gtk_table_resize (GtkTable *table,
+guint rows,
+guint columns);       (85)
+
+Descripción: Cambia el tamaño de la tabla una vez que esta ha sido creada.
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* rows : El número de filas que tendrá la nueva tabla.
+* columns : El número de columnas que tendrá la nueva tabla.
+
+void gtk_table_attach_defaults (GtkTable *table,
+GtkWidget *widget,
+guint left_attach,
+guint right_attach,
+guint top_attach,
+guint bottom_attach);     (85)
+
+Descripción: Acomoda un *widget* en la celda de una caja. El widget se insertará en la celda
+definida por las coordenadas definidas por la esquina superior derecha y la esquina inferior izquierda.
+Para ocupar una o más celdas contiguas especifique la coordenada superior izquierda de la primera celda y la coordenada inferior de la última celda. Usando este método de clase el relleno de la celda será 0 *pixeles* y esta llenará todo el espacio disponible para la celda.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* widget : El *widget* que será acomodado en una celda o celdas adyacentes.
+* left_attach : ordenada de la esquina superior izquierda.
+* right_attach : ordenada de la esquina inferior derecha.
+* top_attach : abscisa de la esquina superior izquierda.
+* bottom_attach : abscisa de la esquina inferior derecha.
+
+void gtk_table_set_row_spacings (GtkTable *table,
+guint spacing); (86)
+
+Descripción: Establece el espaciado de entre todas las filas de la tabla.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* spacing : El nuevo espaciado en pixeles.
+
+void gtk_table_set_col_spacings (GtkTable *table,
+guint spacing);  (86)
+
+Descripción: Establece el espaciado de entre todas las columnas de la tabla.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* spacing : El nuevo espaciado en *pixeles*.
+
+void gtk_table_set_row_spacing (GtkTable *table,
+guint row,
+guint spacing); (86)
+
+Descripción: Establece el espaciado de una sola fila de la tabla con respecto a las filas adyacentes.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* row : El numero de la fila, comenzando desde cero.
+* spacing : El nuevo espaciado en *pixeles*.
+
+void gtk_table_set_col_spacing (GtkTable *table,
+guint col,
+guint spacing);   (87)
+
+Descripción: Establece el espaciado de una sola columna de la tabla con respecto a las columnas
+adyacentes.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* col : El numero de la columna, comenzando desde cero.
+* spacing : El nuevo espaciado en *pixeles*.
+
+void gtk_table_set_homogeneous (GtkTable *table,
+gboolean homogeneous);   (86)
+
+Descripción: Establece el valor de la propiedad "homogeneous".
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* homogeneous : TRUE si se desea que todas las celdas de la tabla tengan el mismo
+tamaño. Establecer a FALSE si se desea que cada celda se comporte de manera
+independiente.
+
+guint gtk_table_get_default_row_spacing
+(GtkTable *table);   (87)
+
+Descripción: Devuelve el espacio que se asigna por defecto a cada fila que se añade.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+Valor de retorno: El espaciado de la fila.
+
+guint gtk_table_get_default_col_spacing
+(GtkTable *table);  (87)
+
+Descripción: Devuelve el espacio que se asigna por defecto a cada columna que se añade.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+
+Valor de retorno: El espaciado de la columna.
+
+guint gtk_table_get_row_spacing (GtkTable *table,
+guint row);    (88)
+
+Descripción: Devuelve el espacio que existe entre la fila y la fila subyacente.
+
+Parámetros:
+
+* table : Una instancia de GtkTable.
+* row : el número de la fila comenzando desde cero.
+
+Valor de retorno: El espaciado de la fila.
+
+guint gtk_table_get_col_spacing (GtkTable *table,
+guint column);  (88)
+
+Descripción: Devuelve el espacio que existe entre la columna y la columna adyacente.
+
+Parámetros:
+* table : Una instancia de GtkTable.
+* column : el número de la columna comenzando desde cero.
+
+Valor de retorno: El espaciado de la columna.
+
+gboolean gtk_table_get_homogeneous (GtkTable *table);
+
+Descripción: Devuelve el estado de la propiedad "homogeneous".
+
+Parámetros:
+* table : Una instancia de GtkTable.
+Valor de retorno: El estado de la propiedad "homogeneous".
+
+Etiquetas
+---------
+
+
+*Descripción*
+===========
+
+(Figura 3.8.1: Una Etiqueta de GTK+)
+
+GtkLabel es útil para desplegar cantidades moderadas de información en forma de texto el cual se puede alinear a la izquierda, derecha y de forma centrada. La opción de lenguaje de marcado (similar a
+HTML) mejora la calidad y cantidad de información desplegada usando tipos de letra (itálica, negritas, subrayado) y colores.
+
+(Figura 3.8.2: GtkLabel, junto con otros widgets, desciende de GtkMisc y GtkWidget.)
+
+Constructor de clase
+====================
+
+Solo existe un constructor de clase para GtkLabel.
+
+GtkWidget* gtk_label_new (const gchar *str);
+
+(Figura 3.8.2: Una Etiqueta de GTK+ GtkLabel, junto con otros widgets, desciende de GtkMisc y GtkWidget.)
+
+Descripción: Crea una nueva instancia de una etiqueta GtkLabel que despliega el texto str.
+
+Parámetros:
+
+➢ str : El texto que contendrá la etiqueta. Si no se desea ningún texto adentro de la
+etiqueta se puede pasar NULL como parámetro para una etiqueta vacía.
+Valor de retorno: una nueva instancia de GtkLabel.
+
+Métodos de clase básicos
+========================
+
+Los métodos de clase básicos son los que se usaran con mas frecuencia y se reducen a escribir el texto
+de la etiqueta y obtenerlo. Si se desea borrar el texto de una etiqueta solo es necesario escribir en ella un texto vacío.
+
+void gtk_label_set_text (GtkLabel *label, const gchar *str); (90)
+
+Descripción: Establece el texto que mostrara la instancia de una etiqueta.
+
+Parámetros:
+* label : Una instancia de GtkLabel
+* str : Un puntero a una cadena que contiene el texto que desplegara la etiqueta. Si
+especifica NULL entonces se desplegara una etiqueta vacía.
+
+const gchar* gtk_label_get_text (GtkLabel *label); (90)
+
+Descripción: Obtiene el texto que esta almacenado actualmente en la instancia de la etiqueta.
+
+Parámetros:
+
+* label : Una instancia de GtkLabel.
+Valor de retorno: un puntero a la cadena que esta almacenada en la etiqueta. La instancia de
+GtkLabel es dueña de la cadena y por tanto la esta no debe ser modificada.
+
+*Métodos de clase avanzados*
+============================
+
+La siguiente colección de métodos indican como realizar un control mas avanzado sobre la etiqueta y así mejorar la presentación y sencillez de uso de nuestros programas.
+
+void gtk_label_set_justify (GtkLabel *label,
+GtkJustification jtype);   (90)
+
+Descripción: Establece el valor de la propiedad "justify" de GtkLabel. Esta propiedad
+define la alineación entre las diferentes lineas del texto con respecto unas de otras. Por defecto todas las etiquetas están alineadas a la izquierda.
+
+Parámetros:
+
+* label : Una instancia de GtkLabel.
+* jtype : El tipo de alineación del las lineas de texto en relación con las demás. Lo
+anterior implica que no hay efecto visible para las etiquetas que contienen solo una
+linea. Las diferentes alineaciones son:
+
+* GTK_JUSTIFY_LEFT,
+* GTK_JUSTIFY_RIGHT,
+* GTK_JUSTIFY_CENTER,
+* GTK_JUSTIFY_FILL
+
+Es importante hacer notar que esta función establece la alineación del las líneas texto en
+relación de unas con otras. Este método NO establece la alineación de todo el texto, esa
+tarea le corresponde a gtk_misc_set_aligment().
+
+PangoEllipsizeMode gtk_label_get_ellipsize (GtkLabel *label);   (91)
+
+Descripción: Describe la manera en que se esta dibujando una elipsis en la etiqueta label.
+
+Parámetros:
+
+* label : Una instancia de GtkLabel
+
+Valor de retorno: el modo en que se esta dibujando la elipsis. Este puede ser cualquiera de
+PANGO_ELLIPSIZE_NONE, PANGO_ELLIPSIZE_START, PANGO_ELLIPSIZE_MIDDLE y
+PANGO_ELLIPSIZE_END.
+
+void gtk_label_set_ellipsize (GtkLabel *label,
+PangoEllipsizeMode mode); (90)
+
+Descripción: Establece el valor de la propiedad "ellipsize" de GtkLabel. Esta propiedad
+define el comportamiento de GtkLabel cuando no existe suficiente espacio para dibujar el texto de la etiqueta.
+
+Parámetros:
+
+* label : Una instancia de GtkLabel.
+
+* mode : Se debe establecer a cualquiera de los cuatro modos definidos en la enumeración PangoEllipsizeMode, a saber: PANGO_ELLIPSIZE_NONE,
+PANGO_ELLIPSIZE_START, PANGO_ELLIPSIZE_MIDDLE y
+PANGO_ELLIPSIZE_END. Estos cuatro modos definen si se dibujara una elipsis
+("...") cuando no haya suficiente espacio para dibujar todo el texto que contiene la
+etiqueta. Se omitirán los caracteres suficientes para insertar la elipsis.
+Si se especifica PANGO_ELLIPSIZE_NONE no se dibujara la elipsis.
+Si se especifica PANGO_ELLIPSIZE_START entonces se omitirán caracteres del
+principio de la cadena en favor de la elipsis.
+Si se especifica PANGO_ELLIPSIZE_MIDDLE los caracteres se omitirán desde la
+mitad de la cadena hacia los extremos.
+Si se especifica PANGO_ELLIPSIZE_END los últimos caracteres se eliminaran en
+favor de la elipsis.
+
+PangoEllipsizeMode gtk_label_get_ellipsize (GtkLabel *label);
+
+Descripción: Describe la manera en que se esta dibujando una elipsis en la etiqueta label.
+
+Parámetros:
+
+* label : Una instancia de GtkLabel
+
+Valor de retorno: el modo en que se esta dibujando la elipsis. Este puede ser cualquiera de
+PANGO_ELLIPSIZE_NONE, PANGO_ELLIPSIZE_START, PANGO_ELLIPSIZE_MIDDLE y
+PANGO_ELLIPSIZE_END.
+
+void gtk_label_set_markup (GtkLabel *label,
+const gchar *str);    (90)
+
+Descripción: Examina el texto pasado en la cadena str. El texto introducido se formatea de
+acuerdo al lenguaje de marcado de la librería Pango (similar a HTML). Con este método tenemos la capacidad de desplegar texto con colores o en negritas.
+
+Parámetros:
+
+* label : Una instancia de GtkLabel.
+* str : Un puntero a una cadena que contiene el texto que desplegara la etiqueta y en
+el lenguaje de marcado de Pango.
+Si especifica NULL entonces se desplegara una etiqueta vacía. Si el texto no coincide
+con el lenguaje de marcado de Pango entonces recibirá un mensaje de error en tiempo
+de ejecución (y no en tiempo de compilación) y la etiqueta o parte de ella no se mostrar.
+Vea la Tabla 5 para una breve descripción de las etiquetas válidas.
+
+*Ejemplos*
+=========
+
+El primer ejemplo sirve para demostrar el uso básico de GtkLabel. Este se muestra en el siguiente listado.
+
+(Listado de programa 3.8.1)
+
+(Figura 3.8.3: Primer ejemplo de GtkLabel)
+
+La aplicación anterior creará una ventana con una etiqueta adentro. Vea la Figura 3.8.3.
+Inmediatamente después de inicializar GTK+ (con gtk_init()), se crea una instancia de una
+etiqueta. Después de eso se crea una ventana, se conecta el evento “delete-event” con
+gtk_main_quit() de manera que cuando se presione el botón de cerrar la aplicación termine
+correctamente.
+A continuación se ajustan las opciones cosméticas: (a)Establecer el titulo a label1.c y (b)
+definir el tamaño de la ventana a 200 pixeles de ancho por 150 de alto usando
+gtk_widget_set_size_request().
+Una parte importante que no hay que olvidar es que una aplicación GTK+ se construye
+acomodando widgets adentro de otros widgets. De esa forma es como se logra relacionar el
+comportamiento entre diferentes partes de una interfaz gráfica. Una ventana es un contenedor que solo
+puede alojar un solo widget y en este ejemplo el huésped será la etiqueta que ya hemos creado. La
+inserción queda a cargo de gtk_container_add().
+Sólo queda mostrar todos los widgets usando gtk_widget_show_all() y entregarle el
+control de la aplicación a GTK+.
+El ejemplo anterior muestra de la manera mas sencilla cómo instanciar una etiqueta e insertarla en un contenedor. El siguiente ejemplo es una muestra de las principales características avanzadas de
+GtkLabel.
+
+(Listado de programas 3.8.2)  (96)
+
+La aplicación tendrá la siguienda apariencia
+
+(Figura 3.8.4: Segundo ejemplo del uso de etiquetas)   (98)
+
+Este ejemplo se vuelve un poco más complicado pues ahora hacemos uso de 5 tipos de widgets:
+GtkWindow, GtkLabel, GtkVBox, GtkFrame y GtkScrolledWindow. Esto se ha hecho
+debido a que ahora debemos transmitir una mayor cantidad de información en una sola ventana(De
+paso aprenderemos a trabajar con nuevos objetos de los que conocemos muy poco).
+Se han creado cinco diferentes etiquetas y cada una contiene un texto diferente. A cada una de
+estas etiquetas se le ha aplicado un modo de alineación diferente. Para evitar la confusión y mejorar la
+apariencia del programa se ha decorado cada una de las diferentes etiquetas con un cuadro que describe
+el tipo de modo que se quiere mostrar. La clase GtkFrame se comporta como un contenedor más (esta
+clase se describirá mas a fondo en el apartado dedicado a widgets para decoración).
+Debido a que desplegaremos toda la información al mismo tiempo es necesario usar una caja
+vertical (GtkVBox) para acomodar todos los marcos y las etiquetas.
+Por último se utilizó la clase GtkScrolledWindow para añadir barras de desplazamiento y así
+evitar que la ventana tenga un tamaño grande y desgradable.
+En resúmen: cinco etiquetas (GtkLabel) con diferente alineación se insertan con sendos
+marcos(GtkFrame), los cuales se alojan en una caja vertical(GtkVBox). Esta caja se “mete” dentro de una ventana que contiene barras de desplazamiento(GtkScrolledWindow) que a su vez se
+inserta en la ventana de nivel principal (GtkWindow).
+Hay otros dos ejemplos que hay que mostrar. El primero(Listado de Programa 3.8.3) muestra la
+forma de usar el lenguaje de marcado de Pango para definir diferentes estilos de texto (colores, fuentes,etc.).
+
+(Listado de Programa 3.8.3)  (99)
+
+El Listado de Programa 3.8.3 luce como en la Figura 3.8.5
+
+(Figura 3.8.5: Uso del lenguaje de marcado en etiquetas) (100)
+
+El segundo ejemplo Listado de Programa 3.8.4 muestra como funciona las elipsis.
+
+(Listado de Programa 3.8.4) (100)
+
+(Figura 3.8.6: Elipsis en funcionamiento.) (101)
+
+Con esto hemos cubierto gran parte de la funcionalidad de las etiquetas. Más información se puede hallar en el manual de referencia de GTK+.
+
+Botones
+-------
+
+
+Descripción
+============
+
+(Figura 3.9.1: Apariencia de un botón) (102)
+
+GtkButton es un widget que emite una señal cuando es presionado. Un botón es a su vez un
+contenedor. Por lo general contiene una etiqueta, una imagen o ambas.
+GtkButton es punto de partida para la creación de otros tipos de botones (Vea la Figura 3.9.1).
+
+(figura 3.9.2: Clases derivadas a partir de GtkButton)  (102)
+
+Más adelante analizaremos el funcionamiento de GtkToggleButton y GtkOptionMenu.
+Los dos restantes no serán cubiertos en este manual. GtkColorButton es un botón que al ser
+presionado muestra una ventana de selección de color y GtkFontButton mostrará una ventana de
+selección de fuente al ser presionado.
+*Constructores de clase*
+========================
+Existen cuatro constructores de clase para GtkButton. Se puede usar el constructor
+gtk_button_new_with_label() ó gtk_button_new_with_mnemonic() para crear un
+botón con etiqueta(normal y con acelerador, respectivamente); gtk_button_new_with_stock()
