@@ -1144,8 +1144,189 @@ Más adelante analizaremos el funcionamiento de GtkToggleButton y GtkOptionMenu.
 Los dos restantes no serán cubiertos en este manual. GtkColorButton es un botón que al ser
 presionado muestra una ventana de selección de color y GtkFontButton mostrará una ventana de
 selección de fuente al ser presionado.
+
 *Constructores de clase*
 ========================
 Existen cuatro constructores de clase para GtkButton. Se puede usar el constructor
 gtk_button_new_with_label() ó gtk_button_new_with_mnemonic() para crear un
-botón con etiqueta(normal y con acelerador, respectivamente); gtk_button_new_with_stock()
+botón con etiqueta(normal y con acelerador, respectivamente); gtk_button_new_with_stock() crear un botón cuya imagen y texto estará determinado por un identificador stock_item, y por
+último gtk_button_new() instancia un botón vacío.
+
+(Figura 3.9.3: Árbol genealógico de un botón.) (103)
+
+GtkWidget* gtk_button_new (void);
+
+Descripción: Crea una nueva instancia de un botón GtkButton. Esta nueva instancia de botón
+no contiene nada. Si desea colocar algún widget dentro de la nueva instancia use
+gtk_container_add().
+
+Valor de retorno: una nueva instancia de GtkButton.
+
+GtkWidget* gtk_button_new_with_label (const gchar *label); (103)
+
+Descripción: Crea una nueva instancia de un botón GtkButton. El nuevo botón contendrá una
+etiqueta con el texto especificado.
+
+Parámetros:
+
+* label : El texto que contendrá la etiqueta dentro del botón.
+
+Valor de retorno: una nueva instancia de GtkButton.
+
+GtkWidget* gtk_button_new_with_mnemonic (const gchar *label);  (104)
+
+Descripción: Crea una nueva instancia de un botón GtkButton. El nuevo botón contendrá una
+etiqueta con el texto especificado. Cualquier letra que venga precedida de un guión bajo ('_'), aparecerá como texto subrayado. La primera letra que sea precedida con un guión bajo se convierte en el acelerador del botón, es decir, presionando la tecla Alt y la letra activan el botón(Causan que se emita la señal "clicked").
+
+Parámetros:
+
+* label : El texto que contendrá la etiqueta dentro del botón. Anteponga un guión
+bajo a un carácter para convertirlo en acelerador.
+
+Valor de retorno: una nueva instancia de GtkButton.
+
+GtkWidget* gtk_button_new_from_stock (const gchar *label); (104)
+
+Descripción: Crea una nueva instancia de un botón GtkButton. El nuevo botón contendrá una
+imagen y una etiqueta predeterminados(stock item) . Es una forma sencilla de hacer botones vistosos con mensajes usuales como si, no, cancelar y abrir. Al usar elementos predeterminados (stock items) nos aseguramos que los botones sigan el tema y el idioma elegidos en el entorno GNOME.
+
+Parámetros:
+
+* label : El nombre del elemento predeterminado (stock item). Una lista de los
+elementos predeterminados se muestra en el ANEXO 4.6.1.3 : STOCK ITEMS.
+
+Valor de retorno: una nueva instancia de GtkButton.
+
+*Métodos de clase*
+==================
+
+void gtk_button_set_label (GtkWidget button, const gchar *label);   (104)
+
+Descripción: Establece el mensaje que mostrará la etiqueta de un botón. El nuevo botón
+contendrá una etiqueta con el texto especificado. Si hay otro widget dentro del botón, entonces GTK+ lo eliminará y en su lugar insertará una etiqueta.
+
+Parámetros:
+
+* button : Una instancia de GtkButton.
+* label : El texto que contendrá la etiqueta dentro del botón.
+
+const gchar* gtk_button_get_label (GtkButton *button);  (105)
+
+Descripción: Regresa el texto contenido en la etiqueta de un botón si el botón ha sido creado con
+gtk_button_new_with_label() o se ha establecido el texto de la etiqueta con el método
+gtk_button_set_label(). Si lo anterior no se cumple el valor regresado es NULL.
+
+Parámetros:
+
+* button : Una instancia de GtkButton.
+
+Valor de retorno: el texto de la etiqueta del botón. La cadena regresada por este método es
+propiedad de Gtk+, no la libere ni la manipule u obtendrá un fallo de segmentación.
+
+void gtk_button_set_use_stock (GtkButton *button,
+gboolean use_stock);   (105)
+
+Descripción: Si esta propiedad se establece a verdadero entonces el texto de la etiqueta del botón se usará para seleccionar un elemento predeterminado(stock item) para el botón. Use
+gtk_button_set_text() para establecer un elemento predeterminado.
+
+Parámetros:
+
+* button : Una instancia de GtkButton.
+* use_stock : TRUE si el botón deberá mostrar elementos predeterminados (stock item).
+
+gboolean gtk_button_get_use_stock (GtkButton *button);   (105)
+
+Descripción: Determina si la instancia del botón muestra elementos predeterminados (stock item).
+
+Parámetros:
+
+* button : Una instancia de GtkButton.
+
+Valor de retorno: TRUE si el botón despliega elementos predeterminados.
+
+void gtk_button_set_use_underline (GtkButton *button,
+gboolean use_underline);  (106)
+
+Descripción: Si esta propiedad se establece a verdadero entonces cualquier letra que venga
+precedida de un guión bajo ('_'), aparecerá como texto subrayado. La primera letra que sea precedida con un guión bajo se convierte en el acelerador del botón. Use gtk_button_set_text() para establecer el texto subrayado y/o aceleradores.
+
+Parámetros:
+
+* button : Una instancia de GtkButton.
+* use_stock : TRUE si el botón deberá subrayar elementos y generar mnemónicos.
+
+gboolean gtk_button_get_use_underline (GtkButton *button);   (106)
+
+Descripción: Determina si la instancia del botón subraya caracteres y genera mnemónicos y atajos de teclado.
+
+Parámetros:
+
+* button : Una instancia de GtkButton.
+
+Valor de retorno: TRUE si el botón subraya caracteres y genera mnemónicos.
+
+Señales y eventos
+==================
+
+*La señal "clicked"*
+=====================
+
+void retrollamada (GtkButton *button,
+gpointer user_data);        (106)
+
+Descripción: Esta señal se emite cuando se ha activado el botón. Lo anterior implica dos eventos: el usuario presiona el botón y lo libera (button-press-event y button-release-event).
+Lo anterior es importante debido a la confusión que ocasiona la sutil diferencia entre señales y eventos (Consulte el capítulo 3.4, Teoría de señales y retrollamadas). Como condición para emitir la señal "clicked", el usuario debe presionar el botón y al liberarlo el cursor del ratón debe permanecer en el botón.
+
+Parámetros:
+
+* button : La instancia de GtkButton que recibe la señal.
+* user_data : Datos extras que se registran cuando se conecta la señal a esta
+retrollamada.
+
+*Ejemplos*
+==========
+
+El primer ejemplo tendrá como objetivo mostrar el producto de los 4 constructores de clase de
+GtkButton.
+
+(Listado de Programa 3.9.1)
+
+El programa anterior crea una ventana y una caja vertical donde se insertan cuatro botones (cada uno instanciado con un constructor de clase diferente).
+
+(Figura 3.9.4: Cuatro botones creados con cuatro constructores diferente. Ponga atención en el último botón de ambas ventanas)   (109)
+
+En la Figura 3.6.10 se muestra el resultado de nuestro programa. Recordemos que GTK+ es una
+librería que soporta varios idiomas. Cuando el entorno GNOME o GTK+ están configurados para el
+idioma inglés (por ejemplo), los elementos predeterminados del último botón se traducen
+automáticamente, de ahí la importancia de usar elementos predeterminados (stock items), cada vez que se tenga la oportunidad.
+El segundo ejemplo se vuelve un poco mas complicado pues se comienza a usar las retrollamadas.
+En este caso hacemos uso de la señal "clicked" para implementar una pequeña máquina de estados
+que nos ayude a mostrar el efecto de los diferentes métodos de clase de GtkButton.
+
+(Listado de Programa 3.9.2) (109-11)
+
+Comencemos por la estructura de la aplicación: En una ventana se inserta una caja vertical, una etiqueta y un botón. Para mejorar la presentación visual de la aplicación (algo muy importante), los mensajes que se usen en la etiqueta usarán el lenguaje de marcado de Pango. Debido al comportamiento de la caja vertical (que intentará cambiar el tamaño de los widgets), se ha usado gtk_widget_set_size_request() en el botón y la etiqueta para fijar el tamaño de ambos. Como ha sido usual hasta ahora se conecta el evento "delete-event" de la ventana principalcon la función gtk_main_quit(), esto ocasiona que cuando se presione el botón de cerrar en la ventana el programa termine.
+
+En este ejemplo hemos hecho uso de la señal "clicked". Esta señal se conectó a la función
+retrollamada(). Cuando el usuario presione el botón se llamará a esta función. Por primera vez
+hemos usado el último parámetro de la función g_signal_connect(). Casi siempre hemos
+utilizado la macro NULL en este espacio, indicándole a glib que no deseamos enviar ningún
+parámetro extra a la función retrollamada(), como fue en el caso de gtk_main_quit() la
+cual no toma parámetros. Ahora haremos uso de ese espacio enviándole el puntero de la etiqueta que usamos en la ventana a la función retrollamada(): Cada vez que esta función se ejecute
+tendremos disponible una referencia al botón y a la etiqueta sin la necesidad de usar variables globales, pues estas están dentro de main() y no son visibles desde dentro de la función. Dentro de la función retrollamada() se ha implementado una pequeña maquina de estados: cada vez que presionemos el botón este cambiará de aspecto usando los métodos de clase que hemos discutido aquí. Al iniciar la aplicación, esta tendrá un aspecto parecido al de la Figura 3.9.5.
+
+(Figura 3.9.5: La primera forma del botón. Aun no entramos en la función retrollamada()) (102)
+
+Cuando se presiona el botón se llama a la función retrollamada(). La máquina de estados reconoce que es la primera vez que se entra a la función (el contador es 0), así que cambia el
+mensaje que despliega la etiqueta y usa el método gtk_button_set_label() el cual, en este
+específico caso, inserta una etiqueta en el botón con un mensaje(Figura 3.9.6)
+
+(Figura 3.9.6: Segunda fase de nuestro programa. La maquina de estado ha modificado la aplicación.)   (113)
+
+En el siguiente estado de la máquina (cuando el contador es 1) se activará la propiedad "use-underline" mediante el método gtk_button_set_use_underline().
+
+(Figura 3.9.7: La máquina de estados ha modificado de nuevo la aplicación)
+
+Cuando el contador llega a 2, la maquina de estados insertará un elemento predeterminado, lo
+cual implica establecer la propiedad "use-stock" a TRUE utilizando
+gtk_button_set_use_underline(). Vea la siguiente figura.
