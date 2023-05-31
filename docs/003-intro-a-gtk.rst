@@ -566,6 +566,7 @@ GtkWidget *widget); (78)
 Descripción: Acomoda un *widget* en una caja. Los *widgets* hijos se irán acomodando de arriba a abajo en una caja vertical, mientras que serán acomodados de izquierda a derecha en una caja
 horizontal.
 Parámetros:
+
 * box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
 referencias de cajas verticales y horizontales al tipo adecuado.
 * widget : El *widget* que será empacado.
@@ -578,6 +579,7 @@ arriba en una caja vertical, mientras que serán acomodados de derecha a izquier
 horizontal
 
 Parámetros:
+
 * box : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
 referencias de cajas verticales y horizontales al tipo adecuado.
 * widget : El *widget* que será empacado.
