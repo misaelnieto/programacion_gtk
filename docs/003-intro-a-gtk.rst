@@ -1325,8 +1325,171 @@ específico caso, inserta una etiqueta en el botón con un mensaje(Figura 3.9.6)
 
 En el siguiente estado de la máquina (cuando el contador es 1) se activará la propiedad "use-underline" mediante el método gtk_button_set_use_underline().
 
-(Figura 3.9.7: La máquina de estados ha modificado de nuevo la aplicación)
+(Figura 3.9.7: La máquina de estados ha modificado de nuevo la aplicación)  (113)
 
 Cuando el contador llega a 2, la maquina de estados insertará un elemento predeterminado, lo
 cual implica establecer la propiedad "use-stock" a TRUE utilizando
 gtk_button_set_use_underline(). Vea la siguiente figura.
+
+(Figura 3.9.8: Penúltimo estado de la aplicación)  (114)
+
+Por último, presionando el botón se termina la aplicación.
+En este último ejemplo nosotros hemos aprendido a utilizar los diferentes métodos de clase de
+GtkButton. También hemos aprendido a usar la señal clicked e implementar acciones con ella.
+Por último hemos aprendido una lección importante: las interfases gráficas diseñadas con GTK+ no son estáticas, si no dinámicas y pueden cambiar dependiendo de las necesidades de la aplicación y del usuario.
+
+Cajas de texto
+---------------
+
+(Figura 3.10.1: Widget de entrada de texto)  (114)
+
+GtkEntry es un widget de entrada de texto. Puede almacenar sólo una cantidad limitada de
+información debido a que sólo despliega una linea de texto. Si el texto que se introduce es más largo del que se puede mostrar, entonces el contenido de la caja de texto se irá desplazando de tal manera que se pueda visualizar lo que se esta escribiendo.
+
+La mayoría de los atajos del teclado, comunes en cualquier aplicación, se encuentran disponibles (ver la Tabla 6). Además de lo anterior también soporta arrastrar y soltar(drag & drop). Con la integración de Pango como componente base de GTK+, todos los objetos de texto de GTK+ tienen la posibilidad de desplegar textos en otros alfabetos diferentes y soportar métodos de escritura diferentes al nuestro (por ejemplo, chino, hindú o ruso).
+
+(115 tabla)
+
+
+
+(Figura 3.10.2: Menú contextual de GtkEntry.)  (116)
+
+Constructor de clase
+=====================
+
+(Ilustración 1: Diagrama de herencia de GtkEntry)  (116)
+
+Sólo existe un constructor de clase. En las primeras versiones de GTK+ existieron 2 constructores, sin embargo uno de ellos ha caído en desuso.
+
+GtkWidget* gtk_entry_new (void);  (116)
+
+Descripción: Crea una nueva instancia de una caja de texto GtkEntry.
+
+Valor de retorno: una nueva instancia de GtkEntry.
+
+*Métodos de clase*
+==================
+
+Algunos de los métodos de clase, anteriormente disponibles para GtkEntry, ahora han caído en
+desuso en favor de la interfaz GtkEditable. Esta interfaz provee funcionalidad muy similar para todos los widgets de texto (no solamente GtkEntry). En este capítulo solamente discutiremos los métodos de clase propios de GtkEntry.
+void gtk_entry_set_text (GtkEntry *entry,
+const gchar *text);  (177)
+
+Descripción: Establece el contenido de la caja de texto. Reemplaza cualquier contenido anterior.
+
+Parámetros:
+
+* entry : Una instancia de GtkEntry.
+* text : Un puntero a una cadena que contiene el texto que desplegara la caja de texto.
+Si especifica NULL equivale a limpiar la caja de texto.
+
+Valor de retorno: Un puntero a una cadena con el contenido de la caja de texto. La instancia de GtkEntry es dueña de la cadena y por tanto la esta no debe ser modificada.
+
+const gchar* gtk_entry_get_text (GtkEntry *entry);   (117)
+
+Descripción: Devuelve el contenido de la caja de texto.
+
+Parámetros:
+
+* entry : Una instancia de GtkEntry.
+
+Valor de retorno: Un puntero a una cadena con el contenido de la caja de texto. La instancia de GtkEntry es dueña de la cadena y por tanto la esta no debe ser modificada.
+
+void gtk_entry_set_visibility (GtkEntry *entry,
+gboolean visible);      (117)
+
+Algunos de los métodos de clase, anteriormente disponibles para GtkEntry, ahora han caído en
+desuso en favor de la interfaz GtkEditable. Esta interfaz provee funcionalidad muy similar para todos los widgets de texto (no solamente GtkEntry). En este capítulo solamente discutiremos los métodos de clase propios de GtkEntry.
+
+void gtk_entry_set_text (GtkEntry *entry,
+const gchar *text);  (117)
+
+Descripción: Establece el contenido de la caja de texto. Reemplaza cualquier contenido anterior.
+
+Parámetros:
+
+* entry : Una instancia de GtkEntry.
+* text : Un puntero a una cadena que contiene el texto que desplegara la caja de texto.
+Si especifica NULL equivale a limpiar la caja de texto.
+
+Valor de retorno: Un puntero a una cadena con el contenido de la caja de texto. La instancia de GtkEntry es dueña de la cadena y por tanto la esta no debe ser modificada.
+
+const gchar* gtk_entry_get_text (GtkEntry *entry);  (118)
+
+Descripción: Devuelve el contenido de la caja de texto.
+
+Parámetros:
+
+* entry : Una instancia de GtkEntry.
+
+Valor de retorno: Un puntero a una cadena con el contenido de la caja de texto. La instancia de GtkEntry es dueña de la cadena y por tanto la esta no debe ser modificada.
+
+void gtk_entry_set_visibility (GtkEntry *entry,
+gboolean visible);   (118)
+
+Parámetros:
+
+* entry: Una instancia de GtkEntry.
+
+Valor de retorno: Regresa el número máximo de caracteres . Si es 0 entonces no hay un límite
+más allá que el valor máximo de gint.
+
+*Señales.*
+==========
+
+GtkEntry tiene una lista de 10 señales diferentes.
+
+Una discusión detallada de las 10 señales diferentes seria una tarea larga. En lugar de hacer una lista detallada aprovecharemos una característica útil de GTK+: cada señal define el tipo de retrollamada que quiere usar. Afortunadamente la mayoría de las señales no necesitan retrollamadas complejas y utilizan el mismo prototipo. Este es el caso de cinco señales de más usuales de GtkEntry. En la Tabla 7 hacemos una relación de esas 5 señales y su descripción.
+Todas esta señales usan el mismo prototipo de función retrollamada el cual resulta ser muy
+parecido al de la señal "clicked" de GtkButton. El prototipo genérico es:
+
+void funcion_retrollamada ( GtkWidget *widget, gpointer datos);   (119)
+
+Aunque es común encontrarlo en esta forma:
+
+void funcion_retrollamada ( GtkEntry *entry, gpointer datos);      (119)
+
+La diferencia entre ambas es que si usamos la primera podemos conectar esa retrollamada a casi
+cualquier señal de cualquier widget. La segunda tiene la ventaja de habernos hecho el moldeado del widget a GtkEntry. Su desventaja radica en que solo puede ser usada para las señales emitidas por GtkEntry.
+
+
+(Tabla 120)
+
+La decisión de usar una u otra forma la toma el programador de acuerdo a su conveniencia.
+
+*Ejemplos*
+=========
+
+Ha llegado el tiempo de mostrar lo que podemos hacer con GtkEntry. El primer ejemplo
+mostrará como conectar una sola retrollamada a las 6 señales descritas en la Tabla 7 y a un botón.
+
+(Listado de Programa 3.10.1)
+
+La estructura de la aplicación es una ventana con una etiqueta, una caja de texto y un botón
+(obviando la caja vertical donde se empacaron todos los widgets).
+Preste atención al arreglo de cadenas signals. Cuando llega el momento de conectar todas las
+señales de GtkEntry, se hace mediante un ciclo (for ...) enviando como datos extras el índice
+del ciclo. Usamos la macro de conversión de tipos GINT_TO_POINTER() para empacar el índice en el puntero (Ver la sección 2.2.6). También se hace lo mismo cuando se conecta la señal de GtkButton.
+
+(Figura 3.10.3: El primer ejemplo de GtkEntry)    (122)
+
+Cuando ambos widgets generen alguna señal esta será atendida en la función retrollamada
+callback(). El primer parámetro de esta función no nos sirve de mucho en esta ocasión. El segundo parámetro es de más utilidad pues ahí viene empacado un número que indica quien generó la señal y qué señal fue. Un par de lineas de condiciones nos permitirán imprimir esa información a la consola.
+
+El siguiente ejemplo mostrará como usar GtkEntry para crear un diálogo de autenticación de
+usuarios.
+
+(Listado de Programa 3.10.2)  (123-4)
+
+Comencemos por la estructura de la aplicación. Una ventana contiene ahora una tabla con tres
+filas y dos columnas. En la primera fila, ocupando ambas columnas se encuentra una etiqueta con un mensaje de bienvenida. La primera columna de las filas restantes contienen sendas etiquetas especificando el tipo de información que se requiere. La segunda columna de las filas 2 y 3 contienen dos cajas de texto diferentes. La primera caja de texto (segunda columna) alojará el nombre de usuario mientras que la ultima caja servirá para escribir la contraseña.
+
+Comencemos por la estructura de la aplicación. Una ventana contiene ahora una tabla con tres
+filas y dos columnas. En la primera fila, ocupando ambas columnas se encuentra una etiqueta con un mensaje de bienvenida. La primera columna de las filas restantes contienen sendas etiquetas especificando el tipo de información que se requiere. La segunda columna de las filas 2 y 3 contienen dos cajas de texto diferentes. La primera caja de texto (segunda columna) alojará el nombre de usuario mientras que la ultima caja servirá para escribir la contraseña
+
+(Figura 3.10.4: Diagrama de secuencias)   (125)
+
+Las Figura 3.10.5 muestra el aspecto de la aplicación.
+
+(Figura 3.10.5: Autenticación sencilla de un usuario.)  (125)
+
