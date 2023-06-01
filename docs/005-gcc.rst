@@ -1,1 +1,485 @@
+ANEXO 4.6.1.1 : El COMPILADOR GCC
+---------------------------------
 
+Introducción.
+=============
+
+Esta es una revisión rápida de los comandos necesarios para hacer funcionar el compilador de GNU C, el cual es de libre distribución y prácticamente se le puede encontrar en cualquier maquina Linux. GCC significa “GNU Compiler Collection”. Esto significa que la suite de compilación GCC no
+solamente ofrece soporte para el lenguaje C, si no que además contiene soporte para Java, C++, Ada, Objective C y Fortran.
+
+Sintaxis.
+=========
+
+El compilador GNU C es una herramienta de línea de comandos y puede aceptar gran cantidad de
+instrucciones que le indican la manera de comportarse. La lista de todas las opciones, modificadores y
+conmutadores es muy extensa, sin embargo todas obedecen simples reglas.
+* La sinopsis de uso de gcc es:
+
+gcc [ opciones | archivos ] ...           (anexo 177)
+
+* Las opciones generalmente van precedidas de un guión (estilo UNIX), o un doble guión (estilo
+GNU). Las opciones estilo UNIX pueden agruparse y constar de varias letras; Las opciones
+estilo GNU deberán indicarse por separado , en forma de una palabra completa.
+* Algunas opciones requerirán de algún parámetro como un número, un directorio,un archivo,
+una cadena o una frase.
+* La orden gcc se puede utilizar indistintamente, no importando el lenguaje usado: Apegándose
+a unas sencillas reglas, el compilador será capaz de determinar la acción a ejecutar dependiendo
+de la extensión de los archivos
+* Finalmente, todo lo que no se reconozca como parámetro u opción, será tratado como archivo y,
+dependiendo de su extensión, éste será procesado como código fuente o código objeto
+
+(Tabla 178)
+
+Ejemplos
+Compila el programa hola.c y genera un archivo ejecutable que se llame a.out:
+
+gcc hola.c (178)
+Compila el programa hola.c y genera un archivo ejecutable que se llame hola:
+
+gcc -o hola hola.c
+
+Compila el programa hola.cpp y genera un archivo ejecutable que se llame hola:
+
+gcc -o hola hola.cpp
+
+Los siguientes tres ejemplos compilan el programa hola.c y hola.cpp En este caso ninguno
+de los tres ejemplos generarán un ejecutable, si no solo el código objeto (hola.o):
+
+gcc -c hola.c
+gcc -c hola.c -o hola.o
+gcc -c hola.cpp
+
+Generar el ejecutable hola en el directorio bin, dentro del directorio propio del usuario:
+
+gcc -o ~/bin/hola hola.c
+
+Compilar el programa quetal.c, pero ahora indicarle a GCC dónde buscar las bibliotecas que
+usa quetal.c. Usaremos la opción -L; podemos repetirla cuantas veces necesitemos para indicar
+todos los directorios de librerías que necesitemos. El orden de búsqueda de las librerías es el mismo orden en el que se especificaron en la linea de comandos.
+
+gcc -L /lib -L/usr/lib -L~/Librerias -L/opt/ProgramaX/lib quetal.cpp
+
+Ahora usaremos -I para indicarle a GCC dónde buscar archivos de cabecera (.h):
+
+gcc -I/usr/include/gtk-2.0 -I/opt/ProgramaX/include comoves.c
+
+Aunque pueda parecer que GCC es un gran programa que lo hace todo, en realidad es una
+colección de herramientas pequeñas que hacen una cosa a la vez.
+GCC tiene un compilador para cada lenguaje, así si GCC detecta que se desea procesar un
+programa escrito en C, llamará al compilador de C (gcc), pero si es un programa escrito en C++,
+llamará al compilador de C++ (g++), y así de manera consecutiva.
+El proceso de compilación comprende fases bien definidas. Cuando GCC es invocado,
+generalmente hace el 1) pre-procesamiento, 2)compilación, 3)ensamblaje y ligado y por último entrega
+como resultado final un archivo ejecutable.
+Una miríada de opciones nos permiten tomar control de cada paso del proceso, por ejemplo, el
+interruptor -c omite proceso de ligado y entrega solamente el código objeto del programa.
+Algunas opciones se pasan directamente a alguna de las fases de construcción, algunas otras
+controlan el pre-procesamiento, otras controlan al ligador o al ensamblador y otras controlan al mismo compilador.
+
+La orden gcc acepta opciones y nombres de archivos como operando. Muchas opciones son
+operandos de varias letras, así, no es lo mismo especificar la opción -ab que las opciones -a -b.
+Salvo los anteriores casos, la mayoría de las veces no importa el orden en que se dan los
+argumentos.
+Como ya hemos dicho el proceso de compilación tiene cuatro fases: pre-procesamiento,
+compilación, ensamblaje y ligado. Todas ellas siempre en el mismo orden.
+Las primeras tres de ellas trabajan con un solo archivo de código fuente y terminan produciendo
+un archivo objeto.
+El proceso de ligado consiste en combinar a todos los archivos objeto generados, (incluyendo a los
+que se le han pasado por la linea de comando), resuelve las referencias entre ellos y entrega un archivo
+ejecutable (código de maquina).
+Las opciones más comunes del compilador GCC son:
+
+-c  (anexo  180)
+
+Compila, ensambla, pero no liga. Como resultado obtenemos un archivo objeto por cada
+archivo de código fuente. Generalmente se les asigna una extensión .o
+
+-S
+Compila pero no ensambla. Se entrega un archivo en ensamblador por cada archivo de código
+fuente. A los resultados de la salida se les asigna la extensión: .S
+
+'-E'
+Sólo realiza la etapa de preproceso. La salida estará en formato del código fuente, procesado
+con respectivo compilador.
+
+-o archivo
+Se puede especificar el nombre del archivo de salida que generará el compilador. Esto aplica a
+cualquier forma de salida que se le esté instruyendo al compilador, ya sea, sólo ensamblar,
+compilar, ligar o todos.
+
+-Iruta
+
+Especifica la ruta hacia el directorio donde se encuentran los archivos marcados para incluir el
+programa fuente. No debe llevar espacio entre la I y la ruta, así: -I/usr/include.
+
+-L
+
+Especifica una ruta hacia el directorio donde se encuentran los archivos de biblioteca con el
+código objeto de las funciones que se usan en el programa. No lleva espacio entre la L y la ruta,
+así: -L/usr/lib
+
+-Wall
+
+Muestra todos los mensajes del compilador(advertencias y errores).
+
+-g    (anexo 180)
+
+Incluirá en el programa generado, la información necesaria para poder rastrear posibles errores
+en un programa usando un depurador, tal como GDB (GNU Debugger).
+
+-v
+
+Muestra los comandos ejecutados en cada etapa de compilación , así como la versión del
+compilador. Es un informe muy detallado.
+
+Etapas de compilación.
+======================
+
+El proceso de compilación involucra cuatro etapas sucesivas: Pre-procesamiento, compilación,
+ensamblaje y enlazado. El proceso de conversión de creación de un programa a partir del código fuente exige la ejecución de estas cuatro etapas en forma sucesiva. Los comandos gcc y g++ son capaces de realizar todo el proceso de una sola vez.
+
+Preprocesamiento.
+=================
+
+En esta etapa se interpretan las directivas del preprocesador. Entre otras cosas las constantes y macros
+definidas con #define son sustituidas por su valor en todos los lugares donde aparece su nombre.
+Usemos como ejemplo este sencillo programa en C.
+
+/* Circulo.c: calcula el área de un círculo.
+Ejemplo que muestra las etapas de compilación de GCC
+*/
+#include <stdio.h>
+# define PI 3.1415926535897932384626433832795029L /* pi */
+main()
+{
+float area, radio;
+radio = 10;
+area = PI * (radio * radio);
+printf("Circulo.\n");
+printf("%s%f\n\n", "Area de circulo radio 10: ", area);
+return(0);
+}
+
+El preprocesado puede pedirse llamando directamente al preprocesador (con la orden cpp), o
+haciéndolo mediante GCC (con la orden gcc). Los siguientes dos comandos producen una archivo de
+salida idéntico.
+
+$ cpp circulo.c > circulo.i
+$ gcc -E circulo.c > circulo.i
+
+Si examinamos circulo.pp (observe la extensión y compare con la tabla ), podremos observar
+que la constante PI ha sido substituida por su valor en todos los lugar donde se hacia referencia a ella.
+
+Compilación
+===========
+
+El proceso de compilación transforma el código fuente preprocesado en lenguaje ensamblador, propio
+para el procesador en el que será usado el programa (típicamente nuestra propia maquina). Por
+ejemplo..
+
+$ gcc -S circulo.c
+
+... realiza las primeras dos etapas y crea el archivo circulo.s, si lo examinamos encontraremos
+código en lenguaje ensamblador.
+
+Ensamblado
+==========
+
+El ensamblaje de nuestra aplicación es el penúltimo paso, transforma el archivo circulo.s o
+cualquier otro código en ensamblador en lenguaje binario ejecutable por la máquina. El ensamblador de GCC es as, he aquí un ejemplo:
+
+$ as -o circulo.o circulo.s
+
+as creará el archivo en código de máquina o código objeto (circulo.o) a partir de un código
+en ensamblador (circulo.s).
+Es muy infrecuente utilizar ensamblado, preprocesado o compilación por separado, lo usual es
+realizar todas las etapas anteriores hasta obtener el código objeto:
+
+$ gcc -c circulo.c
+
+El anterior comando producirá el código objeto y lo guardará en el archivo (circulo.o).
+A diferencia de las etapas anteriores, en programas muy extensos, donde el programa final se debe partir en diferentes módulos, la práctica común es usar gcc o g++ con la opción -c para compilar cada archivo de código fuente por separado y luego unirlos o enlazarlos para formar el programa final.
+
+Enlazado.
+=========
+
+Las funciones de C/C++ incluidas en cualquier programa(printf, por ejemplo), se encuentran ya
+compiladas y ensambladas en las bibliotecas existentes en el sistema. Es necesario incorporar de algún modo el código binario de estas funciones a nuestro programa ejecutable. En esto consiste la etapa de enlace, donde se reúnen uno o más códigos objeto con el código existente en las bibliotecas del sistema.
+El enlazador de GCC es la orden ld. A continuación un ejemplo:
+
+$ ld -o circulo circulo.o -lc
+ld: warning: cannot find entry symbol _start; defaulting to 08048184
+El error anterior se debe a la falta de referencias, pues el enlazador no sabe a dónde debe buscar
+las funciones que el módulo circulo.c esta usando. Para que esto funcione y obtengamos un
+ejecutable debería ejecutarse una orden como la que sigue:
+$ ld -o circulo /usr/lib/gcc-lib/i386-linux/2.95.2/collect2 -m
+elf_i386 -dynamic-linker /lib/ld-linux.so.2 -o circulo
+/usr/lib/crt1.o /usr/lib/crti.o /usr/lib/gcc-lib/i386-
+linux/2.95.2/crtbegin.o -L/usr/lib/gcc-lib/i386-linux/2.95.2
+circulo.o -lgcc -lc -lgcc /usr/lib/gcc-lib/i386-linux/2.95.2/crtend.o
+/usr/lib/crtn.o
+
+Esto es incómodo, es por eso que GCC puede ahorrarnos mucho trabajo si le pasamos el nombre
+del código objeto (o los nombres) que queremos convertir en ejecutable:
+
+$ gcc -o circulo circulo.o
+
+Creará el programa ejecutable de una manera sencilla y en un sólo paso.
+En un programa con un sólo archivo fuente, todo el proceso puede hacerse de una vez por todas:
+
+$ gcc -o circulo circulo.c
+
+A manera de aprendizaje podríamos activar el interruptor -v de GCC que nos mostrará aspectos
+del proceso de compilación que normalmente quedan ocultos. Recibiremos un informe detallado de
+todos los pasos de compilación.
+
+Enlace dinámico y estático.
+===========================
+
+Existen dos modos de realizar un enlace:
+
+* Estático: Los binarios de las funciones se incorporan al código de nuestra aplicación.
+* Dinámico: El código de las funciones permanece en las bibliotecas del sistema, nuestra
+aplicación cargará en memoria la librería necesaria y obtendrá de ella las funciones que requiere para trabajar.
+
+Confrontemos ambos alcances:
+
+(Tabla anexo 185)
+
+Como podemos ver, la versión estática del programa no muestra dependencia alguna con las
+librerías del sistema.
+
+Resumen
+=======
+
+Si desea producir un ejecutable a partir de un solo archivo de código fuente:
+
+$ gcc -o circulo circulo.c
+
+Para crear un módulo objeto, con el mismo nombre del archivo de código fuente y extensión .o:
+
+$ gcc -c circulo.c
+8 El tamaño de ambos ejecutables varía dependiendo del Sistema Operativo, el compilador, las librerías.
+
+Para enlazar los módulos verde.o, azul.o y rojo.o en un ejecutable llamador colores:
+
+$ gcc -o colores verde.o azul.o rojo
+
+ANEXO 4.6.1.2 : MAKE
+--------------------
+
+Introducción.
+=============
+
+Cuando nuestros programas son sencillos (1 archivo de código fuente), el compilar es un proceso
+rápido, basta con usar gcc:
+
+$ gcc -o ejemplo ejemplo.c
+
+Sin embargo, si tenemos más de un archivo, la compilación sería más compleja:
+
+$ gcc -c modulo1.c
+$ gcc -c modulo2.c
+$ gcc -o programa modulo1.o modulo2.o
+Conforme crezca la complejidad de nuestro proyecto así crecerá la dificultad de crear algún
+entregable tal como una librería o un programa ejecutable.
+
+La herramienta make
+===================
+
+Según se indica en el manual de make, el propósito de esta utilidad es determinar automáticamente quémpiezas de un programa necesitan ser recompiladas y, de acuerdo a un conjunto de reglas, lleva a cabo las tareas necesarias para alcanzar el objetivo definido el cual normalmente es un programa ejecutable.
+make agiliza el proceso de construcción de proyectos con cientos de archivos de código fuente
+separados en diferentes directorios. De esta forma y con las configuraciones adecuadas, make compila y enlaza todos los programas. Si alguno de los archivos de código fuente sufre alguna modificación sólo será reconstruido aquel módulo de cuyos componentes haya cambiado. Por supuesto es necesario indicarle a make que módulos u objetivos dependen de qué archivos, este listado se concentra en el archivo Makefile.
+
+El formato del archivo Makefile
+================================
+
+Un archivo Makefile es un archivo de texto en el cual se distinguen cuatro tipos básicos de
+declaraciones
+
+* Comentarios.
+* Variables.
+* Reglas explícitas
+* Reglas implícitas.
+
+Comentarios.
+============
+
+Al igual que en cualquier lenguaje de programación, los comentarios en los archivos Makefile
+contribuyen a un mejor entendimiento de las reglas definidas en el archivo. Los comentarios se iniciancon el carácter # y se ignora todo lo que viene después de este carácter hasta el final de línea. Ejemplo: # Este es un comentario.
+
+Variables.
+==========
+
+Las variables en un Makefile no están tipeadas (es decir, no es necesario declarar previamente el tipo de valor irán a almacenar), en cambio todas son tratadas como cadenas de texto. Las variables que no están declaradas simplemente se tratan como si no existieran (por ejemplo son cero, o son una cadena vacía).
+La asignación de valores a una variable se hace de una manera sencilla:
+
+nombre = dato  (anexo  188)
+
+De esta forma se simplifica el uso de los archivos Makefile. Para obtener el valor de una
+variable deberemos encerrar el nombre de la variable entre paréntesis y anteponer el carácter $. En el caso anterior, todas las instancias de $(nombre) serán reemplazadas por dato. Por ejemplo, la
+
+siguiente regla:
+================
+
+SRC = main.c
+
+Origina la siguiente línea:
+
+gcc $(SRC)
+
+Y será interpretada como:
+
+$ gcc main.c
+
+Sin embargo, una variable puede contener más de un elemento, por ejemplo:
+
+objects = modulo_1.o modulo_2.o \
+modulo_3.o \
+modulo_4.o
+programa : $(objects)
+gcc -o programa $(objects)
+
+Debemos hacer notar que la utilidad make hace distinción entre mayúsculas y minúsculas.
+Reglas explícitas. Las reglas explícitas le dictan a make qué archivos dependen de otros y los comandos a usar para lograr un objetivo en específico. El formato es:
+
+objetivo: requisitos
+comando #para lograr el objetivo
+
+Esta regla le instruye a make como crear un objetivo a partir de los requisitos utilizando un
+comando específico. Por ejemplo, para generar un ejecutable que se llame main, escribiremos algo por el estilo:
+
+main: main.c main.h
+gcc -o main main.c main.h
+
+Esto significa que el requisito para poder lograr el objetivo main(un programa), es que existan los archivos main.c y main.h y para lograr el objetivo deberemos utilizar gcc en la forma descrita.
+
+Reglas implícitas.
+==================
+
+La reglas implícitas confían a make el trabajo de adivinar qué tipo de archivo queremos procesar (para ello utiliza las extensiones o sufijos del o los archivos). Las reglas implícitas ahorran el trabajo de tener que indicar qué comandos hay que ejecutar para lograr el objetivo, pues esto se infiere a partir de la extensión del archivo a procesar. Por ejemplo:
+
+funciones.o : funcion1.c funcion1.c
+
+origina la siguiente linea:
+
+$(CC) $(CFLAGS) -c funcion1.c funcion2.c
+
+Existe un conjunto de variables que ya están predefinidas y se utilizan para las reglas implícitas. De ellas existen dos categorías: (a) aquellas que son nombres de programas (como CC, que invoca al compilador de C), y (b) aquellas que contienen los argumentos para los programas invocados (como CFLAGS, que contiene las opciones que se le pasarán al compilador de C). Todas estas variables ya son provistas y contienen valores predeterminados , sin embargo, pueden ser modificados como se muestra a continuación:
+
+CC = gcc
+CFLAGS = -g -Wal
+
+En el primer caso se indicará que el compilador de C será GNU GCC y el segundo caso activará
+todo tipo de avisos del compilador y compilará una versión para depurado.
+
+Un ejemplo de un archivo Makefile.
+==================================
+
+A continuación se muestra el ejemplo de un archivo Makefile completo donde se incluyen todos los tipos de declaraciones. En este ejemplo se utiliza la utilidad make para ayudar a la compilación de los módulos funciones.c y main.c para crear un ejecutable llamado mi_programa.
+
+# La siguiente regla implicita instruye a make en como
+# procesar los archivos con extensión .c y .o
+.c.o:
+$(CC) -c $(CFLAGS) $<
+# Definición de variables globales.
+CC = gcc
+CFLAGS = -g -Wall -O2
+SRC = main.c funciones.c funciones.h
+OBJ = main.o funciones.o
+# La regla explicita all indica a make como
+# procesar todo el proyecto.
+all: $(OBJ)
+$(CC) $(CFLAGS) -o main $(OBJ)
+# Esta regla indica como limpiar el proyecto de
+# archivos temporales.
+clean:
+$(RM) $(OBJ) main
+# Reglas implícitas
+funciones.o: funciones.c \
+funciones.h
+main.o: main.c \
+funciones.h
+
+En este archivo Makefile se han definido dos reglas explícitas que indican como construir los
+objetivos all y clean. Para llevar a cabo alguno de los dos objetivos basta ejecutar:
+
+$ make
+
+... lo cual ejecutará la primera regla que encuentra, es decir all, la cual compilará los programas definidos en la variable $(OBJECT). Si se desea que se ejecuten las tareas de la regla clean, se deberá ejecutar:
+
+$ make clean
+
+El archivo funciones.h contiene el prototipo de las funciones de las funciones empleadas en
+el programa main.c y estas, a su vez, se encuentran implementadas en funciones.c. De esta
+manera, es posible separar en distintos módulos las funciones, objetos, métodos, definiciones y
+variables que necesitemos en un proyecto determinado.
+
+Definiendo nuevas reglas.
+=========================
+
+make tiene definido un conjunto de reglas básicas para convertir archivos, típicamente los archivos cuyas extensiones pertenecen a los lenguajes más conocidos como C, C++, Java, Fortran, entre otros.
+También es posible crear reglas propias para formatos de archivos que no necesariamente han de
+crear un programa ejecutable.
+Por ejemplo, se puede mantener un conjunto de documentos, cuyo fuente se encuentran en
+formato .lyx y que se desea convertir a otros formatos como PDF, TeX, Postcript, etc y cuyos sufijos
+son desconocidos por make.
+A continuación se describe cómo añadir nuevas reglas con GNU make, el cual puede diferir con
+versiones antiguas de make. Por compatibilidad, más adelante se explica cómo definirlo de la antigua
+forma, que GNU también puede interpretar.
+La forma de definir una regla que permita convertir un archivos PostScript en formato PDF sería
+de la siguiente manera:
+
+%.pdf: %.ps
+ps2pdf $<
+
+Se ha indicado que los archivos cuya extensión son .pdf dependen de los archivos .ps, y que se
+generan utilizando el programa indicado en la linea siguiente(ps2pdf). El parámetro de entrada para el programa será el nombre del archivo con extensión .ps. Sólo falta indicar la regla que archivos se irán a convertir, por ejemplo:
+
+all: documento1.pdf documento2.pdf
+
+De esta forma, el objetivo de make será construir all, para lo cual debe construir
+documento1.pdf y documento2.pdf. Para lograr este objetivo, make buscará los archivos
+documento1.ps y documento2.ps, lo cual se traducirá en los siguientes comandos:
+
+ps2pdf documento1.ps
+ps2pdf documento2.ps
+
+Mejorando los Makefiles con variables automáticas.
+==================================================
+
+Existen algunas variables automáticas que permiten escribir los archivos Makefile de una forma
+genérica, así, si se requiere modificar el nombre de un archivo o regla que entonces sólo sea necesario realizar los cambios en un solo lugar, o en la menor cantidad de lugares posibles y así evitar errores.
+
+Las variables automáticas más empleadas son:
+
+* $ < El nombre del primer requisito.
+* $* En la definición de una regla implícita tiene el valor correspondiente al texto que
+reemplazará el símbolo %.
+* $? Es el nombre de todos los prerequisitos.
+* $@ Es el nombre del archivo del objetivo de la regla.
+
+%.pdf : %.ps
+ps2pdf $ <
+%.zip: %.pdf
+echo $*.zip $<
+PDF = documento1.pdf documento2.pdf
+ZIP = documento1.zip documento2.zip
+pdf: $(PDF)
+tar -zcvf $@.tar.gz $?
+zip: $(ZIP)
+clean:
+rm -f *.pdf *.tar
+
+En el ejemplo, se han definido dos reglas implícitas. La primer indica cómo convertir un archivo PostScript a PDF y la segunda dice cómo comprimir un archivo pdf en formato ZIP. También se han definido cuatro reglas, dos de ellas son implícitas (pdf y zip), donde sólo se han indicado sus requisitos de las otras dos (paquete y clean) son explícitas.
+Cuando se ejecute la regla paquete, make analizará las dependencias, es decir, verificará si existen los correspondientes archivos PDF, si no existieren, los construye para luego ejecutar el comando indicado en la regla. La variable $? será expandida a "documento1.pdf documento2.pdf" y la variable $@ será expandida a "paquete". De esta forma el comando a ejecutar será:
+
+tar -zcvf paquete.tar.gz documento1.pdf documento2.pdf
+
+En el caso de la regla zip, al resolver las dependencias se ejecutará:
+
+zip documento1.zip documento1.pdf
+zip documento2.zip documento2.pdf
+
+Es decir, el patrón buscado es documento1 y documento2, los cuales corresponden con la
+expresión %. Dicha operación se realizará para cada archivo .pdf.
