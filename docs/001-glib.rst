@@ -1486,34 +1486,22 @@ g_print ("=============================================================\n");
 return 0;
 }
 La tarea anteriormente expuesta parece difícil, pero los últimos mejoras del sistema operativo
-Linux hacen que nuestra tarea no sea titánica. FreeDesktop es un grupo de expertos en computación
-que se han reunido para establecer estándares de operación entre las diferentes versiones
-(distribuciones) de Linux.
+Linux hacen que nuestra tarea no sea titánica. FreeDesktop es un grupo de expertos en computación que se han reunido para establecer estándares de operación entre las diferentes versiones(distribuciones) de Linux.
 Una de esas especificaciones es HAL (Hardware Abstraction Layer). Una serie de utilerías en
 línea de comandos permiten acceder a detalles del hardware de manera sencilla.
 La lógica detrás de este ejemplo es la siguiente:
 La función llenar_lista() usa HAL para listar a todos los dispositivos de sonido que sean de
 captura. Lo anterior implica la ejecución del programa hal-find-by-property, lo cual queda a
 cargo de la función g_spawn_command_line_sync() que ejecuta la linea de comandos, descrita
-en una cadena, y entrega la salida del comando en otra cadena (mi_stdout). La salida del comando
-es una lista de los dispositivos de captura de audio disponibles en el sistema y están separados por
-caracteres de nueva línea. Es necesario entonces dividirlos en cadenas independientes.
+en una cadena, y entrega la salida del comando en otra cadena (mi_stdout). La salida del comando es una lista de los dispositivos de captura de audio disponibles en el sistema y están separados por caracteres de nueva línea. Es necesario entonces dividirlos en cadenas independientes.
 La función g_strsplit() parte la cadena mi_stdout en un arreglo de cadenas, las cuales
-contienen ya,
-el identificador de cada dispositivo separado de todos los demás. La función
+contienen ya, el identificador de cada dispositivo separado de todos los demás. La función
 g_strsplit() regresa una cadena extra vacía que podemos ignorar.
-52Después de haber separado nuestros identificadores en cadenas de texto individuales se procede a
-llenar la lista enlazada simple con estos valores. Una vez preparada la lista enlazada, se libera la
-memoria que ya no sirve y se regresa el puntero de la nueva lista, ya llena.
-Llega la hora de presentar resultados. El numero de dispositivos encontrados es ahora reportado
-mediante g_slist_lenght().
+Después de haber separado nuestros identificadores en cadenas de texto individuales se procede a llenar la lista enlazada simple con estos valores. Una vez preparada la lista enlazada, se libera la memoria que ya no sirve y se regresa el puntero de la nueva lista, ya llena.
+Llega la hora de presentar resultados. El numero de dispositivos encontrados es ahora reportado mediante g_slist_lenght().
 Ya hemos visto anteriormente como caminar a través de todos los elementos de la lista; hacemos
-lo mismo mediante imprimir_lista() que además de imprimir los identificadores de los dispositivos,
-utiliza g_spawn_command_line_sync() para investigar el dispositivo Linux correspondiente a
-cada dispositivo.
-Antes de poder liberar la memoria de la estructura de la lista enlazada simple, se debe recorrer y
-liberar la memoria de cada uno de los elementos de la lista en forma individual. Esto se hace fácilmente
-con la función limpiar_lista().
+lo mismo mediante imprimir_lista() que además de imprimir los identificadores de los dispositivos, utiliza g_spawn_command_line_sync() para investigar el dispositivo Linux correspondiente a cada dispositivo.
+Antes de poder liberar la memoria de la estructura de la lista enlazada simple, se debe recorrer y liberar la memoria de cada uno de los elementos de la lista en forma individual. Esto se hace fácilmente con la función limpiar_lista().
 El producto de nuestro programa se muestra a continuación.
 
 Figura 2.5.3: La lista de los dispositivos de captura de datos.
