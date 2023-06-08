@@ -47,14 +47,14 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'Programación de Interfaces Gráficas de Usuario con GTK+ 3'
-copyright = u'2013, Noe Misael Nieto Arroyo'
+copyright = u'2023, Noe Misael Nieto Arroyo'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-version = '0'
+version = '1'
 # The full version, including alpha/beta/rc tags.
 release = '1'
 
@@ -94,14 +94,14 @@ pygments_style = 'sphinx'
 #modindex_common_prefix = []
 
 # If true, keep warnings as "system message" paragraphs in the built documents.
-#keep_warnings = False
+keep_warnings = True
 
 
 # -- Options for HTML output ----------------------------------------------
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'default'
+html_theme = 'alabaster'
 
 # Theme options are theme-specific and customize the look and feel of a theme
 # further.  For a list of options available for each theme, see the
@@ -186,7 +186,7 @@ htmlhelp_basename = 'ProgramacindeInterfacesGrficasdeUsuarioconGTK3doc'
 
 latex_elements = {
 # The paper size ('letterpaper' or 'a4paper').
-#'papersize': 'letterpaper',
+'papersize': 'letterpaper',
 
 # The font size ('10pt', '11pt' or '12pt').
 #'pointsize': '10pt',
@@ -267,7 +267,7 @@ texinfo_documents = [
 epub_title = u'Programación de Interfaces Gráficas de Usuario con GTK+ 3'
 epub_author = u'Noe Misael Nieto Arroyo'
 epub_publisher = u'Noe Misael Nieto Arroyo'
-epub_copyright = u'2013, Noe Misael Nieto Arroyo'
+epub_copyright = u'2023, Noe Misael Nieto Arroyo'
 
 # The basename for the epub file. It defaults to the project name.
 #epub_basename = u'Programación de Interfaces Gráficas de Usuario con GTK+ 3'
