@@ -1746,21 +1746,12 @@ caracteres de nueva línea. Es necesario entonces dividirlos en cadenas independ
 La función g_strsplit() parte la cadena mi_stdout en un arreglo de cadenas, las cuales
 contienen ya, el identificador de cada dispositivo separado de todos los demás. La función
 g_strsplit() regresa una cadena extra vacía que podemos ignorar.
-
-52Después de haber separado nuestros identificadores en cadenas de texto individuales se procede a
-llenar la lista enlazada simple con estos valores. Una vez preparada la lista enlazada, se libera la
-memoria que ya no sirve y se regresa el puntero de la nueva lista, ya llena.
-Llega la hora de presentar resultados. El numero de dispositivos encontrados es ahora reportado
-mediante g_slist_lenght().
-
+Después de haber separado nuestros identificadores en cadenas de texto individuales se procede a llenar la lista enlazada simple con estos valores. Una vez preparada la lista enlazada, se libera la memoria que ya no sirve y se regresa el puntero de la nueva lista, ya llena.
+Llega la hora de presentar resultados. El numero de dispositivos encontrados es ahora reportado mediante g_slist_lenght().
 Ya hemos visto anteriormente como caminar a través de todos los elementos de la lista; hacemos
-lo mismo mediante imprimir_lista() que además de imprimir los identificadores de los dispositivos,
-utiliza g_spawn_command_line_sync() para investigar el dispositivo Linux correspondiente a
-cada dispositivo.
+lo mismo mediante imprimir_lista() que además de imprimir los identificadores de los dispositivos, utiliza g_spawn_command_line_sync() para investigar el dispositivo Linux correspondiente a cada dispositivo.
 
-Antes de poder liberar la memoria de la estructura de la lista enlazada simple, se debe recorrer y
-liberar la memoria de cada uno de los elementos de la lista en forma individual. Esto se hace fácilmente
-con la función limpiar_lista().
+Antes de poder liberar la memoria de la estructura de la lista enlazada simple, se debe recorrer y liberar la memoria de cada uno de los elementos de la lista en forma individual. Esto se hace fácilmente con la función limpiar_lista().
 
 El producto de nuestro programa se muestra a continuación.
 
