@@ -377,10 +377,10 @@ Confrontemos ambos alcances:
      - 
    * - 
      -
-   * - Lista de dependecia con libreria compartida
+   * - 
      - 
-
-
+   * -
+     - 
 
 
 Como podemos ver, la versión estática del programa no muestra dependencia alguna con las
