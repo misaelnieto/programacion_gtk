@@ -1214,7 +1214,7 @@ Descripción
 
 
 .. image:: img/imagen_015.png
-  :alt:: Una Etiqueta de GTK+
+  :alt: Una Etiqueta de GTK+
 
 GtkLabel es útil para desplegar cantidades moderadas de información en forma de texto el cual se puede alinear a la izquierda, derecha y de forma centrada. La opción de lenguaje de marcado (similar a
 HTML) mejora la calidad y cantidad de información desplegada usando tipos de letra (itálica, negritas, subrayado) y colores.
