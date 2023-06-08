@@ -54,11 +54,12 @@ Como extracto del documento “GNOME Programming Guidelines”[7] resumimos la
 nomenclatura de GTK+. 
 
 * Siempre que sea posible, en GTK+ siempre se debe evitar el uso de variables globales. Esto es
-importante aún más para librerías, ya que las variables globales dentro de sendos módulos se
-exportan junto a las funciones (métodos si consideramos a una librería como un objeto). Todos
-estos **símbolos** se integran al espacio global de nombres de la aplicación que llama a la
-librería(Global Namespace). Un variable global de una librería cuyo nombre haya sido asignado
-de manera descuidada puede causar conflictos con otra variable con el mismo nombre que se
+importante aún más para librerías, ya que las variables globales dentro de
+sendos módulos se exportan junto a las funciones (métodos si consideramos a una
+librería como un objeto). Todos estos **símbolos** se integran al espacio global
+de nombres de la aplicación que llama a la librería(Global Namespace). Un
+variable global de una librería cuyo nombre haya sido asignado de manera
+descuidada puede causar conflictos con otra variable con el mismo nombre que se
 esté usando en una parte del código que utiliza la librería.
 
 * Los nombres de las funciones deberán tener la forma modulo_submodulo_operacion().
@@ -1740,7 +1741,7 @@ Descripción
 
 
 .. image:: img/imagen_021.png
-  Alt: Apariencia de un botón
+  :alt: Apariencia de un botón
 
 GtkButton es un widget que emite una señal cuando es presionado. Un botón es a su vez un
 contenedor. Por lo general contiene una etiqueta, una imagen o ambas.

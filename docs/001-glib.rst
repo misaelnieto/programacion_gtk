@@ -71,7 +71,7 @@ muestran en la siguiente tabla.
 
 Tabla 2: Otros tipos de datos definidos en ``Glib``.
 
- En lugar de incrementar la complejidad a las aplicaciones, los tipos de datos
+En lugar de incrementar la complejidad a las aplicaciones, los tipos de datos
 de ``Glib`` compactan complicadas definiciones de tipos en identificadores de
 tipos de datos que se reconocen más fácilmente, pues son auto descriptivos.
 Esto elimina gran cantidad de trabajo a la hora de mantener programas muy
@@ -159,7 +159,6 @@ bloques de directivas del compilador "``#ifdef ... #elif ...#endif``", lo que
 causará que el compilador construya secciones de código diferentes para cada
 plataforma. Veamos el siguiente ejemplo.
 
-
 .. code-block:: c
 
     #include <glib.h>
@@ -195,8 +194,8 @@ Macros y constantes matemáticas
 Existen ciertas operaciones matemáticas comunes que no se encuentran
 disponibles en la biblioteca estándar de C.
 
-``MIN(a, b) y MAX(a, b) calculan el valor mínimo y máximo de entre dos números
-``a y b, mientras que ABS(n) calcula el valor absoluto de un número n.
+`MIN(a, b)` y `MAX(a, b)` calculan el valor mínimo y máximo de entre dos números
+`a` y `b`, mientras que `ABS(n)` calcula el valor absoluto de un número `n`.
 
 ``CLAMP(x, a, b)`` se asegura de que el número ``x`` se encuentre dentro de
 los límites ``a`` y ``b``. Si ``x`` se encuentra dentro de estos límites,
@@ -473,20 +472,18 @@ tratamiento de mensajes mucho más sofisticado, pero a la vez sencillo de usar.
 
 Para comenzar, debes saber que existen tres niveles de despliegue de mensajes:
 
-  1. Despliegue de información variada . Este tipo de mensajes se considera
-    inocuos o de carácter meramente informativo, como por ejemplo el estado de un
-    proceso.
-
-  2. Registro de mensajes y advertencias . Mensajes que contienen información
-    crucial para el funcionamiento interno del programa; los eventos que generan
-    estos mensajes no son fatales y el programa puede continuar su ejecución.
-
-  3. Registro y despliegue de errores . Los mensajes de error se consideran
-    fatales y solo deben ser utilizados cuando el evento que se esta reportando ha
-    sido de tal impacto que el programa no debe continuar. Como ejemplo tenemos
-    problemas de direccionamiento y asignación de 18memoria, fallas en el hardware
-    y problemas de seguridad. El resultado de desplegar un mensaje de error es la
-    terminación definitiva del programa.
+1. Despliegue de información variada . Este tipo de mensajes se considera
+inocuos o de carácter meramente informativo, como por ejemplo el estado de
+un proceso.
+2. Registro de mensajes y advertencias . Mensajes que contienen información
+crucial para el funcionamiento interno del programa; los eventos que generan
+estos mensajes no son fatales y el programa puede continuar su ejecución.
+3. Registro y despliegue de errores . Los mensajes de error se consideran
+fatales y solo deben ser utilizados cuando el evento que se esta reportando
+ha sido de tal impacto que el programa no debe continuar. Como ejemplo
+tenemos problemas de direccionamiento y asignación de 18memoria, fallas en
+el hardware y problemas de seguridad. El resultado de desplegar un mensaje
+de error es la terminación definitiva del programa.
 
 
 Despliegue de información variada
@@ -781,29 +778,22 @@ Ejemplo de ``g_strdup``.
 
 .. code-block:: c
 
-    gchar*
-    g_strdup
-    (const gchar *str);
+    gchar* g_strdup (const gchar *str);
 
 **Descripción**: Duplica una cadena.
 
 **Parámetros**:
 
-
-* str: un puntero a la cadena a duplicar.
-* 
-**Valor de retorno**: La cadena duplicada en otra región de memoria. Si NULL se ha
-especificado como parámetro de entrada, el valor de retorno también será NULL. El programador es
-responsable de liberar la memoria de la nueva cadena.
+* `str`: un puntero a la cadena a duplicar.
+* **Valor de retorno**: La cadena duplicada en otra región de memoria. Si NULL se ha
+especificado como parámetro de entrada, el valor de retorno también será NULL.
+El programador es responsable de liberar la memoria de la nueva cadena.
 
 Ejemplo de ``g_strrstr``.
 
 .. code-block:: c
 
-    gchar*
-    g_strrstr
-    (const gchar *haystack,
-    const gchar *needle);
+    gchar* g_strrstr (const gchar *haystack, const gchar *needle);
 
 **Descripción**: Busca una aguja(needle) dentro de un pajar (haystack). Las cadenas de entrada
 debe estar terminadas con el carácter nulo.
@@ -812,7 +802,7 @@ debe estar terminadas con el carácter nulo.
 
 * haystack: La cadena donde se busca (pajar).
 * needle: El texto que se busca (aguja).
-* 
+
 **Valor de retorno**: Se regresa un puntero a donde se encontró la primera ocurrencia de la
 aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
 
@@ -1249,11 +1239,8 @@ debe ir después del segundo parámetro.
 **Valor de retorno**: El nuevo inicio de la lista enlazada simple.
 
 .. code-block:: c
-    GSList*
-    g_slist_remove
-    (GSList *list,
-    gconstpointer data);
 
+    GSList* g_slist_remove (GSList *list, gconstpointer data);
 
 **Descripción**: Remueve un elemento de la lista. Si dos elementos contienen los mismos datos, sólo
 se removerá el primero. Si no se encuentra el elemento a eliminar entonces la lista queda sin cambios.

@@ -9,7 +9,9 @@ Contenido:
    000-pref
    001-intro
    001-glib
-
+   003-intro-a-gtk
+   004-glade
+   005-gcc
 
 Índices y Tablas
 ================
