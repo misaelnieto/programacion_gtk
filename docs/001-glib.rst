@@ -66,7 +66,7 @@ muestran en la siguiente tabla.
 +---------------------------+----------------------------------------+
 | gssize                    | typedef signed int gssize;             |
 +---------------------------+----------------------------------------+
-| gconstcopointer           | typedef const void *gconstpointer;     |
+| ``gconstcopointer``       | ``typedef const void *gconstpointer;`` |
 +---------------------------+----------------------------------------+
 
 Tabla 2: Otros tipos de datos definidos en ``Glib``.
@@ -95,9 +95,9 @@ Tabla 3: Límites de tipos de datos
 +-----------------------+----------------------------------------+
 | Tipo de dato          | Límites                                |
 +=======================+========================================+
-| ``gint``              | ``G_MININT`` a ``G_MAXINT``            |  
+| ``gint``              | ``G_MININT`` a ``G_MAXINT``            |
 +-----------------------+----------------------------------------+
-| ``gshort``            | ``G_MINSHORT`` a ``G_MAXSHORT``        |   
+| ``gshort``            | ``G_MINSHORT`` a ``G_MAXSHORT``        |
 +-----------------------+----------------------------------------+
 | ``glong``             | ``G_MINLONG`` a ``G_MAXLONG``          |
 +-----------------------+----------------------------------------+
@@ -130,7 +130,7 @@ Tabla 3: Límites de tipos de datos
 | ``gsize``             | ``0`` a ``G_MAXSIZE``                  |
 +-----------------------+----------------------------------------+
 
- 
+
 
 Macros y definiciones útiles
 ----------------------------
@@ -249,8 +249,8 @@ lo estén.
 Los desarrolladores de ``Glib`` nos ofrecen diferentes herramientas: 7 macros
 para ayudarnos a mejorar nuestros programas.
 
-La macro `g_assert() <https://developer.gnome.org/glib/stable/glib-Testing.html#g-assert>`_ 
-recibe como parámetro una expresión, tal y como se usa en el condicional 
+La macro `g_assert() <https://developer.gnome.org/glib/stable/glib-Testing.html#g-assert>`_
+recibe como parámetro una expresión, tal y como se usa en el condicional
 ``if... then ... else ...`` Si la condición especificada falla o es ``FALSE``, el
 programa termina especificando un mensaje de error.
 
@@ -426,10 +426,11 @@ asignar el valor que queremos pasar a un puntero:
     p = (void*) (long) 42;
     i = (int) (long) p;
 
+
 Pero esto es incorrecto en ciertas plataformas y en tal caso habría que hacer
 lo que sigue:
 
-..code-block:: c
+.. code-block:: c
 
     gpointer p;
     int i;
@@ -533,7 +534,7 @@ Listado de Programa 2.3.1
     #include <glib.h>
     /*Para usar g_printf()*/
     #include <glib/gprintf.h>
-    
+
     /* Funcion manejadora de g_print */
     void mi_manejador (const gchar *string){
         g_fprintf(stdout,"mi_manejador:");
@@ -541,7 +542,7 @@ Listado de Programa 2.3.1
     }
     /* Programa principal */
     int main (int argc, char **argv){
-    
+
         GPrintFunc viejo;
         g_print("Usando g_print() sin manejador\n");
         g_print("Estableciendo el nuevo manejador de g_print() ..\n\n");
@@ -677,7 +678,8 @@ Veamos el siguiente ejemplo:
 
 Si ejecutamos este programa obtendremos la siguiente salida:
 
-** Poner screenshot aca**
+.. image:: img/imagen_001.png
+  :alt: La salida generada por las diferentes macros de registro de mensajes
 
 Registro y despliegue de errores
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -716,12 +718,13 @@ Estas son macros de ``Glib`` para el registro de errores:
         return 0;
     }
 
-
+.. image:: img/imagen_002.png
+  :alt: Macros de Glib para registro de errores
 
 Tratamiento de cadenas
 ~~~~~~~~~~~~~~~~~~~~~~
 
-Según ``Kernighan & Ritchie 
+Según ``Kernighan & Ritchie
 <http://es.wikipedia.org/wiki/El_lenguaje_de_programaci%C3%B3n_C>`_, una
 cadena es arreglo o vector de caracteres terminados con el carácter nulo
 ``'\0'`` para que los programas puedan encontrar el final de la cadena.
@@ -781,13 +784,17 @@ Ejemplo de ``g_strdup``.
     gchar*
     g_strdup
     (const gchar *str);
-    Descripción: Duplica una cadena.
-    Parámetros:
-    ➢
-    str: un puntero a la cadena a duplicar.
-    Valor de retorno: La cadena duplicada en otra región de memoria. Si NULL se ha
-    especificado como parámetro de entrada, el valor de retorno también será NULL. El programador es
-    responsable de liberar la memoria de la nueva cadena.
+
+**Descripción**: Duplica una cadena.
+
+**Parámetros**:
+
+
+* str: un puntero a la cadena a duplicar.
+* 
+**Valor de retorno**: La cadena duplicada en otra región de memoria. Si NULL se ha
+especificado como parámetro de entrada, el valor de retorno también será NULL. El programador es
+responsable de liberar la memoria de la nueva cadena.
 
 Ejemplo de ``g_strrstr``.
 
@@ -797,13 +804,17 @@ Ejemplo de ``g_strrstr``.
     g_strrstr
     (const gchar *haystack,
     const gchar *needle);
-    Descripción: Busca una aguja(needle) dentro de un pajar (haystack). Las cadenas de entrada
-    debe estar terminadas con el carácter nulo.
-    Parámetros:
-    ➢ haystack: La cadena donde se busca (pajar).
-    ➢ needle: El texto que se busca (aguja).
-    Valor de retorno: Se regresa un puntero a donde se encontró la primera ocurrencia de la
-    aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
+
+**Descripción**: Busca una aguja(needle) dentro de un pajar (haystack). Las cadenas de entrada
+debe estar terminadas con el carácter nulo.
+
+**Parámetros**:
+
+* haystack: La cadena donde se busca (pajar).
+* needle: El texto que se busca (aguja).
+* 
+**Valor de retorno**: Se regresa un puntero a donde se encontró la primera ocurrencia de la
+aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
 
 Ejemplo de ``g_strstr_len``.
 
@@ -814,14 +825,19 @@ Ejemplo de ``g_strstr_len``.
     (const gchar *haystack,
     gssize haystack_len,
     28const gchar *needle);
-    Descripción: Esta es una versión de la función g_strstr(). Esta versión limitará su búsqueda
-    en el pajar a un número de caracteres igual a haystack_len.
-    Parámetros:
-    ➢ haystack: La cadena donde se busca (pajar).
-    ➢ haystack_len: Número máximo de caracteres que se examinarán del pajar.
-    ➢ needle: El texto que se busca (aguja).
-    Valor de retorno: Se regresa un puntero a donde se encontró la primera ocurrencia de la
-    aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
+
+
+**Descripción**: Esta es una versión de la función g_strstr(). Esta versión limitará su búsqueda
+en el pajar a un número de caracteres igual a haystack_len.
+
+**Parámetros**:
+
+ * haystack: La cadena donde se busca (pajar).
+ * haystack_len: Número máximo de caracteres que se examinarán del pajar.
+ * needle: El texto que se busca (aguja).
+
+**Valor de retorno**: Se regresa un puntero a donde se encontró la primera ocurrencia de la
+aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
 
 
 Ejemplo de ``g_str_has_prefix``.
@@ -832,12 +848,17 @@ Ejemplo de ``g_str_has_prefix``.
     g_str_has_prefix
     (const gchar *str,
     const gchar *prefix);
-    Descripción: Nos dice si la cadena str tiene el prefijo especificado.
-    Parámetros:
-    ➢ str: La cadena de quien se desea determinar el prefijo.
-    ➢ prefix: El prefijo.
-    Valor de retorno: Regresa TRUE si la cadena comienza con prefix. FALSE en caso
-    contrario.
+
+
+**Descripción**: Nos dice si la cadena str tiene el prefijo especificado.
+
+**Parámetros**:
+
+* str: La cadena de quien se desea determinar el prefijo.
+* prefix: El prefijo.
+*
+**Valor de retorno**: Regresa TRUE si la cadena comienza con prefix. FALSE en caso
+contrario.
 
 
 Ejemplo de ``g_str_has_suffix``.
@@ -848,12 +869,17 @@ Ejemplo de ``g_str_has_suffix``.
     g_str_has_suffix
     (const gchar *str,
     const gchar *suffix);
-    Descripción: Nos dice si la cadena str tiene el sufijo especificado.
-    Parámetros:
-    ➢ str: La cadena de quien se desea determinar el sufijo.
-    ➢ suffix: El sufijo.
-    Valor de retorno: Regresa TRUE si la cadena termina con suffix. FALSE en caso
-    contrario.
+
+
+**Descripción**: Nos dice si la cadena str tiene el sufijo especificado.
+
+**Parámetros**:
+
+* str: La cadena de quien se desea determinar el sufijo.
+* suffix: El sufijo.
+*
+**Valor de retorno**: Regresa TRUE si la cadena termina con suffix. FALSE en caso
+contrario.
 
 Ejemplo de ``g_str_equal``.
 
@@ -863,13 +889,18 @@ Ejemplo de ``g_str_equal``.
     g_str_equal
     (gconstpointer v1,
     gconstpointer v2);
-    Descripción: Esta función verifica que las dos cadenas sean iguales.
-    Parámetros:
-    ➢ v1: Una cadena.
-    ➢ v2: Otra cadena que se comparará contra v1..
-    Valor de retorno: Regresa TRUE si ambas cadenas son idénticas. Esta función esta
-    preparada para ser usada en estructuras de datos que necesiten comparación, como listas enlazadas,
-    tablas de claves o arboles binarios 5 .
+
+
+**Descripción**: Esta función verifica que las dos cadenas sean iguales.
+
+**Parámetros**:
+
+* v1: Una cadena.
+* v2: Otra cadena que se comparará contra v1..
+*
+**Valor de retorn**o: Regresa TRUE si ambas cadenas son idénticas. Esta función esta
+preparada para ser usada en estructuras de datos que necesiten comparación, como listas enlazadas,
+tablas de claves o arboles binarios 5 .
 
 
 Perspectiva Orientada a Objetos: ``GString``
@@ -916,7 +947,7 @@ macro NULL como parámetro. Veamos un ejemplo:
     cadena_vacia = gstring_new(NULL);
 
 
-Por conveniencia, ``GLib`` provee otros constructores: 
+Por conveniencia, ``GLib`` provee otros constructores:
 `g_string_new_len() <https://developer.gnome.org/glib/2.41/glib-Strings.html#g-string-new-len>`_
 y
 g_string_sized_new() <https://developer.gnome.org/glib/2.41/glib-Strings.html#g-string-sized-new>`_
@@ -924,7 +955,7 @@ g_string_sized_new() <https://developer.gnome.org/glib/2.41/glib-Strings.html#g-
 Todos los constructores regresan el puntero a una nueva instancia de ``GString``.
 
 Una vez que tenemos una instancia del objeto ``GString`` podemos manipular su
-contenido mediante algunas de las funciones del API de GString, como por ejemplo 
+contenido mediante algunas de las funciones del API de GString, como por ejemplo
 `g_string_assign() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-assign>` _,
 `g_string_append() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-append>`_,
 `g_string_append_c() <https://developer.gnome.org/glib/unstable/glib-Strings.html#g-string-append-c>`_,
@@ -942,12 +973,12 @@ Veamos un ejemplo.
     # Añade caracteres al inicio y al final de la cadena almacenada en Gstring
     g_string_append_c(cadena,'Z');
     g_string_prepend_c(cadena,'A');
-    
+
     #Añade otra cadena al final de GString
     g_string_append (cadena, “Añadiendo valor al final”);
     g_string_prepend(candena,”Añadiendo valor al Principio”);
 
-    # Tambien es posible truncar la longitud de la cadena, 
+    # Tambien es posible truncar la longitud de la cadena,
     # por ejemplo 0 significa que la cadena se limpia...
     g_string_truncate(cadena,0);
 
@@ -988,7 +1019,7 @@ Finalmente, aca pongo el ejemplo completo de manipulacion de cadenas.
     *
     ****************************************************************************/
     #include <glib.h>
-    
+
     int main () {
         GString *cadena;
 
@@ -1010,16 +1041,16 @@ Finalmente, aca pongo el ejemplo completo de manipulacion de cadenas.
         /*Se inserta algun texto al fin de la cadena*/
         g_string_append(cadena,", caret omni gaudio");
         g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-        
+
         /*Se insertan caracteres al incio y al fin de la cadena*/
         g_string_append_c(cadena,'!');
         g_string_prepend_c(cadena,'.');
         g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-        
+
         /*Se convierte la cadena a Mayusculas */
         g_string_ascii_up(cadena);
         g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
-        
+
         /*Se convierte la cadena a Mayusculas */
         g_string_ascii_down(cadena);
         g_print("( %i Bytes ) %s\n", cadena->len, cadena->str);
@@ -1032,7 +1063,7 @@ Finalmente, aca pongo el ejemplo completo de manipulacion de cadenas.
 Compila el ejemplo anterior con el siguiente comando:
 
 .. code-block::
-    
+
     ** Ponercomando para compilar
 
 Finalmente, ejecuta el programa
@@ -1042,8 +1073,11 @@ Finalmente, ejecuta el programa
     ** Poner salida del programa
 
 
-Estructuras de datos
---------------------
+.. image:: img/imagen_003.png
+  :alt: La salida producida por el ejemplo anterior
+
+Estructuras de datos: Listas enlazadas simples
+----------------------------------------------
 
 Las estructuras de datos son imprescindibles en el desarrollo de cualquier
 programa. Nos permiten abordar de una manera razonada y metódica un problema
@@ -1058,223 +1092,364 @@ almacenar colecciones de datos. Un buen artículo de listas enlazadas está
 disponible en la librería de educación de la facultad de ciencias de la
 computación en la universidad de Stanford[6].
 
-La biblioteca ``Glib`` incluye una implementación de listas enlazadas en
-`GSList <>`_.
+La biblioteca ``Glib`` incluye una implementación de listas enlazadas en.
 
-2.5.1
+
 Propiedades
+
 La estructura GSList tiene un esquema similar al que se muestra en la Figura 2.5.1, mientras que
 su estructura en C es la siguiente:
-typedef struct {
-gpointer data;
-GSList *next;
-} GSList;
+
+.. code-block:: c
+
+    typedef struct {
+        gpointer data;
+        GSList *next;
+    } GSList;
+
 El puntero *data almacena los datos que se desean coleccionar, mientras que next apunta hacia
 al siguiente elemento de la lista enlazada.
-Figura 2.5.1: Estructura de datos GSList.
-382.5.2
+
+
+.. image:: img/imagen_004.png
+  :alt: Estructura de datos GSList.
+
+
 Constructor de clase
+~~~~~~~~~~~~~~~~~~~~
+
 Una lista enlazada simple no tiene constructor de clase en si, pues un puntero con el valor NULL se
 interpreta como una lista vacía.
+
 El puntero *GSList siempre se debe inicializar con NULL. El fin de una lista enlazada se
 encuentra cuando el puntero next contiene el puntero NULL. De ahí que una lista vacía sólo es un
 puntero NULL.
 2.5.3
+
 Funciones asociadas o Métodos de clase
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 La estructura de datos de GSList indica que nuestras listas enlazadas simples pueden contener
 cualquier dato. Además de cualquier dato, también contienen un puntero a la siguiente estructura.
 Los datos contenidos en la estructura de datos pueden ser, por ejemplo, un entero usando
 cualquiera de las macros de conversión de tipo que se revisaron en el Capitulo 2.2.6, o un puntero a
 otro tipo de datos como un objeto o una cadena.
+
 Una lista enlazada simple sólo permite recorrer la estructura de datos en una sola dirección (no
 hay ningún lugar donde diga como regresar a elemento anterior.
+
 Es importante no olvidar estos detalles por que todas los funciones asociadas asumen que el
 puntero que se les entrega es el inicio de la lista. Así mismo, las funciones que modifican las listas
 enlazadas pueden cambiar la lista de tal manera que una referencia antigua ya no apunte al nuevo inicio
 de la lista.
+
 Con las consideraciones anteriores podemos comenzar con nuestra reseña.
 El siguiente conjunto de funciones sirven para añadir y eliminar elementos.
-GSList*
-g_slist_append
-(GSList *list,
-gpointer data);
-39Descripción: Añade un elemento al final de la lista. Note que esta función tiene que recorrer toda
+
+.. code-block:: c
+
+    GSList*
+    g_slist_append
+    (GSList *list,
+    gpointer data);
+
+
+**Descripción**: Añade un elemento al final de la lista. Note que esta función tiene que recorrer toda
 la lista hasta el final para añadir el elemento. Una lista lo suficientemente larga puede crear problemas
 de velocidad de ejecución y cuellos de botella, principalmente cuando se añaden varios elementos a la
 vez. Para estos casos se puede insertar todos los elementos al inicio para posteriorment invertir el orden
 de la lista.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: Los datos del elemento a insertar.
-Valor de retorno: El nuevo inicio de la lista enlazada simple.
-GSList*
-g_slist_prepend
-(GSList *list,
-gpointer data);
-Descripción: Añade un elemento al inicio de la lista. Note que el puntero al nuevo inicio de la
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **data**: Los datos del elemento a insertar.
+
+**Valor de retorno**: El nuevo inicio de la lista enlazada simple.
+
+.. code-block:: c
+
+    GSList*
+    g_slist_prepend
+    (GSList *list,
+    gpointer data);
+
+
+**Descripción**: Añade un elemento al inicio de la lista. Note que el puntero al nuevo inicio de la
 lista pudo haber cambiado. Asegúrese de guardar el nuevo valor.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: Los datos del elemento a insertar.
-Valor de retorno: El nuevo inicio de la lista enlazada simple.
-GSList*
-g_slist_insert
-(GSList *list,
-gpointer data,
-gint position);
-40Descripción: Inserta un elemento al en la posición especificada. Note que el puntero al nuevo
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **data**: Los datos del elemento a insertar.
+
+**Valor de retorno**: El nuevo inicio de la lista enlazada simple.
+
+.. code-block:: c
+
+    GSList*
+    g_slist_insert
+    (GSList *list,
+    gpointer data,
+    gint position);
+
+
+**Descripción**: Inserta un elemento al en la posición especificada. Note que el puntero al nuevo
 inicio de la lista pudo haber cambiado. Asegúrese de guardar el nuevo valor.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: Los datos del elemento a insertar.
-➢ position: La posición del elemento a insertar. El elemento se inserta al final si la
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **data**: Los datos del elemento a insertar.
+* **position**: La posición del elemento a insertar. El elemento se inserta al final si la
 posición es negativa o es mayor al número de elementos de la lista.
-Valor de retorno: El nuevo inicio de la lista enlazada simple.
-GSList*
-g_slist_insert_before
-(GSList *slist,
-GSList *sibling,
-gpointer data);
+
+**Valor de retorno**: El nuevo inicio de la lista enlazada simple.
+
+.. code-block:: c
+
+    GSList*
+    g_slist_insert_before
+    (GSList *slist,
+    GSList *sibling,
+    gpointer data);
+
+
 Descripción: Inserta un elemento antes de algún otro elemento. Note que el puntero al nuevo
 inicio de la lista pudo haber cambiado. Asegúrese de guardar el nuevo valor.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ sibling: El elemento del que deseamos que se inserte datos antes de él.
-➢ data: Los datos del elemento a insertar.
-Valor de retorno: El nuevo inicio de la lista enlazada simple.
-GSList*
-g_slist_insert_sorted
-(GSList *list,
-gpointer data,
-GCompareFunc func);
-Descripción: Inserta un elemento de manera ordenada. La ordenación se lleva a cabo mediante la
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **sibling**: El elemento del que deseamos que se inserte datos antes de él.
+* **data**: Los datos del elemento a insertar.
+
+**Valor de retorno**: El nuevo inicio de la lista enlazada simple.
+
+.. code-block:: c
+
+    GSList*
+    g_slist_insert_sorted
+    (GSList *list,
+    gpointer data,
+    GCompareFunc func);
+
+
+**Descripción**: Inserta un elemento de manera ordenada. La ordenación se lleva a cabo mediante la
 función de comparación especificada.
-41Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: Los datos del elemento a insertar.
-➢ func: La función que será usada para ordenar lo datos de la lista. Esta función deberá
+
+**Parámetros**:
+
+* list: Una lista enlazada simple.
+* data: Los datos del elemento a insertar.
+* func: La función que será usada para ordenar lo datos de la lista. Esta función deberá
 tomar dos parámetros y deberá regresar un valor mayor a cero si el primer parámetro
 debe ir después del segundo parámetro.
-Valor de retorno: El nuevo inicio de la lista enlazada simple.
-GSList*
-g_slist_remove
-(GSList *list,
-gconstpointer data);
-Descripción: Remueve un elemento de la lista. Si dos elementos contienen los mismos datos, sólo
+
+**Valor de retorno**: El nuevo inicio de la lista enlazada simple.
+
+.. code-block:: c
+    GSList*
+    g_slist_remove
+    (GSList *list,
+    gconstpointer data);
+
+
+**Descripción**: Remueve un elemento de la lista. Si dos elementos contienen los mismos datos, sólo
 se removerá el primero. Si no se encuentra el elemento a eliminar entonces la lista queda sin cambios.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ gconstpointer: Los datos del elemento a eliminar de la lista.
-Valor de retorno: El nuevo inicio de la lista enlazada simple.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **gconstpointer**: Los datos del elemento a eliminar de la lista.
+
+**Valor de retorno**: El nuevo inicio de la lista enlazada simple.
 El siguiente conjunto de funciones son para localizar elementos dentro de la lista enlazada simple.
-GSList*
-g_slist_last
-(GSList *list);
-Descripción: Entrega el último elemento de la lista.
-Parámetros:
-➢
-list: Una lista enlazada simple.
-Valor de retorno: El último elemento de la lista enlazada simple.
-#define
-g_slist_next(slist)
-42Descripción: Una macro que entrega el siguiente elemento de la lista. Equivale a slist-
+
+.. code-block:: c
+
+    GSList*
+    g_slist_last
+    (GSList *list);
+
+
+**Descripción**: Entrega el último elemento de la lista.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+
+**Valor de retorno**: El último elemento de la lista enlazada simple.
+
+.. code-block:: c
+
+    #define
+    g_slist_next(slist)
+
+
+**Descripción**: Una macro que entrega el siguiente elemento de la lista. Equivale a slist-
 >next.
-Parámetros:
-➢
-list: Una lista enlazada simple.
-Valor de retorno: El siguiente elemento de la lista enlazada simple. NULL si la lista esta vacía o
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+
+**Valor de retorno**: El siguiente elemento de la lista enlazada simple. NULL si la lista esta vacía o
 se ha llegado al último elemento.
-GSList*
-g_slist_nth
-(GSList *list,
-guint n);
-Descripción: Entrega el n-ésimo elemento de la lista.
-Parámetros:
-➢
-list: Una lista enlazada simple.
-Valor de retorno: El n-ésimo elemento de la lista enlazada simple. NULL si la lista esta vacía o se
+
+.. code-block:: c
+
+    GSList*
+    g_slist_nth
+    (GSList *list,
+    guint n);
+
+
+**Descripción**: Entrega el n-ésimo elemento de la lista.
+
+**Parámetros**:
+
+**list**: Una lista enlazada simple.
+
+**Valor de retorno**: El n-ésimo elemento de la lista enlazada simple. NULL si la lista esta vacía o se
 ha llegado al último elemento.
-GSList*
-g_slist_nth
-(GSList *list,
-guint n);
-Descripción: Entrega el n-ésimo elemento de la lista.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ n: la posición del elemento, iniciando desde 0.
-Valor de retorno: El n-ésimo elemento de la lista enlazada simple. NULL si la lista esta vacía o la
+
+.. code-block:: c
+
+    GSList*
+    g_slist_nth
+    (GSList *list,
+    guint n);
+
+
+**Descripción**: Entrega el n-ésimo elemento de la lista.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **n**: la posición del elemento, iniciando desde 0.
+*
+**Valor de retorno**: El n-ésimo elemento de la lista enlazada simple. NULL si la lista esta vacía o la
 posición buscada está fuera de los límites de la lista.
-gpointer
-g_slist_nth_data
-(GSList *list,
-guint n);
-Descripción: Entrega los datos del n-ésimo elemento de la lista.
-Parámetros:
-43➢ list: Una lista enlazada simple.
-➢ n: la posición del elemento, iniciando desde 0.
-Valor de retorno: Los datos del n-ésimo elemento de la lista enlazada simple. NULL si la lista
+
+.. code-block:: c
+
+    gpointer
+    g_slist_nth_data
+    (GSList *list,
+    guint n);
+
+
+**Descripción**: Entrega los datos del n-ésimo elemento de la lista.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **n**: la posición del elemento, iniciando desde 0.
+*
+**Valor de retorno**: Los datos del n-ésimo elemento de la lista enlazada simple. NULL si la lista
 esta vacía o la posición buscada está fuera de los límites de la lista.
-GSList*
-g_slist_find
-(GSList *list,
-gconstpointer data);
-Descripción: Encuentra el elemento que contiene los datos especificados.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: los datos que se buscan
-Valor de retorno: El elemento que contiene los datos. NULL si no se encuentra nada.
-GSList*
-g_slist_find_custom
-(GSList *list,
-gconstpointer data,
-GCompareFunc func);
-Descripción: Encuentra un elemento aplicando el criterio de la función especificada. La lista se
+
+.. code-block:: c
+
+    GSList*
+    g_slist_find
+    (GSList *list,
+    gconstpointer data);
+
+
+**Descripción**: Encuentra el elemento que contiene los datos especificados.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **data**: los datos que se buscan.
+*
+**Valor de retorno**: El elemento que contiene los datos. NULL si no se encuentra nada.
+
+.. code-block:: c
+
+    GSList*
+    g_slist_find_custom
+    (GSList *list,
+    gconstpointer data,
+    GCompareFunc func);
+
+**Descripción**: Encuentra un elemento aplicando el criterio de la función especificada. La lista se
 recorre y en cada paso se llama a la función especificada la cual debe regresar 0 cuando se halla
 encontrado el elemento deseado.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: los datos que se buscan.
-➢ func: la función que se llama por cada elemento. Esta función debe de tomar dos
+
+**Parámetros**:
+
+* list: Una lista enlazada simple.
+* data: los datos que se buscan.
+* func: la función que se llama por cada elemento. Esta función debe de tomar dos
 punteros de tipo gconstpointer, los cuales son los datos del nodo que se esta
 iterando y los datos que se buscan, respectivamente
-Valor de retorno: El elemento que contiene los datos. NULL si no se encuentra nada.
+
+**Valor de retorno**: El elemento que contiene los datos. NULL si no se encuentra nada.
 44Las siguientes funciones servirán para encontrar el índice de un elemento dentro de la lista
-gint
-g_slist_position
-(GSList *list,
-GSList *llink);
-Descripción: Encuentra la posición de un nodo dentro de una lista enlazada simple.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ llink: un elemento/nodo dentro de la lista enlazada simple.
-Valor de retorno: El índice del nodo dentro de la lista ó -1 si no se encuentra nada.
-gint
-g_slist_index
-(GSList *list,
-gconstpointer data);
-Descripción: Encuentra la posición del elemento que contiene los datos especificados.
-Parámetros:
-➢ list: Una lista enlazada simple.
-➢ data: los datos que se buscan
-Valor de retorno: El índice del elemento que contiene los datos ó -1 si no se encuentra nada.
+
+.. code-block:: c
+
+    gint
+    g_slist_position
+    (GSList *list,
+    GSList *llink);
+
+
+**Descripción**: Encuentra la posición de un nodo dentro de una lista enlazada simple.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **llink**: un elemento/nodo dentro de la lista enlazada simple.
+*
+**Valor de retorno**: El índice del nodo dentro de la lista ó -1 si no se encuentra nada.
+
+.. code-block:: c
+
+    gint
+    g_slist_index
+    (GSList *list,
+    gconstpointer data);
+
+
+**Descripción**: Encuentra la posición del elemento que contiene los datos especificados.
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **data**: los datos que se buscan.
+*
+**Valor de retorno**: El índice del elemento que contiene los datos ó -1 si no se encuentra nada.
 Si deseamos recorrer, iterar o caminar a lo largo de la lista debemos usar la siguiente función.
-void
-g_slist_foreach
-(GSList *list,
-GFunc func,
-gpointer user_data);
-Descripción: Recorre toda la lista enlazada simple ejecutando una función para cada nodo de la
+
+.. code-block:: c
+
+    void
+    g_slist_foreach
+    (GSList *list,
+    GFunc func,
+    gpointer user_data);
+
+
+**Descripción**: Recorre toda la lista enlazada simple ejecutando una función para cada nodo de la
 lista.
-Parámetros:
-45➢ list: Una lista enlazada simple.
-➢ func: La función que se llamará con cada elemento. Esta función debe tomar dos
+
+**Parámetros**:
+
+* **list**: Una lista enlazada simple.
+* **func**: La función que se llamará con cada elemento. Esta función debe tomar dos
 punteros de tipo gpointer. El primero corresponde a los datos del elemento iterado, el
 segundo a los datos extras proporcionados por el programador.
-➢
+
 2.5.4
-user_data: datos extras proporcionados por el programador.
+**user_data**: datos extras proporcionados por el programador.
 
 Destructor de clase
+~~~~~~~~~~~~~~~~~~~
+
 Cuando se termine el uso de la lista enlazada simple se debe de limpiar la memoria que este usando. El
 destructor de GSList libera la memoria de la estructura de la lista, mas no libera la memoria que esta
 a la que hace referencia cada elemento de la lista.
@@ -1285,235 +1460,311 @@ cada elemento de la lista, pero los datos y estructuras a los que hacían refere
 lista quedan intactos.
 Ahora que se ha discutido los detalles del destructor, vemos al reseña.
 void
-g_slist_free
-(GSList *list);
-Descripción: Libera toda la memoria ocupada por la estructura de una lista enlazada.
-Parámetros:
-➢
-list: Una lista enlazada simple.
+
+.. code-block:: c
+
+    g_slist_free
+    (GSList *list);
+
+
+**Descripción**: Libera toda la memoria ocupada por la estructura de una lista enlazada.
+
+**Parámetros**:
+
+**list**: Una lista enlazada simple.
+
 462.5.5
+
 Ciclo de vida de una lista enlazada simple
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 Comencemos la descripción del ciclo de vida de una lista enlazada simple.
-•
-El primer paso es declarar la estructura e inicializarla con valor NULL.
-#include <glib.h>
-GSList *lista=NULL;
-/* ... */
-•
-Ahora podemos manipular la lista a nuestro antojo. Podemos, por ejemplo, añadir una sola
+
+* El primer paso es declarar la estructura e inicializarla con valor NULL.
+
+  .. code-block:: c
+
+    #include <glib.h>
+    GSList *lista=NULL;
+    /* ... */
+
+
+
+* Ahora podemos manipular la lista a nuestro antojo. Podemos, por ejemplo, añadir una sola
 cadena al final...
-lista = g_slist_append (lista,”Elemento 1”);
+
+.. code-block:: c
+
+    lista = g_slist_append (lista,”Elemento 1”);
+
+
 ...al principio ...
-list = g_slist_prepend(lista,”Elemento 0”);
+
+.. code-block:: c
+
+    list = g_slist_prepend(lista,”Elemento 0”);
+
+
 ... o insertar elementos en posiciones arbitrarias ...
-list = g_slist_insert (lista, “Elemento insertado”,1);
+
+.. code-block:: c
+
+    list = g_slist_insert (lista, “Elemento insertado”,1);
+
+
 ... y no solamente funciona con cadenas, si no también con otros tipos de objetos...
-lista = g_slist_append (lista,G_INT_TO_POINTER(113));
-lista = g_slist_append (lista,objeto);
-•
-Cuando llega el momento de recavar la información guardada en la lista tendremos que recordar
+
+.. code-block:: c
+
+    lista = g_slist_append (lista,G_INT_TO_POINTER(113));
+    lista = g_slist_append (lista,objeto);
+
+
+
+* Cuando llega el momento de recavar la información guardada en la lista tendremos que recordar
 la estructura en C vista arriba. El mismo puntero GSList que representa la lista enlazada, es a
 su vez el puntero al primer nodo de la lista. El elemento data del nodo es un puntero a los
 datos guardados y el elemento next apunta al siguiente nodo de la lista o es NULL si ya no hay
 más elementos. La manera correcta de acceder a los datos que contiene un nodo es mediante la
 notación de punteros:
-datos= nodo->data;
-siguiente = nodo->next;
+
+.. code-block:: c
+
+    datos= nodo->data;
+    siguiente = nodo->next;
+
+
 Una manera útil de recorrer una lista enlazada simple es mediante un ciclo utilizando for...
-47for (nodo=lista; nodo; nodo=nodo->next)
-g_print("%s\n",(char *)nodo->data);
+
+.. code-block:: c
+
+    for (nodo=lista; nodo; nodo=nodo->next)
+    g_print("%s\n",(char *)nodo->data);
+
+
 Otra manera de caminar a lo largo de la lista es utilizar g_slist_for_each() el cual se
 apoya de una función definida por el usuario que debe de corresponder con el siguiente
 prototipo:
-void
-GFunc
-(gpointer data, gpointer extra_data);
+
+.. code-block:: c
+
+    void
+    GFunc
+    (gpointer data, gpointer extra_data);
+
+
 En el próximo ejemplo veremos cono se debe utilizar esta función.
 Una vez que se ha terminado de operar con la lista enlazada es necesario liberar la memoria
-•
-usada, para ello se encuentra g_slist_free().
+
+* usada, para ello se encuentra g_slist_free().
 2.5.6
+
 Ejemplo
+~~~~~~~
+
 Mostraremos dos ejemplos. El primero de ellos mostrará de manera breve el ciclo de vida de GSList.
 Listado de Programa 2.5.1
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-gslist1.c
-*
-Descripcion:
-Muestra de ciclo de vida de GSlist
-* Comentarios:
-Además muestra como caminar a traves de la
-*
-lista.
-*
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-void imprimir_lista(gpointer data, gpointer user_data){
-gchar *mensaje;
-mensaje = (gchar *) data;
-g_print("%s\n", mensaje);
-}
-int main(){
-GSList *lista = NULL;
-GSList *nodo = NULL;
-48gchar *nombre = "Nombre";
-/*Inserción de diferentes tipos de elementos */
-lista = g_slist_append(lista, nombre);
-lista = g_slist_prepend(lista, "Elemento adicionado al principio");
-lista = g_slist_insert(lista, "Elemento insertado en posicion 1", 1);
-/* Primer metodo de acceso a elementos */
-g_print("==-Primer metodo de acceso a los elementos de una lista-==\n");
-for (nodo = lista; nodo; nodo = nodo->next)
-g_print("%s\n", (char *) nodo->data);
-/* segundo metodo */
-g_print("==-Segundo metodo de acceso a los elementos de una lista-==\n");
-g_slist_foreach(lista, (GFunc) imprimir_lista, NULL);
-/*Destructor*/
-g_slist_free(lista);
-}
-return 0;
+
+.. code-block:: c
+
+    /***************************************************************************
+    *
+    Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo:
+    glib-gslist1.c
+    *
+    Descripcion:
+    Muestra de ciclo de vida de GSlist
+    * Comentarios:
+    Además muestra como caminar a traves de la
+    *
+    lista.
+    *
+    *
+    * TESIS PROFESIONAL
+    INSTITUTO TECNOLOGICO DE PUEBLA
+    *
+    INGENIERIA ELECTRONICA
+    * Autor: Noe Misael Nieto Arroyo
+    tzicatl@gmail.com
+    *
+    ****************************************************************************/
+    #include <glib.h>
+    void imprimir_lista(gpointer data, gpointer user_data){
+    gchar *mensaje;
+    mensaje = (gchar *) data;
+    g_print("%s\n", mensaje);
+    }
+    int main(){
+    GSList *lista = NULL;
+    GSList *nodo = NULL;
+    48gchar *nombre = "Nombre";
+    /*Inserción de diferentes tipos de elementos */
+    lista = g_slist_append(lista, nombre);
+    lista = g_slist_prepend(lista, "Elemento adicionado al principio");
+    lista = g_slist_insert(lista, "Elemento insertado en posicion 1", 1);
+    /* Primer metodo de acceso a elementos */
+    g_print("==-Primer metodo de acceso a los elementos de una lista-==\n");
+    for (nodo = lista; nodo; nodo = nodo->next)
+    g_print("%s\n", (char *) nodo->data);
+    /* segundo metodo */
+    g_print("==-Segundo metodo de acceso a los elementos de una lista-==\n");
+    g_slist_foreach(lista, (GFunc) imprimir_lista, NULL);
+    /*Destructor*/
+    g_slist_free(lista);
+    }
+    return 0;
+
+
 En el ejemplo anterior se ha mostrado que dos métodos para recorrer toda la lista, elemento por
 elemento. El primero es un bucle de ejecución que itera sobre cada elemento hasta que se halle el
 elemento final de la lista.
+
 El segundo método deja que ``Glib`` haga la caminata por la lista y llame una función designada
 por nosotros por cada elemento que encuentre.
+
 Como se puede ver en la figura siguiente, los efectos de ambos métodos son iguales.
-49Figura 2.5.2: Corrida del primer ejemplo de listas enlazadas
+
+.. image:: img/imagen_005.png
+  :alt: Corrida del primer ejemplo en listas enlazas
+
+
 El segundo ejemplo es una aplicación práctica de las listas enlazadas simples. El objetivo de este
 ejemplo es realizar una lista de los dispositivos de captura de datos que existe en la computadora e
 imprimir una relación de estos.
 Listado de Programa 2.5.2
-/***************************************************************************
-*
-Programacion de interfases graficas de usuario con GTK
-*
-* Nombre de archivo:
-glib-gslist2.c
-*
-Descripcion:
-Aplicación práctica de GSlist
-* Comentarios:
-El siguiente ejemplo buscará todos los
-*
-dispositivos de sonido del sistema y los guardará
-*
-en una lista enlazada para su posterior
-*
-procesamiento
-*
-*
-* TESIS PROFESIONAL
-INSTITUTO TECNOLOGICO DE PUEBLA
-*
-INGENIERIA ELECTRONICA
-* Autor: Noe Misael Nieto Arroyo
-tzicatl@gmail.com
-*
-****************************************************************************/
-#include <glib.h>
-#include <glib/gprintf.h>
-//void llenar_lista(GSList lista){
-GSList *llenar_lista(GSList *lista){
-gchar *comando = "/usr/bin/hal-find-by-property --key alsa.type --string
-capture";
-gchar *mi_stdout;
-gchar **disps;
-50gint i=0;
-/*Ejecuta otro programa sin terminar este */
-g_spawn_command_line_sync(comando, &mi_stdout,
-NULL,NULL, NULL);
-/*La salida del programa se guardó en mi_stdout.
-Ahora procederemos a separar cada uno de los
-resultados que vienen separados por caracteres
-de nueva linea*/
-disps = g_strsplit(mi_stdout,"\n",-1);
-/*Despues de separados, cada uno se inserta en la lista*/
-for (i=0;i< (g_strv_length(disps) -1); i++)
-lista = g_slist_insert_sorted(lista,g_strdup(disps[i]),g_str_equal);
-/*Liberar la memoria usada por los resultados separados*/
-g_free(mi_stdout);
-g_strfreev(disps);
-}
-return lista;
-/*Esta función averiguará el dispositivo linux correspondiente a
-cada dispositivo de adquisicion de datos*/
-void imprimir_lista(gpointer data, gpointer user_data){
-GString *comando;
-gchar *mi_stdout;
-/*Preparar el comando a ejecutar */
-comando = g_string_new("");
-g_string_printf( comando,
-"/usr/bin/hal-get-property --udi %s --key linux.device_file",
-(gchar *) data);
-/*Ejecuta el comando programa sin terminar este */
-g_spawn_command_line_sync(comando->str, &mi_stdout,
-NULL,NULL, NULL);
-/*Presentar los resultados*/
-g_print("====\n");
-g_print("HAL UDI
-: %s\n", (gchar *) data);
-g_print("DISP. LINUX : %s", mi_stdout);
-}
-/*Limpiar memoria */
-g_string_free(comando,TRUE);
-g_free(mi_stdout);
-void limpiar_lista(gpointer data, gpointer user_data){
-g_free(data);
-}
-int main(){
-GSList *lista = NULL;
-51g_print ("Buscando dispositivos de captura...\n");
-lista = llenar_lista(lista);
-g_print ("Se encontraron %i dispostivos\n",g_slist_length(lista));
-g_print ("======= LISTA DE DISPOSITIVOS DE ADQUISICION DE DATOS =======\n");
-g_slist_foreach(lista,imprimir_lista,NULL);
-/*Es hora de liberar toda la memoria*/
-g_slist_foreach(lista,limpiar_lista,NULL);
-g_slist_free(lista);
-g_print ("=============================================================\n");
-return 0;
-}
+
+.. code-block:: c
+
+    /***************************************************************************
+    *
+    Programacion de interfases graficas de usuario con GTK
+    *
+    * Nombre de archivo:
+    glib-gslist2.c
+    *
+    Descripcion:
+    Aplicación práctica de GSlist
+    * Comentarios:
+    El siguiente ejemplo buscará todos los
+    *
+    dispositivos de sonido del sistema y los guardará
+    *
+    en una lista enlazada para su posterior
+    *
+    procesamiento
+    *
+    *
+    * TESIS PROFESIONAL
+    INSTITUTO TECNOLOGICO DE PUEBLA
+    *
+    INGENIERIA ELECTRONICA
+    * Autor: Noe Misael Nieto Arroyo
+    tzicatl@gmail.com
+    *
+    ****************************************************************************/
+    #include <glib.h>
+    #include <glib/gprintf.h>
+    //void llenar_lista(GSList lista){
+    GSList *llenar_lista(GSList *lista){
+    gchar *comando = "/usr/bin/hal-find-by-property --key alsa.type --string
+    capture";
+    gchar *mi_stdout;
+    gchar **disps;
+    50gint i=0;
+    /*Ejecuta otro programa sin terminar este */
+    g_spawn_command_line_sync(comando, &mi_stdout,
+    NULL,NULL, NULL);
+    /*La salida del programa se guardó en mi_stdout.
+    Ahora procederemos a separar cada uno de los
+    resultados que vienen separados por caracteres
+    de nueva linea*/
+    disps = g_strsplit(mi_stdout,"\n",-1);
+    /*Despues de separados, cada uno se inserta en la lista*/
+    for (i=0;i< (g_strv_length(disps) -1); i++)
+    lista = g_slist_insert_sorted(lista,g_strdup(disps[i]),g_str_equal);
+    /*Liberar la memoria usada por los resultados separados*/
+    g_free(mi_stdout);
+    g_strfreev(disps);
+    }
+    return lista;
+    /*Esta función averiguará el dispositivo linux correspondiente a
+    cada dispositivo de adquisicion de datos*/
+    void imprimir_lista(gpointer data, gpointer user_data){
+    GString *comando;
+    gchar *mi_stdout;
+    /*Preparar el comando a ejecutar */
+    comando = g_string_new("");
+    g_string_printf( comando,
+    "/usr/bin/hal-get-property --udi %s --key linux.device_file",
+    (gchar *) data);
+    /*Ejecuta el comando programa sin terminar este */
+    g_spawn_command_line_sync(comando->str, &mi_stdout,
+    NULL,NULL, NULL);
+    /*Presentar los resultados*/
+    g_print("====\n");
+    g_print("HAL UDI
+    : %s\n", (gchar *) data);
+    g_print("DISP. LINUX : %s", mi_stdout);
+    }
+    /*Limpiar memoria */
+    g_string_free(comando,TRUE);
+    g_free(mi_stdout);
+    void limpiar_lista(gpointer data, gpointer user_data){
+    g_free(data);
+    }
+    int main(){
+    GSList *lista = NULL;
+    51g_print ("Buscando dispositivos de captura...\n");
+    lista = llenar_lista(lista);
+    g_print ("Se encontraron %i dispostivos\n",g_slist_length(lista));
+    g_print ("======= LISTA DE DISPOSITIVOS DE ADQUISICION DE DATOS =======\n");
+    g_slist_foreach(lista,imprimir_lista,NULL);
+    /*Es hora de liberar toda la memoria*/
+    g_slist_foreach(lista,limpiar_lista,NULL);
+    g_slist_free(lista);
+    g_print ("=============================================================\n");
+    return 0;
+
+
 La tarea anteriormente expuesta parece difícil, pero los últimos mejoras del sistema operativo
 Linux hacen que nuestra tarea no sea titánica. FreeDesktop es un grupo de expertos en computación
 que se han reunido para establecer estándares de operación entre las diferentes versiones
 (distribuciones) de Linux.
+
 Una de esas especificaciones es HAL (Hardware Abstraction Layer). Una serie de utilerías en
 línea de comandos permiten acceder a detalles del hardware de manera sencilla.
 La lógica detrás de este ejemplo es la siguiente:
 La función llenar_lista() usa HAL para listar a todos los dispositivos de sonido que sean de
 captura. Lo anterior implica la ejecución del programa hal-find-by-property, lo cual queda a
 cargo de la función g_spawn_command_line_sync() que ejecuta la linea de comandos, descrita
-en una cadena, y entrega la salida del comando en otra cadena (mi_stdout). La salida del comando
-es una lista de los dispositivos de captura de audio disponibles en el sistema y están separados por
+en una cadena, y entrega la salida del comando en otra cadena (mi_stdout).
+
+La salida del comandoes una lista de los dispositivos de captura de audio disponibles en el sistema y están separados por
 caracteres de nueva línea. Es necesario entonces dividirlos en cadenas independientes.
 La función g_strsplit() parte la cadena mi_stdout en un arreglo de cadenas, las cuales
-contienen ya,
-el identificador de cada dispositivo separado de todos los demás. La función
+contienen ya, el identificador de cada dispositivo separado de todos los demás. La función
 g_strsplit() regresa una cadena extra vacía que podemos ignorar.
+
 52Después de haber separado nuestros identificadores en cadenas de texto individuales se procede a
 llenar la lista enlazada simple con estos valores. Una vez preparada la lista enlazada, se libera la
 memoria que ya no sirve y se regresa el puntero de la nueva lista, ya llena.
 Llega la hora de presentar resultados. El numero de dispositivos encontrados es ahora reportado
 mediante g_slist_lenght().
+
 Ya hemos visto anteriormente como caminar a través de todos los elementos de la lista; hacemos
 lo mismo mediante imprimir_lista() que además de imprimir los identificadores de los dispositivos,
 utiliza g_spawn_command_line_sync() para investigar el dispositivo Linux correspondiente a
 cada dispositivo.
+
 Antes de poder liberar la memoria de la estructura de la lista enlazada simple, se debe recorrer y
 liberar la memoria de cada uno de los elementos de la lista en forma individual. Esto se hace fácilmente
 con la función limpiar_lista().
+
 El producto de nuestro programa se muestra a continuación.
 
-Figura 2.5.3: La lista de los dispositivos de captura de datos.
+
+.. image:: img/imagen_006.png
+  :alt: La lista de los dispositivos de captura de datos
+
