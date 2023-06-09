@@ -1669,7 +1669,7 @@ forma de usar el lenguaje de marcado de Pango para definir diferentes estilos de
 El Listado de Programa 3.8.3 luce como en la Figura 3.8.5
  
 
- .. image:: img/imagen_019.pongo
+ .. image:: img/imagen_019.png
   :alt: Uso del lenguaje de marcado en etiquetas
 
 El segundo ejemplo Listado de Programa 3.8.4 muestra como funciona las elipsis.

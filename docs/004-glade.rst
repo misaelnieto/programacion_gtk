@@ -42,8 +42,8 @@ La paleta contiene colecciones de **widgets** agrupados en las siguientes catego
 
 * Toplevels - Contiene ventanas y cuadros de dialogo.
 * Containers - Contenedores de todo tipo, como cajas y tablas.
-* Control and Display – **Widgets** de control y despliegue de datos como botones, etiquetas y
-entradas de texto.
+* Control and Display – **Widgets** de control y despliegue de datos como
+  botones, etiquetas y entradas de texto.
 * GTK+ Obsolete – Este grupo contiene **widgets** que han sido reemplazados por otros mas
 flexibles u otros que son de uso muy poco común, como GtkCurve.
 * GNOME User Interface – **Widgets** diseñados para ser usados con el entorno GNOME.
@@ -56,8 +56,8 @@ vectoriales o elementos gráficos interactivos.
 La ventana de propiedades contiene cinco pestañas, cada una mostrando información de
 configuración para cada **widget**.
 
-* General - En esta pestaña se ajustan propiedades generales de un **widget** como su nombre o el
-ancho de borde.
+* General - En esta pestaña se ajustan propiedades generales de un **widget**
+  como su nombre o el ancho de borde.
 * Empaquetado - En esta pestaña se encuentran los ajustes para aquellos **widget**s que se
 encuentren insertos en en contenedor (Consulte el capitulo 3.5 para una referencia completa del
 sistema de empaquetado de GTK+).
@@ -290,10 +290,10 @@ usando el nombre de la función y no un puntero a ella. Esta función permite co
 
 **Parámetros**:
 
-* **self** : Una instancia de GladeXML.
-* **handlername** : El nombre de la función retrollamada.
-* **func** : Un puntero a la función retrollamada. Use la macro G_CALLBACK() para
-moldear el puntero de la función al tipo adecuado.
+* **self**: Una instancia de GladeXML.
+* **handlername**: El nombre de la función retrollamada.
+* **func**: Un puntero a la función retrollamada. Use la macro G_CALLBACK()
+  para moldear el puntero de la función al tipo adecuado.
 
 .. code-block:: c
 
@@ -311,7 +311,7 @@ permite pasar el parámetro extra que se acostumbra en g_signal_connect().
 * **self** : Una instancia de GladeXML.
 * **handlername** : El nombre de la función retrollamada.
 * **handlername** : Un puntero a la función retrollamada. Use la macro
-G_CALLBACK() para moldear el puntero de la función al tipo adecuado.
+  G_CALLBACK() para moldear el puntero de la función al tipo adecuado.
 * **user_data** : Datos extra que se pasarán a la función retrollamada.
 
 .. code-block:: c
@@ -344,8 +344,8 @@ ventana con una etiqueta adentro.
 La segunda GUI será una ventana con un botón adentro. Con respecto a esta última debemos de
 asegurarnos que:
 
-* La instancia de la ventana deberá conectar la señal "delete-event" con el método
-delete_event() de GTK+.
+* La instancia de la ventana deberá conectar la señal "delete-event" con el
+  método delete_event() de GTK+.
 * La instancia del botón deberá conectar la señal **clicked** con el método retrollamada() que
 proveerá nuestra aplicación (ver Figura 4.6.1).
 * Que tanto la ventana como el botón tengan activada la propiedad visible (en la pestaña
