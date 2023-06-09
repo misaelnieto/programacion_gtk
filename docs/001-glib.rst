@@ -1099,7 +1099,7 @@ su estructura en C es la siguiente:
         GSList *next;
     } GSList;
 
-El puntero *data almacena los datos que se desean coleccionar, mientras que next apunta hacia
+El puntero `*data` almacena los datos que se desean coleccionar, mientras que next apunta hacia
 al siguiente elemento de la lista enlazada.
 
 
@@ -1113,7 +1113,7 @@ Constructor de clase
 Una lista enlazada simple no tiene constructor de clase en si, pues un puntero con el valor NULL se
 interpreta como una lista vacía.
 
-El puntero *GSList siempre se debe inicializar con NULL. El fin de una lista enlazada se
+El puntero `*GSList` siempre se debe inicializar con NULL. El fin de una lista enlazada se
 encuentra cuando el puntero next contiene el puntero NULL. De ahí que una lista vacía sólo es un
 puntero NULL.
 2.5.3
@@ -1193,8 +1193,9 @@ inicio de la lista pudo haber cambiado. Asegúrese de guardar el nuevo valor.
 
 * **list**: Una lista enlazada simple.
 * **data**: Los datos del elemento a insertar.
-* **position**: La posición del elemento a insertar. El elemento se inserta al final si la
-posición es negativa o es mayor al número de elementos de la lista.
+* **position**: La posición del elemento a insertar. El elemento se inserta al
+  final si la posición es negativa o es mayor al número de elementos de la
+  lista.
 
 **Valor de retorno**: El nuevo inicio de la lista enlazada simple.
 
