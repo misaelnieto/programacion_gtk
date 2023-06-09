@@ -147,7 +147,7 @@ ejecutable (código de maquina).
 
 Las opciones más comunes del compilador GCC son:
 
-.. code-block:: c
+.. code-block::
 
     -c
 
@@ -155,7 +155,7 @@ Las opciones más comunes del compilador GCC son:
 Compila, ensambla, pero no liga. Como resultado obtenemos un archivo objeto por cada
 archivo de código fuente. Generalmente se les asigna una extensión .o
 
-.. code-block:: c
+.. code-block::
 
     -S
 
@@ -163,7 +163,7 @@ archivo de código fuente. Generalmente se les asigna una extensión .o
 Compila pero no ensambla. Se entrega un archivo en ensamblador por cada archivo de código
 fuente. A los resultados de la salida se les asigna la extensión: .S
 
-.. code-block:: c
+.. code-block::
 
     '-E'
 
@@ -171,7 +171,7 @@ fuente. A los resultados de la salida se les asigna la extensión: .S
 Sólo realiza la etapa de preproceso. La salida estará en formato del código fuente, procesado
 con respectivo compilador.
 
-.. code-block:: c
+.. code-block::
 
     -o archivo
 
@@ -180,7 +180,7 @@ Se puede especificar el nombre del archivo de salida que generará el compilador
 cualquier forma de salida que se le esté instruyendo al compilador, ya sea, sólo ensamblar,
 compilar, ligar o todos.
 
-.. code-block:: c
+.. code-block::
 
     -Iruta
 
@@ -188,7 +188,7 @@ compilar, ligar o todos.
 Especifica la ruta hacia el directorio donde se encuentran los archivos marcados para incluir el
 programa fuente. No debe llevar espacio entre la I y la ruta, así: -I/usr/include.
 
-.. code-block:: c
+.. code-block::
 
     -L
 
@@ -197,14 +197,14 @@ Especifica una ruta hacia el directorio donde se encuentran los archivos de bibl
 código objeto de las funciones que se usan en el programa. No lleva espacio entre la L y la ruta,
 así: -L/usr/lib
 
-.. code-block:: c
+.. code-block::
 
     -Wall
 
 
 Muestra todos los mensajes del compilador(advertencias y errores).
 
-.. code-block:: c
+.. code-block::
 
     -g
 
@@ -212,7 +212,7 @@ Muestra todos los mensajes del compilador(advertencias y errores).
 Incluirá en el programa generado, la información necesaria para poder rastrear posibles errores
 en un programa usando un depurador, tal como GDB (GNU Debugger).
 
-.. code-block:: c
+.. code-block::
 
     -v
 
@@ -255,7 +255,7 @@ El preprocesado puede pedirse llamando directamente al preprocesador (con la ord
 haciéndolo mediante GCC (con la orden gcc). Los siguientes dos comandos producen una archivo de
 salida idéntico.
 
-.. code-block:: c
+.. code-block:: bash
 
     $ cpp circulo.c > circulo.i
     $ gcc -E circulo.c > circulo.i
@@ -271,7 +271,7 @@ El proceso de compilación transforma el código fuente preprocesado en lenguaje
 para el procesador en el que será usado el programa (típicamente nuestra propia maquina). Por
 ejemplo..
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -S circulo.c
 
@@ -285,7 +285,7 @@ Ensamblado
 El ensamblaje de nuestra aplicación es el penúltimo paso, transforma el archivo circulo.s o
 cualquier otro código en ensamblador en lenguaje binario ejecutable por la máquina. El ensamblador de GCC es as, he aquí un ejemplo:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ as -o circulo.o circulo.s
 
@@ -295,7 +295,7 @@ en ensamblador (circulo.s).
 Es muy infrecuente utilizar ensamblado, preprocesado o compilación por separado, lo usual es
 realizar todas las etapas anteriores hasta obtener el código objeto:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -c circulo.c
 
@@ -310,7 +310,7 @@ Las funciones de C/C++ incluidas en cualquier programa(printf, por ejemplo), se 
 compiladas y ensambladas en las bibliotecas existentes en el sistema. Es necesario incorporar de algún modo el código binario de estas funciones a nuestro programa ejecutable. En esto consiste la etapa de enlace, donde se reúnen uno o más códigos objeto con el código existente en las bibliotecas del sistema.
 El enlazador de GCC es la orden ld. A continuación un ejemplo:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ ld -o circulo circulo.o -lc
     ld: warning: cannot find entry symbol _start; defaulting to 08048184
@@ -328,7 +328,7 @@ El enlazador de GCC es la orden ld. A continuación un ejemplo:
 Esto es incómodo, es por eso que GCC puede ahorrarnos mucho trabajo si le pasamos el nombre
 del código objeto (o los nombres) que queremos convertir en ejecutable:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -o circulo circulo.o
 
@@ -336,7 +336,7 @@ del código objeto (o los nombres) que queremos convertir en ejecutable:
 Creará el programa ejecutable de una manera sencilla y en un sólo paso.
 En un programa con un sólo archivo fuente, todo el proceso puede hacerse de una vez por todas:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -o circulo circulo.c
 
@@ -393,14 +393,14 @@ Resumen
 
 Si desea producir un ejecutable a partir de un solo archivo de código fuente:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -o circulo circulo.c
 
 
 Para crear un módulo objeto, con el mismo nombre del archivo de código fuente y extensión .o:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -c circulo.c
 
@@ -409,7 +409,7 @@ Para crear un módulo objeto, con el mismo nombre del archivo de código fuente 
 
 Para enlazar los módulos verde.o, azul.o y rojo.o en un ejecutable llamador colores:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -o colores verde.o azul.o rojo
 
@@ -423,18 +423,21 @@ Introducción
 Cuando nuestros programas son sencillos (1 archivo de código fuente), el compilar es un proceso
 rápido, basta con usar gcc:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ gcc -o ejemplo ejemplo.c
 
 
 Sin embargo, si tenemos más de un archivo, la compilación sería más compleja:
 
-$ gcc -c modulo1.c
-$ gcc -c modulo2.c
-$ gcc -o programa modulo1.o modulo2.o
-Conforme crezca la complejidad de nuestro proyecto así crecerá la dificultad de crear algún
-entregable tal como una librería o un programa ejecutable.
+.. code-block:: bash
+
+    $ gcc -c modulo1.c
+    $ gcc -c modulo2.c
+    $ gcc -o programa modulo1.o modulo2.o
+
+Conforme crezca la complejidad de nuestro proyecto así crecerá la dificultad de
+crear algún entregable tal como una librería o un programa ejecutable.
 
 La herramienta make
 ===================
@@ -466,7 +469,7 @@ Variables
 Las variables en un Makefile no están tipeadas (es decir, no es necesario declarar previamente el tipo de valor irán a almacenar), en cambio todas son tratadas como cadenas de texto. Las variables que no están declaradas simplemente se tratan como si no existieran (por ejemplo son cero, o son una cadena vacía).
 La asignación de valores a una variable se hace de una manera sencilla:
 
-.. code-block:: c
+.. code-block:: makefile
 
     nombre = dato
 
@@ -476,28 +479,28 @@ variable deberemos encerrar el nombre de la variable entre paréntesis y antepon
 
 Siguiente regla:
 
-.. code-block:: c
+.. code-block:: makefile
 
     SRC = main.c
 
 
 Origina la siguiente línea:
 
-.. code-block:: c
+.. code-block:: makefile
 
     gcc $(SRC)
 
 
 Y será interpretada como:
 
-.. code-block:: c
+.. code-block:: makefile
 
     $ gcc main.c
 
 
 Sin embargo, una variable puede contener más de un elemento, por ejemplo:
 
-.. code-block:: c
+.. code-block:: makefile
 
     objects = modulo_1.o modulo_2.o \
     modulo_3.o \
@@ -509,7 +512,7 @@ Sin embargo, una variable puede contener más de un elemento, por ejemplo:
 Debemos hacer notar que la utilidad make hace distinción entre mayúsculas y minúsculas.
 Reglas explícitas. Las reglas explícitas le dictan a make qué archivos dependen de otros y los comandos a usar para lograr un objetivo en específico. El formato es:
 
-.. code-block:: c
+.. code-block:: makefile
 
     objetivo: requisitos
     comando #para lograr el objetivo
@@ -518,7 +521,7 @@ Reglas explícitas. Las reglas explícitas le dictan a make qué archivos depend
 Esta regla le instruye a make como crear un objetivo a partir de los requisitos utilizando un
 comando específico. Por ejemplo, para generar un ejecutable que se llame main, escribiremos algo por el estilo:
 
-.. code-block:: c
+.. code-block:: makefile
 
     main: main.c main.h
     gcc -o main main.c main.h
@@ -531,21 +534,21 @@ Reglas implícitas
 
 La reglas implícitas confían a make el trabajo de adivinar qué tipo de archivo queremos procesar (para ello utiliza las extensiones o sufijos del o los archivos). Las reglas implícitas ahorran el trabajo de tener que indicar qué comandos hay que ejecutar para lograr el objetivo, pues esto se infiere a partir de la extensión del archivo a procesar. Por ejemplo:
 
-.. code-block:: c
+.. code-block:: makefile
 
     funciones.o : funcion1.c funcion1.c
 
 
 origina la siguiente linea:
 
-.. code-block:: c
+.. code-block:: makefile
 
     $(CC) $(CFLAGS) -c funcion1.c funcion2.c
 
 
 Existe un conjunto de variables que ya están predefinidas y se utilizan para las reglas implícitas. De ellas existen dos categorías: (a) aquellas que son nombres de programas (como CC, que invoca al compilador de C), y (b) aquellas que contienen los argumentos para los programas invocados (como CFLAGS, que contiene las opciones que se le pasarán al compilador de C). Todas estas variables ya son provistas y contienen valores predeterminados , sin embargo, pueden ser modificados como se muestra a continuación:
 
-.. code-block:: c
+.. code-block:: makefile
 
     CC = gcc
     CFLAGS = -g -Wal
@@ -559,7 +562,7 @@ Un ejemplo de un archivo Makefile
 
 A continuación se muestra el ejemplo de un archivo Makefile completo donde se incluyen todos los tipos de declaraciones. En este ejemplo se utiliza la utilidad make para ayudar a la compilación de los módulos funciones.c y main.c para crear un ejecutable llamado mi_programa.
 
-.. code-block:: c
+.. code-block:: makefile
 
     # La siguiente regla implicita instruye a make en como
     # procesar los archivos con extensión .c y .o
@@ -588,14 +591,14 @@ A continuación se muestra el ejemplo de un archivo Makefile completo donde se i
 En este archivo Makefile se han definido dos reglas explícitas que indican como construir los
 objetivos all y clean. Para llevar a cabo alguno de los dos objetivos basta ejecutar:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ make
 
 
 ... lo cual ejecutará la primera regla que encuentra, es decir all, la cual compilará los programas definidos en la variable $(OBJECT). Si se desea que se ejecuten las tareas de la regla clean, se deberá ejecutar:
 
-.. code-block:: c
+.. code-block:: bash
 
     $ make clean
 
@@ -623,7 +626,7 @@ forma, que GNU también puede interpretar.
 La forma de definir una regla que permita convertir un archivos PostScript en formato PDF sería
 de la siguiente manera:
 
-.. code-block:: c
+.. code-block:: makefile
 
     %.pdf: %.ps
     ps2pdf $<
@@ -632,7 +635,7 @@ de la siguiente manera:
 Se ha indicado que los archivos cuya extensión son .pdf dependen de los archivos .ps, y que se
 generan utilizando el programa indicado en la linea siguiente(ps2pdf). El parámetro de entrada para el programa será el nombre del archivo con extensión .ps. Sólo falta indicar la regla que archivos se irán a convertir, por ejemplo:
 
-.. code-block:: c
+.. code-block:: makefile
 
     all: documento1.pdf documento2.pdf
 
@@ -641,7 +644,7 @@ De esta forma, el objetivo de make será construir all, para lo cual debe constr
 documento1.pdf y documento2.pdf. Para lograr este objetivo, make buscará los archivos
 documento1.ps y documento2.ps, lo cual se traducirá en los siguientes comandos:
 
-.. code-block:: c
+.. code-block:: makefile
 
     ps2pdf documento1.ps
     ps2pdf documento2.ps
@@ -661,7 +664,7 @@ Las variables automáticas más empleadas son:
 * **$?** Es el nombre de todos los prerequisitos.
 * **$@** Es el nombre del archivo del objetivo de la regla.
 
-.. code-block:: c
+.. code-block:: makefile
 
     %.pdf : %.ps
     ps2pdf $ <
@@ -679,14 +682,14 @@ Las variables automáticas más empleadas son:
 En el ejemplo, se han definido dos reglas implícitas. La primer indica cómo convertir un archivo PostScript a PDF y la segunda dice cómo comprimir un archivo pdf en formato ZIP. También se han definido cuatro reglas, dos de ellas son implícitas (pdf y zip), donde sólo se han indicado sus requisitos de las otras dos (paquete y clean) son explícitas.
 Cuando se ejecute la regla paquete, make analizará las dependencias, es decir, verificará si existen los correspondientes archivos PDF, si no existieren, los construye para luego ejecutar el comando indicado en la regla. La variable $? será expandida a "documento1.pdf documento2.pdf" y la variable $@ será expandida a "paquete". De esta forma el comando a ejecutar será:
 
-.. code-block:: c
+.. code-block:: bash
 
     tar -zcvf paquete.tar.gz documento1.pdf documento2.pdf
 
 
 En el caso de la regla zip, al resolver las dependencias se ejecutará:
 
-.. code-block:: c
+.. code-block:: bash
 
     zip documento1.zip documento1.pdf
     zip documento2.zip documento2.pdf
