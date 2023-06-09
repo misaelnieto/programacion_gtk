@@ -14,36 +14,36 @@ El compilador GNU C es una herramienta de línea de comandos y puede aceptar gra
 instrucciones que le indican la manera de comportarse. La lista de todas las opciones, modificadores y
 conmutadores es muy extensa, sin embargo todas obedecen simples reglas.
 
-* La sinopsis de uso de gcc es:
+La sinopsis de uso de gcc es:
 
 .. code-block:: c
 
-    gcc [ opciones | archivos ] ...           
+    gcc [ opciones | archivos ] ...
 
 
 * Las opciones generalmente van precedidas de un guión (estilo UNIX), o un doble
   guión (estilo GNU). Las opciones estilo UNIX pueden agruparse y constar de
-  varias letras; Las opciones estilo GNU deberán indicarse por separado , en
+  varias letras; Las opciones estilo GNU deberán indicarse por separado, en
   forma de una palabra completa.
 * Algunas opciones requerirán de algún parámetro como un número, un
   directorio,un archivo, una cadena o una frase.
 * La orden gcc se puede utilizar indistintamente, no importando el lenguaje
   usado: Apegándose a unas sencillas reglas, el compilador será capaz de
-  determinar la acción a ejecutar dependiendo de la extensión de los archivos
+  determinar la acción a ejecutar dependiendo de la extensión de los archivos.
 * Finalmente, todo lo que no se reconozca como parámetro u opción, será tratado
   como archivo y, dependiendo de su extensión, éste será procesado como código
-  fuente o código objeto
+  fuente o código objeto.
 
 
 .. list-table:: Extensiones de archivo y su significado para GCC.
    :widths: 50 50
    :header-rows: 1
 
-   * - Extensión de Archivo 
+   * - Extensión de Archivo
      - Descripción
    * - .c
      - Código fuente en C.
-   * - .C  .cc  .cpp  .c++  .cp  .cxx 
+   * - .C  .cc  .cpp  .c++  .cp  .cxx
      - Código   fuente   en   C++.   Se   recomienda   usar extensión .cpp
    * - .m
      - Código   fuente   en   Objective   C.   Un   programa hecho en Objective C debe ser ligado a la librería libobjc.a  para   que   pueda   funcionar correctamente.
@@ -57,7 +57,7 @@ conmutadores es muy extensa, sin embargo todas obedecen simples reglas.
      - Código objeto.
    * - .h
      - Archivo   para   preprocesador   (encabezados), no suele figurar en la línea de comandos de GCC.
-   * - OTRO 
+   * - OTRO
      - Cualquier otro parámetro que no sea archivo de los arriba expuesto o un parámetro válido, será tomado como si fuera un archivo objeto
 
 
@@ -149,7 +149,7 @@ Las opciones más comunes del compilador GCC son:
 
 .. code-block:: c
 
-    -c 
+    -c
 
 
 Compila, ensambla, pero no liga. Como resultado obtenemos un archivo objeto por cada
@@ -206,7 +206,7 @@ Muestra todos los mensajes del compilador(advertencias y errores).
 
 .. code-block:: c
 
-    -g   
+    -g
 
 
 Incluirá en el programa generado, la información necesaria para poder rastrear posibles errores
@@ -357,7 +357,6 @@ Existen dos modos de realizar un enlace:
 
 Confrontemos ambos alcances:
 
-
 .. list-table:: Title
    :widths: 50 50
    :header-rows: 1
@@ -374,16 +373,16 @@ Confrontemos ambos alcances:
      - `gcc -o circulo_d circulo.c`
    * -
      -
-   * - 
-     - 
-   * - 7.0kB 475kB
-     - 
-   * - 
-     -
-   * - 
-     - 
    * -
-     - 
+     -
+   * - 7.0kB 475kB
+     -
+   * -
+     -
+   * -
+     -
+   * -
+     -
 
 
 Como podemos ver, la versión estática del programa no muestra dependencia alguna con las
@@ -469,7 +468,7 @@ La asignación de valores a una variable se hace de una manera sencilla:
 
 .. code-block:: c
 
-    nombre = dato  
+    nombre = dato
 
 
 De esta forma se simplifica el uso de los archivos Makefile. Para obtener el valor de una
@@ -612,12 +611,15 @@ Definiendo nuevas reglas
 make tiene definido un conjunto de reglas básicas para convertir archivos, típicamente los archivos cuyas extensiones pertenecen a los lenguajes más conocidos como C, C++, Java, Fortran, entre otros.
 También es posible crear reglas propias para formatos de archivos que no necesariamente han de
 crear un programa ejecutable.
+
 Por ejemplo, se puede mantener un conjunto de documentos, cuyo fuente se encuentran en
 formato .lyx y que se desea convertir a otros formatos como PDF, TeX, Postcript, etc y cuyos sufijos
 son desconocidos por make.
+
 A continuación se describe cómo añadir nuevas reglas con GNU make, el cual puede diferir con
 versiones antiguas de make. Por compatibilidad, más adelante se explica cómo definirlo de la antigua
 forma, que GNU también puede interpretar.
+
 La forma de definir una regla que permita convertir un archivos PostScript en formato PDF sería
 de la siguiente manera:
 
