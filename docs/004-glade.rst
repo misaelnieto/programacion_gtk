@@ -47,11 +47,11 @@ La paleta contiene colecciones de **widgets** agrupados en las siguientes catego
 * GTK+ Obsolete – Este grupo contiene **widgets** que han sido reemplazados por
   otros mas flexibles u otros que son de uso muy poco común, como GtkCurve.
 * GNOME User Interface – **Widgets** diseñados para ser usados con el entorno GNOME.
-* GNOME UI Obsolete – **Widgets** diseñados para usarse con el entorno GNOME pero que han
-sido reemplazados con otros más flexibles o ya son de uso poco común. Algunos **widgets** ya
-han sido implementados directamente en GTK+.
-* GNOME Canvas – **Widgets** de dibujo, especialmente diseñados para aplicaciones con dibujos
-vectoriales o elementos gráficos interactivos.
+* GNOME UI Obsolete – **Widgets** diseñados para usarse con el entorno GNOME
+  pero que han sido reemplazados con otros más flexibles o ya son de uso poco
+  común. Algunos **widgets** ya han sido implementados directamente en GTK+.
+* GNOME Canvas – **Widgets** de dibujo, especialmente diseñados para
+  aplicaciones con dibujos vectoriales o elementos gráficos interactivos.
 
 La ventana de propiedades contiene cinco pestañas, cada una mostrando información de
 configuración para cada **widget**.
@@ -61,13 +61,15 @@ configuración para cada **widget**.
 * Empaquetado - En esta pestaña se encuentran los ajustes para aquellos
   **widget**s que se encuentren insertos en en contenedor (Consulte el capitulo
   3.5 para una referencia completa del sistema de empaquetado de GTK+).
-* Comunes - Esta pestaña muestra una colección de propiedades ajustables de cualquier **widget**.
-Estas operaciones tienen como contra parte algún método de la clase GtkWidget.
-* Señales - Esta es una lista, agrupada por clase, de todas las señales que puede atrapar un *widget*.
-A la izquierda se muestra el nombre de la señal y a la derecha el nombre de la función
-retrollamada.
-* Tecnología de asistencia - GTK+ toma en cuenta a las personas con capacidades diferentes. En
-esta pestaña permite añadir soporte de tecnología de asistencia a una aplicación de GTK+.
+* Comunes - Esta pestaña muestra una colección de propiedades ajustables de
+  cualquier **widget**. Estas operaciones tienen como contra parte algún método
+  de la clase GtkWidget.
+* Señales - Esta es una lista, agrupada por clase, de todas las señales que
+  puede atrapar un *widget*. A la izquierda se muestra el nombre de la señal y a
+  la derecha el nombre de la función retrollamada.
+* Tecnología de asistencia - GTK+ toma en cuenta a las personas con capacidades
+  diferentes. En esta pestaña permite añadir soporte de tecnología de asistencia
+  a una aplicación de GTK+.
 
 Una vez que hemos revisado de manera general Glade3 podemos comenzar un proyecto.
 
