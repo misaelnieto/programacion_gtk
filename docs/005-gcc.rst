@@ -21,16 +21,18 @@ conmutadores es muy extensa, sin embargo todas obedecen simples reglas.
     gcc [ opciones | archivos ] ...           
 
 
-* Las opciones generalmente van precedidas de un guión (estilo UNIX), o un doble guión (estilo
-GNU). Las opciones estilo UNIX pueden agruparse y constar de varias letras; Las opciones
-estilo GNU deberán indicarse por separado , en forma de una palabra completa.
-* Algunas opciones requerirán de algún parámetro como un número, un directorio,un archivo,
-una cadena o una frase.
-* La orden gcc se puede utilizar indistintamente, no importando el lenguaje usado: Apegándose
-a unas sencillas reglas, el compilador será capaz de determinar la acción a ejecutar dependiendo
-de la extensión de los archivos
-* Finalmente, todo lo que no se reconozca como parámetro u opción, será tratado como archivo y,
-dependiendo de su extensión, éste será procesado como código fuente o código objeto
+* Las opciones generalmente van precedidas de un guión (estilo UNIX), o un doble
+  guión (estilo GNU). Las opciones estilo UNIX pueden agruparse y constar de
+  varias letras; Las opciones estilo GNU deberán indicarse por separado , en
+  forma de una palabra completa.
+* Algunas opciones requerirán de algún parámetro como un número, un
+  directorio,un archivo, una cadena o una frase.
+* La orden gcc se puede utilizar indistintamente, no importando el lenguaje
+  usado: Apegándose a unas sencillas reglas, el compilador será capaz de
+  determinar la acción a ejecutar dependiendo de la extensión de los archivos
+* Finalmente, todo lo que no se reconozca como parámetro u opción, será tratado
+  como archivo y, dependiendo de su extensión, éste será procesado como código
+  fuente o código objeto
 
 
 .. list-table:: Extensiones de archivo y su significado para GCC.
@@ -349,8 +351,9 @@ Enlace dinámico y estático
 Existen dos modos de realizar un enlace:
 
 * **Estático**: Los binarios de las funciones se incorporan al código de nuestra aplicación.
-* **Dinámico**: El código de las funciones permanece en las bibliotecas del sistema, nuestra
-aplicación cargará en memoria la librería necesaria y obtendrá de ella las funciones que requiere para trabajar.
+* **Dinámico**: El código de las funciones permanece en las bibliotecas del
+  sistema, nuestra aplicación cargará en memoria la librería necesaria y
+  obtendrá de ella las funciones que requiere para trabajar.
 
 Confrontemos ambos alcances:
 
@@ -651,8 +654,8 @@ genérica, así, si se requiere modificar el nombre de un archivo o regla que en
 Las variables automáticas más empleadas son:
 
 * **$ <** El nombre del primer requisito.
-* **$** En la definición de una regla implícita tiene el valor correspondiente al texto que
-reemplazará el símbolo %.
+* **$** En la definición de una regla implícita tiene el valor correspondiente
+  al texto que reemplazará el símbolo %.
 * **$?** Es el nombre de todos los prerequisitos.
 * **$@** Es el nombre del archivo del objetivo de la regla.
 
