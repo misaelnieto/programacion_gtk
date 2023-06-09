@@ -1235,9 +1235,9 @@ función de comparación especificada.
 
 * list: Una lista enlazada simple.
 * data: Los datos del elemento a insertar.
-* func: La función que será usada para ordenar lo datos de la lista. Esta función deberá
-tomar dos parámetros y deberá regresar un valor mayor a cero si el primer parámetro
-debe ir después del segundo parámetro.
+* func: La función que será usada para ordenar lo datos de la lista. Esta
+  función deberá tomar dos parámetros y deberá regresar un valor mayor a cero si
+  el primer parámetro debe ir después del segundo parámetro.
 
 **Valor de retorno**: El nuevo inicio de la lista enlazada simple.
 
@@ -1319,8 +1319,8 @@ ha llegado al último elemento.
 * **list**: Una lista enlazada simple.
 * **n**: la posición del elemento, iniciando desde 0.
 *
-**Valor de retorno**: El n-ésimo elemento de la lista enlazada simple. NULL si la lista esta vacía o la
-posición buscada está fuera de los límites de la lista.
+**Valor de retorno**: El n-ésimo elemento de la lista enlazada simple. NULL si
+la lista esta vacía o la posición buscada está fuera de los límites de la lista.
 
 .. code-block:: c
 
@@ -1337,8 +1337,9 @@ posición buscada está fuera de los límites de la lista.
 * **list**: Una lista enlazada simple.
 * **n**: la posición del elemento, iniciando desde 0.
 *
-**Valor de retorno**: Los datos del n-ésimo elemento de la lista enlazada simple. NULL si la lista
-esta vacía o la posición buscada está fuera de los límites de la lista.
+**Valor de retorno**: Los datos del n-ésimo elemento de la lista enlazada
+simple. NULL si la lista esta vacía o la posición buscada está fuera de los
+límites de la lista.
 
 .. code-block:: c
 
@@ -1354,7 +1355,7 @@ esta vacía o la posición buscada está fuera de los límites de la lista.
 
 * **list**: Una lista enlazada simple.
 * **data**: los datos que se buscan.
-*
+
 **Valor de retorno**: El elemento que contiene los datos. NULL si no se encuentra nada.
 
 .. code-block:: c
@@ -1373,9 +1374,9 @@ encontrado el elemento deseado.
 
 * list: Una lista enlazada simple.
 * data: los datos que se buscan.
-* func: la función que se llama por cada elemento. Esta función debe de tomar dos
-punteros de tipo gconstpointer, los cuales son los datos del nodo que se esta
-iterando y los datos que se buscan, respectivamente
+* func: la función que se llama por cada elemento. Esta función debe de tomar
+  dos punteros de tipo gconstpointer, los cuales son los datos del nodo que se
+  esta iterando y los datos que se buscan, respectivamente
 
 **Valor de retorno**: El elemento que contiene los datos. NULL si no se encuentra nada.
 44Las siguientes funciones servirán para encontrar el índice de un elemento dentro de la lista
@@ -1394,7 +1395,7 @@ iterando y los datos que se buscan, respectivamente
 
 * **list**: Una lista enlazada simple.
 * **llink**: un elemento/nodo dentro de la lista enlazada simple.
-*
+
 **Valor de retorno**: El índice del nodo dentro de la lista ó -1 si no se encuentra nada.
 
 .. code-block:: c
@@ -1411,7 +1412,7 @@ iterando y los datos que se buscan, respectivamente
 
 * **list**: Una lista enlazada simple.
 * **data**: los datos que se buscan.
-*
+
 **Valor de retorno**: El índice del elemento que contiene los datos ó -1 si no se encuentra nada.
 Si deseamos recorrer, iterar o caminar a lo largo de la lista debemos usar la siguiente función.
 
@@ -1430,9 +1431,9 @@ lista.
 **Parámetros**:
 
 * **list**: Una lista enlazada simple.
-* **func**: La función que se llamará con cada elemento. Esta función debe tomar dos
-punteros de tipo gpointer. El primero corresponde a los datos del elemento iterado, el
-segundo a los datos extras proporcionados por el programador.
+* **func**: La función que se llamará con cada elemento. Esta función debe tomar
+  dos punteros de tipo gpointer. El primero corresponde a los datos del elemento
+  iterado, el segundo a los datos extras proporcionados por el programador.
 
 2.5.4
 **user_data**: datos extras proporcionados por el programador.
@@ -1480,8 +1481,8 @@ Comencemos la descripción del ciclo de vida de una lista enlazada simple.
 
 
 
-* Ahora podemos manipular la lista a nuestro antojo. Podemos, por ejemplo, añadir una sola
-cadena al final...
+* Ahora podemos manipular la lista a nuestro antojo. Podemos, por ejemplo,
+  añadir una sola cadena al final...
 
 .. code-block:: c
 
