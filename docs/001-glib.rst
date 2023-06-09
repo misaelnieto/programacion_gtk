@@ -1513,11 +1513,12 @@ Comencemos la descripción del ciclo de vida de una lista enlazada simple.
 
 
 * Cuando llega el momento de recavar la información guardada en la lista tendremos que recordar
-la estructura en C vista arriba. El mismo puntero GSList que representa la lista enlazada, es a
-su vez el puntero al primer nodo de la lista. El elemento data del nodo es un puntero a los
-datos guardados y el elemento next apunta al siguiente nodo de la lista o es NULL si ya no hay
-más elementos. La manera correcta de acceder a los datos que contiene un nodo es mediante la
-notación de punteros:
+la estructura en C vista arriba. El mismo puntero GSList que representa la lista
+enlazada, es a su vez el puntero al primer nodo de la lista. El elemento data
+del nodo es un puntero a los datos guardados y el elemento next apunta al
+siguiente nodo de la lista o es NULL si ya no hay más elementos. La manera
+correcta de acceder a los datos que contiene un nodo es mediante la notación de
+punteros:
 
 .. code-block:: c
 
