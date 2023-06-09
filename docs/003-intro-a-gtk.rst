@@ -53,41 +53,44 @@ estilo de programación como el entorno de programación de GNOME.
 Como extracto del documento “GNOME Programming Guidelines”[7] resumimos la
 nomenclatura de GTK+. 
 
-* Siempre que sea posible, en GTK+ siempre se debe evitar el uso de variables globales. Esto es
-importante aún más para librerías, ya que las variables globales dentro de
-sendos módulos se exportan junto a las funciones (métodos si consideramos a una
-librería como un objeto). Todos estos **símbolos** se integran al espacio global
-de nombres de la aplicación que llama a la librería(Global Namespace). Un
-variable global de una librería cuyo nombre haya sido asignado de manera
-descuidada puede causar conflictos con otra variable con el mismo nombre que se
-esté usando en una parte del código que utiliza la librería.
+* Siempre que sea posible, en GTK+ siempre se debe evitar el uso de variables
+  globales. Esto es importante aún más para librerías, ya que las variables
+  globales dentro de sendos módulos se exportan junto a las funciones (métodos
+  si consideramos a una librería como un objeto). Todos estos **símbolos** se
+  integran al espacio global de nombres de la aplicación que llama a la
+  librería(Global Namespace). Un variable global de una librería cuyo nombre
+  haya sido asignado de manera descuidada puede causar conflictos con otra
+  variable con el mismo nombre que se esté usando en una parte del código que
+  utiliza la librería.
 
-* Los nombres de las funciones deberán tener la forma modulo_submodulo_operacion().
-Por ejemplo: gtk_window_new(), g_string_truncate() ó g_tree_destroy().
-Esta simple nomenclatura evita el choque de **símbolos** o nombres entre diferentes módulos de
-las librerías.
+* Los nombres de las funciones deberán tener la forma
+  modulo_submodulo_operacion(). Por ejemplo: gtk_window_new(),
+  g_string_truncate() ó g_tree_destroy(). Esta simple nomenclatura evita el
+  choque de **símbolos** o nombres entre diferentes módulos de las librerías.
 
-* Los **símbolos** (funciones y variables), deberán tener nombres descriptivos: en lugar de usar
-cntusr() deberemos usar contar_usuarios_activos(). Esto hace que el código
-fuente sea fácil de usar y casi auto-documentado.
-* Los nombres de funciones deben estar en minúsculas y deberán usar guión bajo para separar
-palabras, por ejemplo: g_string_destroy(), gtk_window_new(),
-abrir_puerto().
+* Los **símbolos** (funciones y variables), deberán tener nombres descriptivos:
+  en lugar de usar cntusr() deberemos usar contar_usuarios_activos(). Esto hace
+  que el código fuente sea fácil de usar y casi auto-documentado.
+* Los nombres de funciones deben estar en minúsculas y deberán usar guión bajo
+  para separar palabras, por ejemplo: g_string_destroy(), gtk_window_new(),
+  abrir_puerto().
 
-* Las macros y enumeraciones deben escribirse en letras mayúsculas, utilizando guiones bajos
-para separar palabras, por ejemplo: TRUE o G_DIR_SEPARATOR .
-* Tipos de datos, objetos y nombres de estructuras son una mezcla entre mayúsculas y
-minúsculas, por ejemplo: Gslist, GtkWidget.
+* Las macros y enumeraciones deben escribirse en letras mayúsculas, utilizando
+  guiones bajos para separar palabras, por ejemplo: TRUE o G_DIR_SEPARATOR .
+* Tipos de datos, objetos y nombres de estructuras son una mezcla entre
+  mayúsculas y minúsculas, por ejemplo: Gslist, GtkWidget.
 
-* El uso de guión bajo para separar palabras hace que el código fuente luzca menos apretado y
-fácil de editar ya que se pueden utilizar de mejor manera los comandos de navegación por
-palabras de los editores de texto de forma que naveguemos más rápidamente.
+* El uso de guión bajo para separar palabras hace que el código fuente luzca
+  menos apretado y fácil de editar ya que se pueden utilizar de mejor manera los
+  comandos de navegación por palabras de los editores de texto de forma que
+  naveguemos más rápidamente.
 
-* A la hora de escribir una librería se hace común compartir **símbolos** (nombres de variables o
-funciones), entre los diversos componentes de la librería pero no se desea que estos símbolos
-estén disponibles para los usuarios de la librería. En tal caso, se puede anteponer un guión bajo
-al nombre de la función o variable mientras éste sigue la nomenclatura modulo/submódulo
-descrita arriba. Por ejemplo: _modulo_objeto_algunmetodo().
+* A la hora de escribir una librería se hace común compartir **símbolos**
+  (nombres de variables o funciones), entre los diversos componentes de la
+  librería pero no se desea que estos símbolos estén disponibles para loss
+  usuarios de la librería. En tal caso, se puede anteponer un guión bajo al
+  nombre de la función o variable mientras éste sigue la nomenclatura
+  modulo/submódulo descrita arriba. Por ejemplo: _modulo_objeto_algunmetodo().
 
 
 Proceso de creación de un widget
