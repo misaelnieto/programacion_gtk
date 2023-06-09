@@ -985,8 +985,8 @@ Este valor se controla mediante la propiedad "row-spacing".
  * Numero de filas. Define el número de filas que contendrá la tabla. Un widget
    puede ocupar más de dos columnas consecutivas.
  
-* Homogeneidad. Define si las todas las celdas de la tabla tienen el mismo ancho y alto.
-**Parámetros** de comportamiento de los widgets hijos de GtkTable.
+* Homogeneidad. Define si las todas las celdas de la tabla tienen el mismo ancho
+  y alto. **Parámetros** de comportamiento de los widgets hijos de GtkTable.
 
 * Columna. La columna donde se encuentra un widget se numera de izquierda a
   derecha a partir del numero cero.
@@ -1103,9 +1103,11 @@ Para ocupar una o más celdas contiguas especifique la coordenada superior izqui
 * **table** : Una instancia de GtkTable.
 * **spacing** : El nuevo espaciado en **pixeles**.
 
-    void gtk_table_set_row_spacing (GtkTable *table,
-    guint row,
-    guint spacing);
+.. code block:: c
+    
+      void gtk_table_set_row_spacing (GtkTable *table,
+      guint row,
+      guint spacing);
 
 
 **Descripción**: Establece el espaciado de una sola fila de la tabla con respecto a las filas adyacentes.
@@ -1141,10 +1143,10 @@ adyacentes.
 
 **Parámetros**:
 
-* **table** : Una instancia de GtkTable.
-* **homogeneous** : TRUE si se desea que todas las celdas de la tabla tengan el mismo
-tamaño. Establecer a FALSE si se desea que cada celda se comporte de manera
-independiente.
+* **table**: Una instancia de GtkTable.
+* **homogeneous**: TRUE si se desea que todas las celdas de la tabla tengan el
+  mismo tamaño. Establecer a FALSE si se desea que cada celda se comporte de
+  manera independiente.
 
 .. code-block:: c
 
@@ -1156,8 +1158,8 @@ independiente.
 
 **Parámetros**:
 
-* **table** : Una instancia de GtkTable.
-* 
+* **table**: Una instancia de GtkTable.
+ 
 **Valor de retorno**: El espaciado de la fila.
 
 .. code-block:: c
@@ -1213,8 +1215,8 @@ independiente.
 
 **Parámetros**:
 
-* **table** : Una instancia de GtkTable.
-* 
+* **table**: Una instancia de GtkTable.
+ 
 **Valor de retorno**: El estado de la propiedad "homogeneous".
 
 Etiquetas
@@ -1250,8 +1252,9 @@ Solo existe un constructor de clase para GtkLabel.
 
 **Parámetros**:
 
-* **str** : El texto que contendrá la etiqueta. Si no se desea ningún texto adentro de la
-etiqueta se puede pasar NULL como parámetro para una etiqueta vacía.
+* **str**: El texto que contendrá la etiqueta. Si no se desea ningún texto
+  adentro de la etiqueta se puede pasar NULL como parámetro para una etiqueta
+  vacía.
 
 **Valor de retorno**: una nueva instancia de GtkLabel.
 
@@ -1272,7 +1275,7 @@ de la etiqueta y obtenerlo. Si se desea borrar el texto de una etiqueta solo es 
 
 * **label** : Una instancia de GtkLabel
 * **str** : Un puntero a una cadena que contiene el texto que desplegara la etiqueta. Si
-especifica NULL entonces se desplegara una etiqueta vacía.
+  especifica NULL entonces se desplegara una etiqueta vacía.
 
 .. code-block:: c
 
@@ -1283,7 +1286,7 @@ especifica NULL entonces se desplegara una etiqueta vacía.
 **Parámetros**:
 
 * **label** : Una instancia de GtkLabel.
-* 
+
 **Valor de retorno**: un puntero a la cadena que esta almacenada en la etiqueta. La instancia de
 GtkLabel es dueña de la cadena y por tanto la esta no debe ser modificada.
 
@@ -1303,10 +1306,10 @@ define la alineación entre las diferentes lineas del texto con respecto unas de
 
 **Parámetros**:
 
-* label : Una instancia de GtkLabel.
-* jtype : El tipo de alineación del las lineas de texto en relación con las demás. Lo
-anterior implica que no hay efecto visible para las etiquetas que contienen solo una
-linea. Las diferentes alineaciones son:
+* **label**: Una instancia de GtkLabel.
+* **jtype**: El tipo de alineación del las lineas de texto en relación con las
+  demás. Lo anterior implica que no hay efecto visible para las etiquetas que
+  contienen solo una linea. Las diferentes alineaciones son:
 
 * GTK_JUSTIFY_LEFT,
 * GTK_JUSTIFY_RIGHT,
@@ -1343,19 +1346,19 @@ define el comportamiento de GtkLabel cuando no existe suficiente espacio para di
 
 **Parámetros**:
 
-* **label** : Una instancia de GtkLabel.
-* **mode** : Se debe establecer a cualquiera de los cuatro modos definidos en la enumeración PangoEllipsizeMode, a saber: PANGO_ELLIPSIZE_NONE,
-PANGO_ELLIPSIZE_START, PANGO_ELLIPSIZE_MIDDLE y
-PANGO_ELLIPSIZE_END. Estos cuatro modos definen si se dibujara una elipsis
-("...") cuando no haya suficiente espacio para dibujar todo el texto que contiene la
-etiqueta. Se omitirán los caracteres suficientes para insertar la elipsis.
-Si se especifica PANGO_ELLIPSIZE_NONE no se dibujara la elipsis.
-Si se especifica PANGO_ELLIPSIZE_START entonces se omitirán caracteres del
-principio de la cadena en favor de la elipsis.
-Si se especifica PANGO_ELLIPSIZE_MIDDLE los caracteres se omitirán desde la
-mitad de la cadena hacia los extremos.
-Si se especifica PANGO_ELLIPSIZE_END los últimos caracteres se eliminaran en
-favor de la elipsis.
+* **label**: Una instancia de GtkLabel.
+* **mode**: Se debe establecer a cualquiera de los cuatro modos definidos en la
+  enumeración PangoEllipsizeMode, a saber: PANGO_ELLIPSIZE_NONE,
+  PANGO_ELLIPSIZE_START, PANGO_ELLIPSIZE_MIDDLE y PANGO_ELLIPSIZE_END. Estos
+  cuatro modos definen si se dibujara una elipsis ("...") cuando no haya
+  suficiente espacio para dibujar todo el texto que contiene la etiqueta. Se
+  omitirán los caracteres suficientes para insertar la elipsis. Si se especifica
+  PANGO_ELLIPSIZE_NONE no se dibujara la elipsis. Si se especifica
+  PANGO_ELLIPSIZE_START entonces se omitirán caracteres del principio de la
+  cadena en favor de la elipsis. Si se especifica PANGO_ELLIPSIZE_MIDDLE los
+  caracteres se omitirán desde la mitad de la cadena hacia los extremos. Si se
+  especifica PANGO_ELLIPSIZE_END los últimos caracteres se eliminaran en favor
+  de la elipsis.
 
 .. code-block:: c
 
@@ -1383,12 +1386,13 @@ acuerdo al lenguaje de marcado de la librería Pango (similar a HTML). Con este 
 
 **Parámetros**:
 
-* **label** : Una instancia de GtkLabel.
-* **str** : Un puntero a una cadena que contiene el texto que desplegara la etiqueta y en
-el lenguaje de marcado de Pango.
-Si especifica NULL entonces se desplegara una etiqueta vacía. Si el texto no coincide
-con el lenguaje de marcado de Pango entonces recibirá un mensaje de error en tiempo
-de ejecución (y no en tiempo de compilación) y la etiqueta o parte de ella no se mostrar.
+* **label**: Una instancia de GtkLabel.
+* **str**: Un puntero a una cadena que contiene el texto que desplegara la
+  etiqueta y en el lenguaje de marcado de Pango. Si especifica NULL entonces se
+  desplegara una etiqueta vacía. Si el texto no coincide con el lenguaje de
+  marcado de Pango entonces recibirá un mensaje de error en tiempo de ejecución
+  (y no en tiempo de compilación) y la etiqueta o parte de ella no se mostrar. 
+
 Vea la Tabla 5 para una breve descripción de las etiquetas válidas.
 
 .. list-table:: Etiquetas válidas para el lenguaje de mercado Pango
@@ -1810,12 +1814,16 @@ etiqueta con el texto especificado.
     GtkWidget* gtk_button_new_with_mnemonic (const gchar *label);  
 
 
-**Descripción**: Crea una nueva instancia de un botón GtkButton. El nuevo botón contendrá una
-etiqueta con el texto especificado. Cualquier letra que venga precedida de un guión bajo ('_'), aparecerá como texto subrayado. La primera letra que sea precedida con un guión bajo se convierte en el acelerador del botón, es decir, presionando la tecla Alt y la letra activan el botón(Causan que se emita la señal "clicked").
+**Descripción**: Crea una nueva instancia de un botón GtkButton. El nuevo botón
+contendrá una etiqueta con el texto especificado. Cualquier letra que venga
+precedida de un guión bajo ('_'), aparecerá como texto subrayado. La primera
+letra que sea precedida con un guión bajo se convierte en el acelerador del
+botón, es decir, presionando la tecla Alt y la letra activan el botón(Causan que
+se emita la señal "clicked").
 
 **Parámetros**:
 
-* **label** : El texto que contendrá la etiqueta dentro del botón. Anteponga un guión
+* **label**: El texto que contendrá la etiqueta dentro del botón. Anteponga un guión
 bajo a un carácter para convertirlo en acelerador.
 
 **Valor de retorno**: una nueva instancia de GtkButton.
@@ -1825,8 +1833,11 @@ bajo a un carácter para convertirlo en acelerador.
     GtkWidget* gtk_button_new_from_stock (const gchar *label); 
 
 
-**Descripción**: Crea una nueva instancia de un botón GtkButton. El nuevo botón contendrá una
-imagen y una etiqueta predeterminados(stock item) . Es una forma sencilla de hacer botones vistosos con mensajes usuales como si, no, cancelar y abrir. Al usar elementos predeterminados (stock items) nos aseguramos que los botones sigan el tema y el idioma elegidos en el entorno GNOME.
+**Descripción**: Crea una nueva instancia de un botón GtkButton. El nuevo botón
+contendrá una imagen y una etiqueta predeterminados(stock item) . Es una forma
+sencilla de hacer botones vistosos con mensajes usuales como si, no, cancelar y
+abrir. Al usar elementos predeterminados (stock items) nos aseguramos que los
+botones sigan el tema y el idioma elegidos en el entorno GNOME.
 
 **Parámetros**:
 
