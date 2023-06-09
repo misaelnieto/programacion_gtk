@@ -99,11 +99,11 @@ Proceso de creación de un widget
 El proceso de creación de un **widget** consta de cuatro pasos:
 
 (1) Creación de la instancia de clase del **widget** que deseamos utilizar.
-(2) Configuración de esta instancia (tamaño, clase, relación con **widget**s padres, etc..)
+(2) Configuración de esta instancia (tamaño, clase, relación con **widgets** padres, etc..)
 (3) Conexión de señales y eventos.
 (4) Visualización de la instancia.
 
-De acuerdo a la nomenclatura de la sección anterior, si la la clase de un *widget* es GtkClase, su
+De acuerdo a la nomenclatura de la sección anterior, si la clase de un *widget* es GtkClase, su
 constructor de clase y todos los métodos asociados a esta tendrán la siguiente nomenclatura:
 gtk_clase_metodo:
 
@@ -260,21 +260,23 @@ adecuadamente, se registra esta rutina ante GTK+ usando la macro g_signal_connec
 
 **Parámetros**:
 
-* **instance** : Es la referencia al *widget* u objeto del que queremos escuchar señales y
-eventos. Este puntero debe estar moldeado al tipo GObject ya que GtkWidget está
-es un derivado de éste. Para esto deberemos usar la macro G_OBJECT().
+* **instance** : Es la referencia al *widget* u objeto del que queremos escuchar
+  señales y eventos. Este puntero debe estar moldeado al tipo GObject ya que
+  GtkWidget está es un derivado de éste. Para esto deberemos usar la macro
+  G_OBJECT().
 
 * **detailed_signal** : Es una cadena que especifica la señal o evento a escuchar.
 
-* **c_handler** : El puntero de la función *retrollamada*. Este puntero debe estar
-moldeado mediante la macro G_CALLBACK() al tipo de puntero GCallback. El
-prototipo de cada función *retrollamada* se determina por el contexto en el que será
-usada; visto de otra manera: el prototipo de cada función se determina por el tipo de
-señal a la que será conectada.
+* **c_handler** : El puntero de la función *retrollamada*. Este puntero debe
+  estar moldeado mediante la macro G_CALLBACK() al tipo de puntero GCallback. El
+  prototipo de cada función *retrollamada* se determina por el contexto en el
+  que será usada; visto de otra manera: el prototipo de cada función se
+  determina por el tipo de señal a la que será conectada.
 
-* **data** : Este último argumento permite adjuntar algún dato extra a la *retrollamada*, de
-tal manera que se evite el uso de variables globales y en su lugar se pasen estructuras o
-valores directamente a la función *retrollamada* cuando ésta sea invocada.
+* **data** : Este último argumento permite adjuntar algún dato extra a la
+  *retrollamada*, de tal manera que se evite el uso de variables globales y en
+  su lugar se pasen estructuras o valores directamente a la función
+  *retrollamada* cuando ésta sea invocada.
 
 La función retrollamada cambia dependiendo de la señal que se desea escuchar, pero hay una
 función retrollamada prototipo que se usa como base para todas las demás:
