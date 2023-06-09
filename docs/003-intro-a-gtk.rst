@@ -975,33 +975,24 @@ la tabla y las propiedades de los **widgets** hijos.
 * Espaciado entre columnas. Define el espacio (en **pixeles**) que habrá entre
   dos columnas consecutivas. Este valor se controla mediante la propiedad
   "column-spacing".
-
-* Espaciado entre filas. Define el espacio (en **pixeles**) que habrá entre dos filas consecutivas.
-Este valor se controla mediante la propiedad "row-spacing".
-
+* Espaciado entre filas. Define el espacio (en **pixeles**) que habrá entre dos
+  filas consecutivas. Este valor se controla mediante la propiedad
+  "row-spacing".
 * Numero de columnas. Define el número de columnas que contendrá la tabla. Un
   widget puede ocupar más de dos columnas consecutivas.
-
- * Numero de filas. Define el número de filas que contendrá la tabla. Un widget
-   puede ocupar más de dos columnas consecutivas.
- 
+* Numero de filas. Define el número de filas que contendrá la tabla. Un widget
+  puede ocupar más de dos columnas consecutivas.
 * Homogeneidad. Define si las todas las celdas de la tabla tienen el mismo ancho
   y alto. **Parámetros** de comportamiento de los widgets hijos de GtkTable.
-
 * Columna. La columna donde se encuentra un widget se numera de izquierda a
   derecha a partir del numero cero.
-
 * Fila. La fila donde se encuentra un widget se numera de arriba a abajo comenzando desde cero.
-
 * Comportamiento vertical y horizontal. Definen el comportamiento de una celda
   dentro de una tabla. Estos comportamientos pueden ser:
-
-○ Expandirse para ocupar todo el espacio extra que la tabla le pueda otorgar.
-○ Encogerse para ocupar el espacio mínimo necesario.
-○ Expandirse para ocupar el espacio exacto que la tabla le ha otorgado.
-
+  * Expandirse para ocupar todo el espacio extra que la tabla le pueda otorgar.
+  * Encogerse para ocupar el espacio mínimo necesario.
+  * Expandirse para ocupar el espacio exacto que la tabla le ha otorgado.
 * Relleno vertical y horizontal. Define el espacio en pixeles que habrá entre celdas adyacentes.
-
 * Coordenadas de la celda. Resulta común describir el inicio y el fin de una
   celda utilizando solamente la coordenada superior izquierda de la celda y la
   coordenada superior izquierda de la celda transpuesta. ○ Coordenada superior
@@ -1823,8 +1814,8 @@ se emita la señal "clicked").
 
 **Parámetros**:
 
-* **label**: El texto que contendrá la etiqueta dentro del botón. Anteponga un guión
-bajo a un carácter para convertirlo en acelerador.
+* **label**: El texto que contendrá la etiqueta dentro del botón. Anteponga un
+  guión bajo a un carácter para convertirlo en acelerador.
 
 **Valor de retorno**: una nueva instancia de GtkButton.
 
@@ -1841,8 +1832,8 @@ botones sigan el tema y el idioma elegidos en el entorno GNOME.
 
 **Parámetros**:
 
-* **label** : El nombre del elemento predeterminado (stock item). Una lista de los
-elementos predeterminados se muestra en el ANEXO 4.6.1.3 : STOCK ITEMS.
+* **label** : El nombre del elemento predeterminado (stock item). Una lista de
+  los elementos predeterminados se muestra en el ANEXO 4.6.1.3 : STOCK ITEMS.
 
 **Valor de retorno**: una nueva instancia de GtkButton.
 
@@ -1950,8 +1941,8 @@ Lo anterior es importante debido a la confusión que ocasiona la sutil diferenci
 **Parámetros**:
 
 * **button** : La instancia de GtkButton que recibe la señal.
-* **user_data** : Datos extras que se registran cuando se conecta la señal a esta
-retrollamada.
+* **user_data** : Datos extras que se registran cuando se conecta la señal a
+  esta retrollamada.
 
 Ejemplos
 ========
@@ -2252,9 +2243,9 @@ desuso en favor de la interfaz GtkEditable. Esta interfaz provee funcionalidad m
 
 **Parámetros**:
 
-* **entry** : Una instancia de GtkEntry.
-* **text** : Un puntero a una cadena que contiene el texto que desplegara la caja de texto.
-Si especifica NULL equivale a limpiar la caja de texto.
+* **entry**: Una instancia de GtkEntry.
+* **text**: Un puntero a una cadena que contiene el texto que desplegara la caja
+  de texto. Si especifica NULL equivale a limpiar la caja de texto.
 
 **Valor de retorno**: Un puntero a una cadena con el contenido de la caja de texto. La instancia de GtkEntry es dueña de la cadena y por tanto la esta no debe ser modificada.
 
@@ -2290,9 +2281,9 @@ desuso en favor de la interfaz GtkEditable. Esta interfaz provee funcionalidad m
 
 **Parámetros**:
 
-* **entry** : Una instancia de GtkEntry.
-* **text** : Un puntero a una cadena que contiene el texto que desplegara la caja de texto.
-Si especifica NULL equivale a limpiar la caja de texto.
+* **entry**: Una instancia de GtkEntry.
+* **text**: Un puntero a una cadena que contiene el texto que desplegara la
+  caja de texto. Si especifica NULL equivale a limpiar la caja de texto.
 
 **Valor de retorno**: Un puntero a una cadena con el contenido de la caja de texto. La instancia de GtkEntry es dueña de la cadena y por tanto la esta no debe ser modificada.
 
