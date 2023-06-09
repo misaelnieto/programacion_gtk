@@ -97,18 +97,20 @@ Proceso de creación de un widget
 ================================
 
 El proceso de creación de un **widget** consta de cuatro pasos:
+
 (1) Creación de la instancia de clase del **widget** que deseamos utilizar.
 (2) Configuración de esta instancia (tamaño, clase, relación con **widget**s padres, etc..)
 (3) Conexión de señales y eventos.
 (4) Visualización de la instancia.
+
 De acuerdo a la nomenclatura de la sección anterior, si la la clase de un *widget* es GtkClase, su
 constructor de clase y todos los métodos asociados a esta tendrán la siguiente nomenclatura:
 gtk_clase_metodo:
 
 * "clase" debe sustituirse por el nombre del **widget** que se desea crear.
-* "metodo" describe la acción que ejecutará la instancia de la clase.
-Por ejemplo, el constructor de clase GtkWindow tiene la siguiente nomenclatura:
-gtk_window_new().
+* "metodo" describe la acción que ejecutará la instancia de la clase. Por
+  ejemplo, el constructor de clase GtkWindow tiene la siguiente nomenclatura:
+  gtk_window_new().
 
 La función de creación de un **widget** gtk_clase_new() siempre debe devolver un puntero (en
 lenguaje C) a una instancia de tipo GtkWidget y no un puntero a una instancia del tipo creado. Por
@@ -190,9 +192,9 @@ cuadros combinados, cuadros de texto, botones, ...) y se establecen diversas ret
 eventos asíncronos; de esta forma se obtiene la lógica requerida por el programa a medida que se
 producen ciertas señales que a su vez provocan las *retrollamadas*.
 
- Las señales se producen por diversos
-sucesos como oprimir el botón de un ratón que se encuentra sobre un *widget* botón, pasar el cursor por
-encima de un *widget* u oprimir una tecla
+Las señales se producen por diversos sucesos como oprimir el botón de un ratón
+que se encuentra sobre un *widget* botón, pasar el cursor por encima de un
+*widget* u oprimir una tecla
 
 Teoría de señales y retrollamadas
 =================================
