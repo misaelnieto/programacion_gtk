@@ -44,8 +44,8 @@ La paleta contiene colecciones de **widgets** agrupados en las siguientes catego
 * Containers - Contenedores de todo tipo, como cajas y tablas.
 * Control and Display – **Widgets** de control y despliegue de datos como
   botones, etiquetas y entradas de texto.
-* GTK+ Obsolete – Este grupo contiene **widgets** que han sido reemplazados por otros mas
-flexibles u otros que son de uso muy poco común, como GtkCurve.
+* GTK+ Obsolete – Este grupo contiene **widgets** que han sido reemplazados por
+  otros mas flexibles u otros que son de uso muy poco común, como GtkCurve.
 * GNOME User Interface – **Widgets** diseñados para ser usados con el entorno GNOME.
 * GNOME UI Obsolete – **Widgets** diseñados para usarse con el entorno GNOME pero que han
 sido reemplazados con otros más flexibles o ya son de uso poco común. Algunos **widgets** ya
@@ -58,9 +58,9 @@ configuración para cada **widget**.
 
 * General - En esta pestaña se ajustan propiedades generales de un **widget**
   como su nombre o el ancho de borde.
-* Empaquetado - En esta pestaña se encuentran los ajustes para aquellos **widget**s que se
-encuentren insertos en en contenedor (Consulte el capitulo 3.5 para una referencia completa del
-sistema de empaquetado de GTK+).
+* Empaquetado - En esta pestaña se encuentran los ajustes para aquellos
+  **widget**s que se encuentren insertos en en contenedor (Consulte el capitulo
+  3.5 para una referencia completa del sistema de empaquetado de GTK+).
 * Comunes - Esta pestaña muestra una colección de propiedades ajustables de cualquier **widget**.
 Estas operaciones tienen como contra parte algún método de la clase GtkWidget.
 * Señales - Esta es una lista, agrupada por clase, de todas las señales que puede atrapar un *widget*.
@@ -346,14 +346,14 @@ asegurarnos que:
 
 * La instancia de la ventana deberá conectar la señal "delete-event" con el
   método delete_event() de GTK+.
-* La instancia del botón deberá conectar la señal **clicked** con el método retrollamada() que
-proveerá nuestra aplicación (ver Figura 4.6.1).
-* Que tanto la ventana como el botón tengan activada la propiedad visible (en la pestaña
-Comunes de la ventana de propiedades).
-* El botón deberá tener un ancho de 260 **pixeles** y una altura de 60 **pixeles** (en la pestaña
-Comunes de la ventana de propiedades).
-* La ventana deberá un ancho de borde de 10 **pixeles** (en la pestaña Generales de la ventana
-de propiedades).
+* La instancia del botón deberá conectar la señal **clicked** con el método
+  retrollamada() que proveerá nuestra aplicación (ver Figura 4.6.1).
+* Que tanto la ventana como el botón tengan activada la propiedad visible (en la
+  pestaña Comunes de la ventana de propiedades).
+* El botón deberá tener un ancho de 260 **pixeles** y una altura de 60
+  **pixeles** (en la pestaña Comunes de la ventana de propiedades).
+* La ventana deberá un ancho de borde de 10 **pixeles** (en la pestaña Generales
+  de la ventana de propiedades).
 * Guarde el archivo XML como glade2.xml.
 
 
