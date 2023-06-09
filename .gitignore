@@ -4,3 +4,5 @@ build
 *.py[co]
 .vscode
 *.sublime-*
+**/docs/_build
+**/docs/html
