@@ -59,7 +59,7 @@ configuración para cada **widget**.
 * General - En esta pestaña se ajustan propiedades generales de un **widget**
   como su nombre o el ancho de borde.
 * Empaquetado - En esta pestaña se encuentran los ajustes para aquellos
-  **widget**s que se encuentren insertos en en contenedor (Consulte el capitulo
+  **widgets** que se encuentren insertos en en contenedor (Consulte el capitulo
   3.5 para una referencia completa del sistema de empaquetado de GTK+).
 * Comunes - Esta pestaña muestra una colección de propiedades ajustables de
   cualquier **widget**. Estas operaciones tienen como contra parte algún método
