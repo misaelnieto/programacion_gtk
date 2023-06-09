@@ -785,9 +785,9 @@ Ejemplo de ``g_strdup``.
 **Parámetros**:
 
 * `str`: un puntero a la cadena a duplicar.
-* **Valor de retorno**: La cadena duplicada en otra región de memoria. Si NULL se ha
-especificado como parámetro de entrada, el valor de retorno también será NULL.
-El programador es responsable de liberar la memoria de la nueva cadena.
+* **Valor de retorno**: La cadena duplicada en otra región de memoria. Si NULL
+  se ha especificado como parámetro de entrada, el valor de retorno también será
+  NULL. El programador es responsable de liberar la memoria de la nueva cadena.
 
 Ejemplo de ``g_strrstr``.
 
@@ -803,8 +803,9 @@ debe estar terminadas con el carácter nulo.
 * haystack: La cadena donde se busca (pajar).
 * needle: El texto que se busca (aguja).
 
-**Valor de retorno**: Se regresa un puntero a donde se encontró la primera ocurrencia de la
-aguja dentro del pajar. Si no se encontraron coincidencias entonces se regresa NULL.
+**Valor de retorno**: Se regresa un puntero a donde se encontró la primera
+ocurrencia de la aguja dentro del pajar. Si no se encontraron coincidencias
+entonces se regresa NULL.
 
 Ejemplo de ``g_strstr_len``.
 
