@@ -678,8 +678,8 @@ Métodos de la clase GtkContainer
 
 * **container** : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
   para moldear un puntero de diferente tipo.
-* **border_width**: El espacio libre que se desea dejar alrededor del contenedor. Los
-valores válidos van de 0 a 65535.
+* **border_width** : El espacio libre que se desea dejar alrededor del
+  contenedor. Los valores válidos van de 0 a 65535.
 
 .. code-block:: c
 
@@ -762,8 +762,8 @@ Constructor de clase
 
 **Parámetros**:
 
-* **homogeneous** : Especifique TRUE si desea que todos los ***widgets*** (hijos) que se
-inserten en la caja les sea asignado un espacio por igual.
+* **homogeneous** : Especifique TRUE si desea que todos los **widgets** (hijos)
+  que se inserten en la caja les sea asignado un espacio por igual.
 * **spacing** : El número de **pixeles** que se insertarán entre los **widgets** hijos.
 
 **Valor de retorno**: una nueva instancia de GtkVBox.
@@ -786,7 +786,7 @@ acomodados de izquierda a derecha en una caja horizontal.
 **Parámetros**:
 
 * **box** : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
-referencias de cajas verticales y horizontales al tipo adecuado.
+  referencias de cajas verticales y horizontales al tipo adecuado.
 * **widget** : El **widget** que será empacado.
 
 .. code-block:: c
@@ -802,7 +802,7 @@ horizontal
 **Parámetros**:
 
 * **box** : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
-referencias de cajas verticales y horizontales al tipo adecuado.
+  referencias de cajas verticales y horizontales al tipo adecuado.
 * **widget** : El **widget** que será empacado.
 
 .. note:
@@ -877,7 +877,7 @@ horizontal.
 **Parámetros**:
 
 * **box** : Una instancia de GtkBox. Use la macro GTK_BOX() para moldear las
-referencias de cajas verticales y horizontales al tipo adecuado.
+  referencias de cajas verticales y horizontales al tipo adecuado.
 * **child** : El widget que será empacado.
 * **expand** : Si es TRUE al widget hijo podrá asignársele espacio extra. 
 * **fill** : Si es TRUE el widget podrá ocupar el espacio extra que se le asigne.
@@ -972,28 +972,29 @@ la tabla y las propiedades de los **widgets** hijos.
 
 **Parámetros** de comportamiento de GtkTable.
 
-* Espaciado entre columnas. Define el espacio (en **pixeles**) que habrá entre dos columnas
-consecutivas. Este valor se controla mediante la propiedad "column-spacing".
+* Espaciado entre columnas. Define el espacio (en **pixeles**) que habrá entre
+  dos columnas consecutivas. Este valor se controla mediante la propiedad
+  "column-spacing".
 
 * Espaciado entre filas. Define el espacio (en **pixeles**) que habrá entre dos filas consecutivas.
 Este valor se controla mediante la propiedad "row-spacing".
 
-* Numero de columnas. Define el número de columnas que contendrá la tabla. Un widget puede
-ocupar más de dos columnas consecutivas.
+* Numero de columnas. Define el número de columnas que contendrá la tabla. Un
+  widget puede ocupar más de dos columnas consecutivas.
 
- * Numero de filas. Define el número de filas que contendrá la tabla. Un widget puede ocupar
-más de dos columnas consecutivas.
+ * Numero de filas. Define el número de filas que contendrá la tabla. Un widget
+   puede ocupar más de dos columnas consecutivas.
  
 * Homogeneidad. Define si las todas las celdas de la tabla tienen el mismo ancho y alto.
 **Parámetros** de comportamiento de los widgets hijos de GtkTable.
 
-* Columna. La columna donde se encuentra un widget se numera de izquierda a derecha a partir
-del numero cero.
+* Columna. La columna donde se encuentra un widget se numera de izquierda a
+  derecha a partir del numero cero.
 
 * Fila. La fila donde se encuentra un widget se numera de arriba a abajo comenzando desde cero.
 
-* Comportamiento vertical y horizontal. Definen el comportamiento de una celda dentro de
-una tabla. Estos comportamientos pueden ser:
+* Comportamiento vertical y horizontal. Definen el comportamiento de una celda
+  dentro de una tabla. Estos comportamientos pueden ser:
 
 ○ Expandirse para ocupar todo el espacio extra que la tabla le pueda otorgar.
 ○ Encogerse para ocupar el espacio mínimo necesario.
@@ -1001,13 +1002,14 @@ una tabla. Estos comportamientos pueden ser:
 
 * Relleno vertical y horizontal. Define el espacio en pixeles que habrá entre celdas adyacentes.
 
-* Coordenadas de la celda. Resulta común describir el inicio y el fin de una celda utilizando
-solamente la coordenada superior izquierda de la celda y la coordenada superior izquierda de la
-celda transpuesta.
-○ Coordenada superior izquierda. Estas coordenadas se forman tomando el numero de la
-columna que comienza a la izquierda y el numero de la fila que comienza por arriba.
-○ Coordenada inferior derecha. Estas coordenadas se forman tomando el numero de la
-columna que comienza a la derecha y el numero de la fila que comienza por abajo.
+* Coordenadas de la celda. Resulta común describir el inicio y el fin de una
+  celda utilizando solamente la coordenada superior izquierda de la celda y la
+  coordenada superior izquierda de la celda transpuesta. ○ Coordenada superior
+  izquierda. Estas coordenadas se forman tomando el numero de la columna que
+  comienza a la izquierda y el numero de la fila que comienza por arriba. ○
+  Coordenada inferior derecha. Estas coordenadas se forman tomando el numero de
+  la columna que comienza a la derecha y el numero de la fila que comienza por
+  abajo.
 
 Constructor de clase
 ====================
@@ -1025,11 +1027,12 @@ Sólo existe un constructor de clase para GtkTable.
 
 **Parámetros**:
 
-* **rows** : El número de filas de la tabla.
-* **columns** : El número de columnas de la tabla.
-* **homogeneous** : Si este valor es TRUE, entonces las celdas de la tabla se ajustan al
-tamaño del *widget* más largo de la tabla. Si es FALSE, las celdas de la tabla se ajustan
-al tamaño del **widget** más alto de la fila y el más ancho de la columna.
+* **rows**: El número de filas de la tabla.
+* **columns**: El número de columnas de la tabla.
+* **homogeneous**: Si este valor es TRUE, entonces las celdas de la tabla se
+  ajustan al tamaño del **widget** más largo de la tabla. Si es FALSE, las
+  celdas de la tabla se ajustan al tamaño del **widget** más alto de la fila y
+  el más ancho de la columna.
 
 **Valor de retorno**: una nueva instancia de GtkTable.
 
