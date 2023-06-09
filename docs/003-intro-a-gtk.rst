@@ -639,7 +639,7 @@ Métodos de la clase GtkContainer
 **Parámetros**:
 
 * **container** : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
-para moldear un puntero de diferente tipo.
+  para moldear un puntero de diferente tipo.
 * widget: El widget que se quiere insertar en el contenedor.
 
 .. code-block:: c
@@ -653,7 +653,7 @@ para moldear un puntero de diferente tipo.
 **Parámetros**:
 
 * **container** : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
-para moldear un puntero de diferente tipo.
+  para moldear un puntero de diferente tipo.
 * widget: El widget que se quiere remover del contenedor.
 
 .. note: 
@@ -677,7 +677,7 @@ para moldear un puntero de diferente tipo.
 **Parámetros**:
 
 * **container** : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
-para moldear un puntero de diferente tipo.
+  para moldear un puntero de diferente tipo.
 * **border_width**: El espacio libre que se desea dejar alrededor del contenedor. Los
 valores válidos van de 0 a 65535.
 
@@ -691,7 +691,7 @@ valores válidos van de 0 a 65535.
 **Parámetros**:
 
 * **container** : Una instancia de un contenedor. Use la macro GTK_CONTAINER()
-para moldear un puntero de diferente tipo.
+  para moldear un puntero de diferente tipo.
 
 **Valor de retorno**: El ancho de borde del contenedor.
 
@@ -746,8 +746,8 @@ Constructor de clase
 
 **Parámetros**:
 
-* **homogeneous** : Especifique TRUE si desea que todos los **widgets** (hijos) que se
-inserten en la caja les sea asignado un espacio por igual.
+* **homogeneous** : Especifique TRUE si desea que todos los **widgets** (hijos)
+  que se inserten en la caja les sea asignado un espacio por igual.
 * **spacing** : El número de *pixeles* que se insertarán entre los **widgets** hijos.
 
 **Valor de retorno**: una nueva instancia de GtkHBox.
@@ -779,8 +779,9 @@ El siguiente par de métodos permiten acomodar widgets en cualquier tipo de caja
     GtkWidget *widget); 
 
 
-**Descripción**: Acomoda un **widget** en una caja. Los **widget*s* hijos se irán acomodando de arriba a abajo en una caja vertical, mientras que serán acomodados de izquierda a derecha en una caja
-horizontal.
+**Descripción** : Acomoda un **widget** en una caja. Los **widget** hijos se
+irán acomodando de arriba a abajo en una caja vertical, mientras que serán
+acomodados de izquierda a derecha en una caja horizontal.
 
 **Parámetros**:
 
@@ -819,8 +820,8 @@ Cinco son los parámetros que gobiernan el comportamiento de cada *widget* hijo 
 en una caja:
 
 * homogeneus y spacing que se determinan en el constructor de clase.
-* expand, fill y padding que se determinan cada vez que se empaca un widget en un
-contenedor.
+* expand, fill y padding que se determinan cada vez que se empaca un widget en
+  un contenedor.
 
 El parámetro homogeneous controla la cantidad espacio individual asignado a cada uno de los
 **widgets** que se empacan en una caja. Si es TRUE entonces el espacio asignado será igual para todos los
