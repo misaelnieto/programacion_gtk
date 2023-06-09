@@ -847,7 +847,7 @@ Ejemplo de ``g_str_has_prefix``.
 
 * str: La cadena de quien se desea determinar el prefijo.
 * prefix: El prefijo.
-*
+
 **Valor de retorno**: Regresa TRUE si la cadena comienza con prefix. FALSE en
 caso contrario.
 
@@ -868,7 +868,7 @@ Ejemplo de ``g_str_has_suffix``.
 
 * str: La cadena de quien se desea determinar el sufijo.
 * suffix: El sufijo.
-*
+
 **Valor de retorno**: Regresa TRUE si la cadena termina con suffix. FALSE en
 caso contrario.
 
@@ -888,7 +888,7 @@ Ejemplo de ``g_str_equal``.
 
 * v1: Una cadena.
 * v2: Otra cadena que se comparará contra v1..
-*
+
 **Valor de retorn**o: Regresa TRUE si ambas cadenas son idénticas. Esta función
 esta preparada para ser usada en estructuras de datos que necesiten comparación,
 como listas enlazadas, tablas de claves o arboles binarios 5 .
