@@ -1318,7 +1318,7 @@ ha llegado al último elemento.
 
 * **list**: Una lista enlazada simple.
 * **n**: la posición del elemento, iniciando desde 0.
-*
+
 **Valor de retorno**: El n-ésimo elemento de la lista enlazada simple. NULL si
 la lista esta vacía o la posición buscada está fuera de los límites de la lista.
 
@@ -1336,7 +1336,7 @@ la lista esta vacía o la posición buscada está fuera de los límites de la li
 
 * **list**: Una lista enlazada simple.
 * **n**: la posición del elemento, iniciando desde 0.
-*
+
 **Valor de retorno**: Los datos del n-ésimo elemento de la lista enlazada
 simple. NULL si la lista esta vacía o la posición buscada está fuera de los
 límites de la lista.
@@ -1512,13 +1512,13 @@ Comencemos la descripción del ciclo de vida de una lista enlazada simple.
 
 
 
-* Cuando llega el momento de recavar la información guardada en la lista tendremos que recordar
-la estructura en C vista arriba. El mismo puntero GSList que representa la lista
-enlazada, es a su vez el puntero al primer nodo de la lista. El elemento data
-del nodo es un puntero a los datos guardados y el elemento next apunta al
-siguiente nodo de la lista o es NULL si ya no hay más elementos. La manera
-correcta de acceder a los datos que contiene un nodo es mediante la notación de
-punteros:
+* Cuando llega el momento de recavar la información guardada en la lista
+  tendremos que recordar la estructura en C vista arriba. El mismo puntero
+  GSList que representa la lista enlazada, es a su vez el puntero al primer nodo
+  de la lista. El elemento data del nodo es un puntero a los datos guardados y
+  el elemento next apunta al siguiente nodo de la lista o es NULL si ya no hay
+  más elementos. La manera correcta de acceder a los datos que contiene un nodo
+  es mediante la notación de punteros:
 
 .. code-block:: c
 
@@ -1549,7 +1549,7 @@ En el próximo ejemplo veremos cono se debe utilizar esta función.
 Una vez que se ha terminado de operar con la lista enlazada es necesario liberar la memoria
 
 * usada, para ello se encuentra g_slist_free().
-2.5.6
+
 
 Ejemplo
 ~~~~~~~
