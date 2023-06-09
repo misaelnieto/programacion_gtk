@@ -889,7 +889,7 @@ Ejemplo de ``g_str_equal``.
 * v1: Una cadena.
 * v2: Otra cadena que se comparará contra v1..
 
-**Valor de retorn**o: Regresa TRUE si ambas cadenas son idénticas. Esta función
+**Valor de retorn**: Regresa TRUE si ambas cadenas son idénticas. Esta función
 esta preparada para ser usada en estructuras de datos que necesiten comparación,
 como listas enlazadas, tablas de claves o arboles binarios 5 .
 
@@ -1053,15 +1053,16 @@ Finalmente, aca pongo el ejemplo completo de manipulacion de cadenas.
 
 Compila el ejemplo anterior con el siguiente comando:
 
-.. code-block::
+.. code-block:: bash
 
-    ** Ponercomando para compilar
+    gcc `pkg-config --cflags glib-2.0` glib-gstring1.c -o glib-gstring1.c `pkg-config --libs glib-2.0`
+
 
 Finalmente, ejecuta el programa
 
 .. code-block:: bash
 
-    ** Poner salida del programa
+    ./glib-gstring1
 
 
 .. image:: img/imagen_003.png
